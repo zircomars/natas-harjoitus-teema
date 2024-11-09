@@ -12,7 +12,7 @@ Fdfd
 
 Asdfsf 1
 
-![](Aspose.Words.b2a7118c-6669-4225-86fe-e7cfe33b8b4b.001.png)
+![](./kuvat/Aspose.Words.b2a7118c-6669-4225-86fe-e7cfe33b8b4b.001.png)
 
 Asdfsdafsd
 
