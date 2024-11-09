@@ -128,13 +128,15 @@ toistetaan se level 0 haettu tämän level 1 salasana.
 ![alt text](./kuvat/level1-0.png)
 
 
-
 ![alt text](./kuvat/level1-1.png)
 
 Nyt päästettyä sisään niin normi oikeasta hiiren klikkaus ei toimi enään, mitä neuvoksi tehdään?
 ![alt text](./kuvat/level1-2.png)
 
-Ratkaisuna on näppäimstön CTRL + U , tai powershell terminaalista käyttäen level1 salasanaa eli.. tässä saattaan tulla pientä hämäystä että pitää olla alkuu -U tai -I ja jne, mutta hyvä kokeilla kaikkea mahdollisia vaihtoehtoja. 
+
+## To level 1 - 1
+
+Ratkaisuna on näppäimstön CTRL + U , tai powershell terminaalista käyttäen level1 salasanaa eli.. tässä saattaan tulla pientä hämäystä että pitää olla alkuu -U tai -I ja jne, mutta hyvä kokeilla kaikkea mahdollisia vaihtoehtoja. Tässä periaatteessa ikään kuin kirjauduttaan sivuston natas1 ja sen salasanalla sisään, ja sen polku. Joten päästään seuraavaksi level 2:lle.
 
 ```
 PS C:\> curl http://natas1:0nzCigAq7t2iALyvU9xcHlYN4MlkIwlq@natas1.natas.labs.overthewire.org
@@ -159,6 +161,84 @@ next level on this page, but rightclicking has been blocked!
 </body>
 </html>
 ```
+
+<hr>
+
+## level 2 
+
+Skippasin tästä kirjauttumisen sisään, mutta sama idea kuin edellisessä levelissä 0 ja 1, että avatun välilehteen syötä <USERNAME>:<PASSWORD>
+
+Ensimmäinen oletus sivusto ja ihan normaalilta, sitten alettaan hakea kaikkea mahdollisia aukkoja/keinoja saadakseen seuraavan level 3:sen salasana. On hyvä esim. laittaa ranskalais viiva ja mahdollisia keinoja miten, kuinka ja mistä löytää se level 3:sen salasana. 
+![alt text](./kuvat/level2-1.png)
+
+Tästäkin nyttenkin mentiin oikeahiiren klikkauksesta (view open source), (options: CTRL + U , tai F12) ja nyt meitä kiinnosta toi rivi 15, jossa on kuva tiedosto ja se voi olla viittaa sinne palvelimen tiedostoihin/kansioihin. Palvelimen/Serverin tiedoston takana saattaa olla muita tiedostoja mm. kuvat, videot, javascript koodit, tietokannat ja jne. Eli klikkaamalla tuota tai välilehdestä syöttää perään toi `files/pixel.png`
+![alt text](./kuvat/level2-2.png)
+
+Avatun ton pixel.png kuvassa ei löytynyt kauhesti mitään mieleniintoa ja siksi tuossa välilehden polussa kumitin sen pois, ja siksi mentiin tähän `files` polkuun. Näin ollen päästiin seuraavaan vihjeeseen/johtolankaan, ja ensimmäisen pistää silmiinsä toi `users.txt` ja avataan sitä. 
+![alt text](./kuvat/level2-3.png)
+
+Näin olen löydettiin se txt tiedosto ja level 3:sen salasana.
+![alt text]./kuvat/(level2-4.png)
+
+
+## level 2 - 1 
+
+tässä sivu kappaleena tarkistellan powershell terminaalista eli leikkimistä curl kanssa
+tässä pieni huomiona, että ensin kirjauduttiin siihen natas2 salasanaan, ja tuloksena näyttikin sen palvelimen html koodit ja sama ideana koodista pisti silmiinsä toi `<img src="files/pixel1.png">` polku, mutta toi files polku kiinnostaa.
+
+PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas2", "pass": "TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI" };</script></head>
+<body>
+<h1>natas2</h1>
+<div id="content">
+There is nothing on this page
+<img src="files/pixel.png">
+</div>
+</body></html>
+
+tässä komennossa jatketiin sama kuin edellinen, mutta siihen välilehdene perästä haettaan vielä lisätietoa, mitä ikään kuin surffailaan chromessa niin miltä se näyttää. Tässä samaa vastaavasti toi `users.txt` eli txt tiedoston 
+PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org/files/
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /files</title>
+ </head>
+ <body>
+<h1>Index of /files</h1>
+  <table>
+   <tr><th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=D">Name</a></th><th><a href="?C=M;O=A">Last modified</a></th><th><a href="?C=S;O=A">Size</a></th><th><a href="?C=D;O=A">Description</a></th></tr>
+   <tr><th colspan="5"><hr></th></tr>
+<tr><td valign="top"><img src="/icons/back.gif" alt="[PARENTDIR]"></td><td><a href="/">Parent Directory</a></td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="pixel.png">pixel.png</a></td><td align="right">2024-09-19 07:03  </td><td align="right">303 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="users.txt">users.txt</a></td><td align="right">2024-09-19 07:03  </td><td align="right">145 </td><td>&nbsp;</td></tr>
+   <tr><th colspan="5"><hr></th></tr>
+</table>
+<address>Apache/2.4.58 (Ubuntu) Server at natas2.natas.labs.overthewire.org Port 80</address>
+</body></html>
+
+jälleen kerran toistettaan viimeisenä ja lisättynä url polkuun toi `users.txt` ja näin ollen päästään ja saadan level3:sen salasana
+PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org/files/users.txt
+# username:password
+alice:BYNdCesZqW
+bob:jw2ueICLvT
+charlie:G5vCxkVV3m
+natas3:3gqisGdR0pjm6tpkDKdIWO2hSvchLeYH
+eve:zo4mJWyNj2
+mallory:9urtcpzBmH
+
+
+
+
+
 
 
 
