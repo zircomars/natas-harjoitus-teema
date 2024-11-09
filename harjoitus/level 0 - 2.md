@@ -178,7 +178,7 @@ Avatun ton pixel.png kuvassa ei löytynyt kauhesti mitään mieleniintoa ja siks
 ![alt text](./kuvat/level2-3.png)
 
 Näin olen löydettiin se txt tiedosto ja level 3:sen salasana.
-![alt text]./kuvat/(level2-4.png)
+![alt text](./kuvat/level2-4.png)
 
 
 ## level 2 - 1 
@@ -186,6 +186,7 @@ Näin olen löydettiin se txt tiedosto ja level 3:sen salasana.
 tässä sivu kappaleena tarkistellan powershell terminaalista eli leikkimistä curl kanssa
 tässä pieni huomiona, että ensin kirjauduttiin siihen natas2 salasanaan, ja tuloksena näyttikin sen palvelimen html koodit ja sama ideana koodista pisti silmiinsä toi `<img src="files/pixel1.png">` polku, mutta toi files polku kiinnostaa.
 
+```
 PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org
 <html>
 <head>
@@ -204,8 +205,11 @@ There is nothing on this page
 <img src="files/pixel.png">
 </div>
 </body></html>
+```
 
 tässä komennossa jatketiin sama kuin edellinen, mutta siihen välilehdene perästä haettaan vielä lisätietoa, mitä ikään kuin surffailaan chromessa niin miltä se näyttää. Tässä samaa vastaavasti toi `users.txt` eli txt tiedoston 
+
+```
 PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org/files/
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
@@ -224,8 +228,10 @@ PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.ov
 </table>
 <address>Apache/2.4.58 (Ubuntu) Server at natas2.natas.labs.overthewire.org Port 80</address>
 </body></html>
+```
 
 jälleen kerran toistettaan viimeisenä ja lisättynä url polkuun toi `users.txt` ja näin ollen päästään ja saadan level3:sen salasana
+```
 PS C:\> curl http://natas2:TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI@natas2.natas.labs.overthewire.org/files/users.txt
 # username:password
 alice:BYNdCesZqW
@@ -234,7 +240,7 @@ charlie:G5vCxkVV3m
 natas3:3gqisGdR0pjm6tpkDKdIWO2hSvchLeYH
 eve:zo4mJWyNj2
 mallory:9urtcpzBmH
-
+```
 
 
 
