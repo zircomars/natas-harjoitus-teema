@@ -26,3 +26,18 @@ esim. tässä määritetään "Mozilla/5.0/ pyyntöä vaikutta tulevan chrome se
 
 esim.  refer-headerin HTTP pyyntölä, jossa ensimmäisenä referr on example.com ja mikäli jos halutaan täysin hallita pyynnön headerit.
 `PS C:\> curl -H "Referer: https://example.com" https://example.com`
+
+
+<hr>
+
+# Perus lisätietoa ja lukemista:
+
+https://curl.se/docs/tutorial.html
+https://catonmat.net/cookbooks/curl/add-referrer
+https://martint86.github.io/curl-referer/
+https://wiki.sharewiz.net/doku.php?id=curl:referer_user_agent
+https://gist.github.com/afair/5265874
+https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-curl-command-httpreferer/
+https://dev.to/jvon1904/a-beginners-guide-to-curl-part-1-4j4j
+https://supporthost.com/curl-command-linux/
+https://loadfocus.com/fi-fi/glossary/what-is-curl-command
