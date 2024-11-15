@@ -32,12 +32,13 @@ esim.  refer-headerin HTTP pyyntölä, jossa ensimmäisenä referr on example.co
 
 # Perus lisätietoa ja lukemista:
 
-https://curl.se/docs/tutorial.html
-https://catonmat.net/cookbooks/curl/add-referrer
-https://martint86.github.io/curl-referer/
-https://wiki.sharewiz.net/doku.php?id=curl:referer_user_agent
-https://gist.github.com/afair/5265874
-https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-curl-command-httpreferer/
-https://dev.to/jvon1904/a-beginners-guide-to-curl-part-1-4j4j
-https://supporthost.com/curl-command-linux/
-https://loadfocus.com/fi-fi/glossary/what-is-curl-command
+https://curl.se/docs/tutorial.html<br>
+https://catonmat.net/cookbooks/curl/add-referrer<br>
+https://martint86.github.io/curl-referer/<br>
+https://wiki.sharewiz.net/doku.php?id=curl:referer_user_agent<br>
+https://gist.github.com/afair/5265874<br>
+https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-curl-command-httpreferer/<br>
+https://dev.to/jvon1904/a-beginners-guide-to-curl-part-1-4j4j<br>
+https://supporthost.com/curl-command-linux/<br>
+https://loadfocus.com/fi-fi/glossary/what-is-curl-command<br>
+
