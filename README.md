@@ -7,7 +7,8 @@ näitä vastauksia saa googlen ja muu julkaisemien tekemien harjoituksien kautta
 tämä on hyvä käyttää joko cmd/powershell tai vscode työkalua, mutta `curl` komento vaikuttaa siihen istuntoon, että pitää päivittää jatkuvasti jos yhtäkkiä lopettaa harjoittleun/tehtävän prosessin
 
 # harjoitus linkki:
-https://overthewire.org/wargames/natas/
+https://overthewire.org/wargames/natas/ <br>
+https://overthewire.org/wargames/ (sama linkki, mutta etusivu)
 
 # muita huomioita;
 tästä tuli jopa sähköpostia itselleni:
