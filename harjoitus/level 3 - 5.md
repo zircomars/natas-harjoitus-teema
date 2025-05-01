@@ -466,6 +466,23 @@ Mikä on eväste (cookies)? <br>
 
 ![alt text](./kuvat/level5-4.png)
 
+
+## level 5 -3
+
+Evästeeet "loggedin=0" muutettaan toi nolla kohti --> ykköseksi, ja muutetun jälkeen tätä pitää päivittää tuota sivustoa, jotta toi Natas5 teksti muuttuu ja kertoo meille level 6:sen salasansa, ja tätä voi tehdä ja toimii myös Chromessa, mutta mentiin ensin Kali Linux oletus selaimen Firefox - kautta.
+
+![alt text](./kuvat/level5-5.png)
+
+![alt text](./kuvat/level5-6.png)
+
+![alt text](./kuvat/level5-7.png)
+
+
+Tämä on se Chrome versio, ja näiden sijainnit on jossain hevonkuusessa, että on vaikea löytää sitä kätköä.
+
+![alt text](./kuvat/level5-7.1.png)
+
+
 Periaatteessa `curl` komennosta otettaan evästeet talteen ja tämä tapahtuu Kali Linux:sessa.
 
 
