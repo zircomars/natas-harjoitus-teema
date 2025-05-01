@@ -21,7 +21,7 @@ level 3 jatkuu tästä nyt
 
 sama oletuksena näkymältään että ei näytä kauheasti mitään erioiselta, seuraavaksi testataan näitä ominaisuutta ja tarkistellaan eli;
 - oikean hiiren klikkausta tai F12 tai CTRL + U
-  
+
 ![alt text](./kuvat/level3-0.png)
 
 
@@ -383,3 +383,22 @@ https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-curl-command-httpreferer/
 https://dev.to/jvon1904/a-beginners-guide-to-curl-part-1-4j4j
 https://supporthost.com/curl-command-linux/
 https://loadfocus.com/fi-fi/glossary/what-is-curl-command)
+
+---
+
+# level 5
+
+curl komentojen referensi pieni lunttilappu ja lisäyksenä, että kun se toimii ja sama pätee niitä aikaisempia välivaiheita kuten inspect tarkitus, tiedoston polku jos on olemassa `http://network.com/files` ja url polkuun lisäys `/robots.txt`.
+
+```
+curl -u natasX:***** --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org
+curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:******@natas4.natas.labs.overthewire.org 
+```
+
+
+
+
+
+
+
+
