@@ -447,3 +447,16 @@ Access disallowed. You are not logged in</div>
 ![alt text](./kuvat/level5-1.png)
 
 ![alt text](./kuvat/level5-2.png)
+
+## level 5 - 2
+
+Ratkaisuksi, tämä etusivu ikään kuin kertoo pääsy ei ole sallittu ja ei olla kirjauduttu sisään, joka tuo hämennystä kuitenkin. Jokaisessa kirjauttuessa on joku eväste, tai kirjauttumisen tunniste, että ikään kuin lokitus käyttis1;salasana syötetty ja onnistumisen pääsy.
+
+![alt text](./kuvat/level5-0.png)
+
+
+
+
+
+
+
