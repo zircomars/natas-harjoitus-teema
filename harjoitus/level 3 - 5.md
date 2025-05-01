@@ -391,7 +391,7 @@ https://loadfocus.com/fi-fi/glossary/what-is-curl-command)
 curl komentojen referensi pieni lunttilappu ja lisäyksenä, että kun se toimii ja sama pätee niitä aikaisempia välivaiheita kuten inspect tarkitus, tiedoston polku jos on olemassa `http://network.com/files` ja url polkuun lisäys `/robots.txt`.
 
 ```
-curl -u natasX:***** --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org
+curl -u natas4:***** --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org
 curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:******@natas4.natas.labs.overthewire.org 
 ```
 
