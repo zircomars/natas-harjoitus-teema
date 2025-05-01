@@ -454,7 +454,11 @@ Ratkaisuksi, tämä etusivu ikään kuin kertoo pääsy ei ole sallittu ja ei ol
 
 ![alt text](./kuvat/level5-0.png)
 
-Jostakin vihjeenä muuttaa evästeestä (cookies) muuttaa "loggedin=0" tuosta nollasta ykköseksi, mutta ongelmana selaimesta ei voi muuttaa, joten jouduttaan nähtävästi kulkea vähän, mutkan kautta eli kulkea `curl`- komentoa uudestaan
+Jostakin vihjeenä muuttaa evästeestä (cookies) muuttaa "loggedin=0" tuosta nollasta ykköseksi, mutta ongelmana selaimesta ei voi muuttaa, joten jouduttaan nähtävästi kulkea vähän, mutkan kautta eli kulkea `curl`- komentoa uudestaan.
+
+<br>
+Mikä on eväste (cookies)? <br>
+- Evästeet ovat pieniä tietoja, jotka tallentavat tietoja käyttäjästä tai tietokoneesta tunnistamista varten.
 
 ![alt text](./kuvat/level5-3.png)
 
