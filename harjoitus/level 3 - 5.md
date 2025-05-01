@@ -386,7 +386,7 @@ https://loadfocus.com/fi-fi/glossary/what-is-curl-command)
 
 ---
 
-# level 5
+# level 5 - START HERE
 
 curl komentojen referensi pieni lunttilappu ja lisäyksenä, että kun se toimii ja sama pätee niitä aikaisempia välivaiheita kuten inspect tarkitus, tiedoston polku jos on olemassa `http://network.com/files` ja url polkuun lisäys `/robots.txt`.
 
@@ -395,7 +395,7 @@ curl -u natas4:***** --referer http://natas5.natas.labs.overthewire.org/ http://
 curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:******@natas4.natas.labs.overthewire.org 
 ```
 
-## level 4 - 1
+## level 5 - 1
 
 muutamia testauksia ja tarkistuksia, että osat jo pätee samaa tulokseen verrattuna kuvista (selaimen kautta)
 
@@ -478,10 +478,11 @@ Evästeeet "loggedin=0" muutettaan toi nolla kohti --> ykköseksi, ja muutetun j
 ![alt text](./kuvat/level5-7.png)
 
 
-Tämä on se Chrome versio, ja näiden sijainnit on jossain hevonkuusessa, että on vaikea löytää sitä kätköä. Huomiona, tässä oli "0" ja siksi muutin "1", ja päivitin sivuston.
+Tämä on se Chrome selain versiossa, ja näiden sijainnit on jossain hevonkuusessa, että on vaikea löytää sitä kätköä. Huomiona, tässä oli "0" ja siksi muutin "1", ja päivitin sivuston.
 
 ![alt text](./kuvat/level5-7.1.png)
 
+## level 5 - 4 curl and linux way - START HERE;
 
 Toisena vaihtoehtona on kulkea `curl` komennosta otettaan evästeet talteen ja tämä tapahtuu Kali Linux:sessa ja lisätään tätä varmuuden vuoksi, että keinoja on montakin tapaa ratkaista. Nyt alettaan manipuloida evästeen kautta.
 
@@ -522,12 +523,15 @@ natas5.natas.labs.overthewire.org       FALSE   /       FALSE   0       loggedin
 
 ```
 
-Tässä huomataan toi `loggedin 0` tarkoittaa se on false, ja me halutaan muuttaa sitä ykköseksi (1), joka on tosi (true)
-Normaalisti komennolla `$sudo` - ja muuta kyseinen tekstitiedosto ja muista tallentaa muutetut toiminnat.
+Tässä huomataan toi `loggedin 0` - nolla (0 tarkoittaa false), ja me halutaan muuttaa sitä ykköseksi (1 joka on (true)). 
+Sitten vaan komennolla `$sudo` - ja muuta kyseinen tekstitiedosto ja muista tallentaa muutetut toiminnat.
 
 ![alt text](./kuvat/level5-8.png)
 
-Pikainen toisto
+Pikainen toisto, että yritettään uudestaan. Eli periaatteessa muutetun ton eväste tiedoston mukaisen loggedin ykköseksi ja sitten yritettään curl komennolla uudestaan, että saadaan se level natas6:sen salasanansa toistettua ja sama idea kuin selaimessakin.
+
+Tässä komennossa; `$ curl http://natas5.natas.labs.overthewire.org/ -u natas5 -b "natas5_cookie.txt"`
+- b-kirjainta käytetään mainitsemaan muokattu evästetiedoston nimi
 
 ```
 ┌──(kali㉿kali)-[~]
@@ -559,9 +563,6 @@ Access granted. The password for natas6 is 0RoJwHdSKWFTYR5WuiAewauSuNaBXned</div
 </html>
 
 ```
-
-
-
 
 
 
