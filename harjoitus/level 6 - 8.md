@@ -49,15 +49,56 @@ Ylemmän muutettun loggin=1:seksi, niin sitten suoritettaan ja haettaan sitä se
 
 # level 6 - START HERE
 
+En ois uskonut tämä level 6 oli/on helppoa, että piti selvittää toi salainen koodi tuohon kenttään ja sitten kertoo sen seuraavan levelin 7 salasansa.
+
+Ensimmäinen kirjauduttua level 6 - että selvitettään toi salainen koodi , niin päästään eteenpäin.
+
 ![alt text](./kuvat-level6-10/level6-0.png)
+
+Ensimmäisenä tarkistettaan koodit, että näyttää normaalilta ja on tämän level 6 ja sen salasansa kirjauttuminen
 
 ![alt text](./kuvat-level6-10/level6-1.png)
 
+Seuraavaksi meitä kiinnostaa toi "View sourcecode" (ylemmän kuvan mukaan) niin se ainakin ohjaisi toiselle sivustolle. Tämä on kuin toinen polku tiedosto/sivusto. Tämän keksimmäinen osuus on kodaattu jollaki PHP-koodikielellä, että HTMl tukee sen. Sitten seuraavista meitä kiinnostaa toi polku `includes/secret.inc`
+
 ![alt text](./kuvat-level6-10/level6-2.png)
+
+Tässä nähdään se salainen koodi näyttävän se on tämän polun alla, eli kopsaa se ja liittä takaisin Natas level 6:sen etusivuun.
 
 ![alt text](./kuvat-level6-10/level6-3.png)
 
+
 ![alt text](./kuvat-level6-10/level6-4.png)
 
+Sitten ja _voila_ , tässä on ratkaistettu level 7:n seuraava salasansa. En ois uskonut näin helppoa, mutta tässä pitää tarkistaa tosi huolella ja mennä vähä step by step ja just aikaisempien harjoittuksien mukaan. Myös tarkistinkin polun `/robots.txt` - että sellaistakaan ei ole olemassa, ja siksi en lisännyt sitä tänne.
+
 ![alt text](./kuvat-level6-10/level6-5.png)
+
+
+Mini yhteenvetona tässä ei tarvittu tuota Kali linux terminaali, mutta voi hyvinkin katsoa miten tätä oltaisi voittu ratkaista.
+
+## level 6 - 1
+
+Tässä steppissä mennään Kali linux kautta, mutta ylemmissä mentiin suorttaan sivustojen kautta ja käyttäen pientä salapoliisityötä.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
