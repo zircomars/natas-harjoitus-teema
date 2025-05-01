@@ -49,15 +49,15 @@ Ylemmän muutettun loggin=1:seksi, niin sitten suoritettaan ja haettaan sitä se
 
 # level 6 - START HERE
 
-![alt text](./kuvat/level6-10/level6-0.png)
+![alt text](./kuvat-level6-10/level6-0.png)
 
-![alt text](./kuvat/level6-10/level6-1.png)
+![alt text](./kuvat-level6-10/level6-1.png)
 
-![alt text](./kuvat/level6-10/level6-2.png)
+![alt text](./kuvat-level6-10/level6-2.png)
 
-![alt text](./kuvat/level6-10/level6-3.png)
+![alt text](./kuvat-level6-10/level6-3.png)
 
-![alt text](./kuvat/level6-10/level6-4.png)
+![alt text](./kuvat-level6-10/level6-4.png)
 
-![alt text](./kuvat/level6-10/level6-5.png)
+![alt text](./kuvat-level6-10/level6-5.png)
 
