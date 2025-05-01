@@ -10,6 +10,56 @@ tämä on hyvä käyttää joko cmd/powershell tai vscode työkalua, mutta `curl
 https://overthewire.org/wargames/natas/ <br>
 https://overthewire.org/wargames/ (sama linkki, mutta etusivu)
 
+## OvertheWire
+
+Tämä itsensä on pelisarja, että alla on muita keskitettyi eri osia, koskien turvallisuusalueisiin ja -teemoihin. Pelejä on mm. **Bandwith** , **Leviathan**, **Krypton** ja jne.
+
+## 1. **Bandit**
+   - **Tarkoitus:** Bandit on tarkoitettu aloittelijoille ja se keskittyy komentorivikäytön, tiedostojärjestelmän ja perus-hakkeroinnin opetteluun.
+   - **Teema:** Bandit on parhaiten tunnettu sen simppelistä ja suoraviivaisesta lähestymistavastaan. Haasteet käsittelevät pääasiassa oikeuksia, tiedostoja, hakemistoja ja salasanan murtamista.
+
+## 2. **Leviathan**
+   - **Tarkoitus:** Leviathan on verkkoturvallisuuden ja ohjelmistohakkeroinnin harjoitteluun suunniteltu peli.
+   - **Teema:** Haasteet käsittelevät erityisesti verkkosovellusten ja protokollien turvallisuutta, kuten SSL, autentikointi ja etäyhteydet.
+
+## 3. **Krypton**
+   - **Tarkoitus:** Krypton on erityisesti kryptografiaan keskittyvä peli.
+   - **Teema:** Haasteet liittyvät salaukseen ja salaustekniikoihin, kuten Caesar-salaus, XOR-salaus ja muuhun tietoturvaan liittyvään.
+
+## 4. **Narnia**
+   - **Tarkoitus:** Narnia keskittyy erityisesti ohjelmointivirheisiin ja haavoittuvuuksiin, joita voidaan hyödyntää hakkeroinnissa.
+   - **Teema:** Se käsittelee erityisesti muistinhallintaa ja binäärifailien manipulaatiota. Haasteet voivat olla haastavampia, koska ne vaativat ymmärrystä ohjelmoinnista ja virheiden hyväksikäytöstä.
+
+## 5. **Behemoth**
+   - **Tarkoitus:** Behemoth on tarkoitettu haavoittuvuuksien etsimiseen ja hyödyntämiseen, erityisesti vanhemmissa ohjelmistoissa.
+   - **Teema:** Behemoth käsittelee alkeellisempaa haavoittuvuuksien etsimistä ja turvallisuushaasteita, joissa on tarpeen käyttää vanhentuneita tekniikoita.
+
+## 6. **Utumno**
+   - **Tarkoitus:** Utumno keskittyy binäärisen koodin analysointiin ja ohjelmointivirheiden etsimiseen.
+   - **Teema:** Tämä peli vaatii ymmärrystä siitä, miten ohjelmakoodia voidaan manipuloida ja hyväksikäyttää.
+
+## 7. **Maze**
+   - **Tarkoitus:** Maze on enemmän kuin vain haavoittuvuuksien etsimistä; siinä haetaan myös logiikkaa ja polkuja, jotka voivat johtaa päämäärään.
+   - **Teema:** Tämä on hieman erikoisempi peli, jossa pelaaja navigoi "labyrintissa" ratkoen ongelmia ja haasteita.
+
+## 8. **Vortex**
+   - **Tarkoitus:** Vortex on verkkosovellusten ja haavoittuvuuksien hyödyntämiseen keskittyvä peli.
+   - **Teema:** Haasteet voivat liittyä palvelimiin ja niiden konfiguraatioihin sekä palveluissa oleviin virheisiin ja bugeihin.
+
+## 9. **Manpage**
+   - **Tarkoitus:** Tämä on enemmän kuin vain turvallisuus; se keskittyy hakkerointiin, joka liittyy manuaalisivuihin ja käyttöjärjestelmän työkaluihin.
+   - **Teema:** Manpage voi liittyä komentorivikäyttöön, ja sen tarkoitus on parantaa ymmärrystä Unix- ja Linux-järjestelmien komento- ja työkalupaketeista.
+
+## 10. **Drifter**
+   - **Tarkoitus:** Drifter on pelissä, jossa pelaaja etsii ja hyväksikäyttää haavoittuvuuksia ja hajoaa järjestelmän.
+   - **Teema:** Tämä peli keskittyy erityisesti haavoittuvuuksien analysointiin ja niiden manipuloimiseen ohjelmointivirheiden avulla.
+
+## 11. **FormulaOne**
+   - **Tarkoitus:** FormulaOne on keskittynyt erityisesti ohjelmistotestaukseen ja hakkerointiin nopealla aikarajalla.
+   - **Teema:** Tämä peli keskittyy nopeisiin hyökkäyksiin ja järjestelmän hajoamiseen, joten se on enemmän nopeatempoista ja vaatii reagointikykyä.
+
+---
+
 # muita huomioita;
 tästä tuli jopa sähköpostia itselleni:
 
