@@ -395,10 +395,55 @@ curl -u natas4:***** --referer http://natas5.natas.labs.overthewire.org/ http://
 curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:******@natas4.natas.labs.overthewire.org 
 ```
 
+## level 4 - 1
+
+muutamia testauksia ja tarkistuksia, että osat jo pätee samaa tulokseen verrattuna kuvista (selaimen kautta)
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas5:0n35PkggAPm2zbEpOU802c0x0Msn1ToK --referer http://natas6.natas.labs.overthewire.org/ http://natas5.natas.labs.overthewire.org
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas5", "pass": "0n35PkggAPm2zbEpOU802c0x0Msn1ToK" };</script></head>
+<body>
+<h1>natas5</h1>
+<div id="content">
+Access disallowed. You are not logged in</div>
+</body>
+</html>
+
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas6.natas.labs.overthewire.org/" http://natas5:0n35PkggAPm2zbEpOU802c0x0Msn1ToK@natas5.natas.labs.overthewire.org 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas5", "pass": "0n35PkggAPm2zbEpOU802c0x0Msn1ToK" };</script></head>
+<body>
+<h1>natas5</h1>
+<div id="content">
+Access disallowed. You are not logged in</div>
+</body>
+</html>
 
 
 
+```
 
+![alt text](./kuvat/level5-0.png)
 
+![alt text](./kuvat/level5-1.png)
 
-
+![alt text](./kuvat/level5-2.png)
