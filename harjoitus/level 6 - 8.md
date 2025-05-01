@@ -59,7 +59,7 @@ Ensimmäisenä tarkistettaan koodit, että näyttää normaalilta ja on tämän 
 
 ![alt text](./kuvat-level6-10/level6-1.png)
 
-Seuraavaksi meitä kiinnostaa toi "View sourcecode" (ylemmän kuvan mukaan) niin se ainakin ohjaisi toiselle sivustolle. Tämä on kuin toinen polku tiedosto/sivusto. Tämän keksimmäinen osuus on kodaattu jollaki PHP-koodikielellä, että HTMl tukee sen. Sitten seuraavista meitä kiinnostaa toi polku `includes/secret.inc`
+Seuraavaksi meitä kiinnostaa toi "View sourcecode" (ylemmän kuvan mukaan) niin se ainakin ohjaisi toiselle sivustolle. Tämä on kuin toinen polku tiedosto/sivusto. Tämän keksimmäinen osuus (alempi kuva) on kodaattu jollaki PHP-koodikielellä, että HTMl tukee sen. Sitten seuraavista meitä kiinnostaa toi polku `includes/secret.inc`
 
 ![alt text](./kuvat-level6-10/level6-2.png)
 
