@@ -531,6 +531,7 @@ Sitten vaan komennolla `$sudo` - ja muuta kyseinen tekstitiedosto ja muista tall
 Pikainen toisto, että yritettään uudestaan. Eli periaatteessa muutetun ton eväste tiedoston mukaisen loggedin ykköseksi ja sitten yritettään curl komennolla uudestaan, että saadaan se level natas6:sen salasanansa toistettua ja sama idea kuin selaimessakin.
 
 Tässä komennossa; `$ curl http://natas5.natas.labs.overthewire.org/ -u natas5 -b "natas5_cookie.txt"`
+- -u natas5: käytettään käyttäjänimeä "natas5" autentikaatiota varten. Tässä kysytään todennäköisesti myös salasanaa, joka tulee syöttää.
 - b-kirjainta käytetään mainitsemaan muokattu evästetiedoston nimi
 
 ```
