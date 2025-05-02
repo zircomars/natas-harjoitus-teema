@@ -16,7 +16,7 @@ käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutt
 - tämä on sama kuin ylempi, mutta lyhyempi ja tiivistettynä vain -H tarkoittaa header; <br>
 `$curl -H "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org`
 
-- tässäkin ekana on toistettaan se nykyinen level ja se salasansa, että haettaan seuraava leveli; <br<
+- tässäkin ekana on toistettaan se nykyinen level ja se salasansa, että haettaan seuraava leveli; <br>
 `$curl -u natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org`
 
 ### evästeen hakeminen
