@@ -242,6 +242,7 @@ Input secret: <input name=secret><br>
 
 # Level 7 - START HERE;
 
+Perus ensimmäisenä ja tässä näkyvissä on pari seuraavaa sivua, jotka toimivat kuin "etusivu" ja "about"-sivustoa.
 
 ![alt text](./kuvat-level6-10/level7-0.png)
 
@@ -249,15 +250,24 @@ Input secret: <input name=secret><br>
 
 ![alt text](./kuvat-level6-10/level7-2.png)
 
+Tässä avattua F12/"Inspect" - sivuston koodista, että näyttää on jotakin vinkkejä rivissä 21, että mene polkuun `/etc/natas_webpass/natas8` , joka kertoo level 8 - salasanansa.
+
 ![alt text](./kuvat-level6-10/level7-3.png)
+
+Kokeilin sijoittaa ton vihjeen `/etc/natas_webpass/natas8` - mukaan niin ainakin kertoi vähä lisätietoa, että ettei löydä kyseistä polkua, ja konffauksessa on jotakin error:ia. 
 
 ![alt text](./kuvat-level6-10/level7-4.png)
 
+Mitä neuvoksi ja mikä on ratkaisu?
+Otettiin noita tiedoston ja/tai polkujen tietoja ylös eli `/var/www/natas/natas7/index.php` , että huomataan tällainen polku ja meitä vihjenä oli "`/etc/natas_webpass/natas8`" - että tästä saisi level 8:nen salasansa, mutta miten?
+
 ![alt text](./kuvat-level6-10/level7-5.png)
+
+Ja viimeisenä _voila_ ja siinä on level 8:nen salasansa ja näin päästiin selvitettyä ja ratkaistettua.
 
 ![alt text](./kuvat-level6-10/level7-6.png)
 
-
+# Level 7 - 1 - Linux version - START HERE;
 
 
 
