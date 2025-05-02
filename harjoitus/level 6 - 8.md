@@ -449,6 +449,28 @@ this is the about page
 </html>
 ```
 
+# Level 7 - 2 lisätietoa ja pientä teoriaa;
+
+## Hakemistorakenteen manipulointi Natas7-haasteessa
+
+Kun käsittelet tiedostopolkujen manipulointia, `"../"` tarkoittaa siirtymistä hakemistossa ylöspäin. Jos olet `/var/www/natas/natas7/index.php` -polussa ja haluat päästä käsiksi tiedostoon `/etc/natas_webpass/natas8`, sinun täytyy nousta hakemistorakenteessa riittävän monta tasoa ylöspäin ja sitten navigoida oikeaan kohteeseen.
+
+## Polun selitys
+- `/var/www/natas/natas7/index.php` on alkuperäinen sijainti.
+- `../../../../../../etc/natas_webpass/natas8` tarkoittaa, että noustaan kuusi tasoa ylöspäin (pois `natas7`, `natas`, `www`, `var`, jne.), jotta saavutetaan juurihakemisto (`/etc`).
+- näin ollen siirrytään `natas_webpass/natas8`, eli polku ohjaa tiedostoon, jossa on siksi mahdollisesti on taso 8 salasansa.
+
+## Miksi tämä toimii?
+- Jos palvelin ei ole suojattu **directory traversal** -hyökkäyksiltä, se sallii polkumuutokset ja antaa pääsyn tiedostoihin hakemistorakenteen ulkopuolella.
+- Tämä on mahdollista, koska **index.php** käyttää `GET`-parametria (`page`), joka voi käsitellä manipulointia ilman tarkastuksia.
+- Hakkerointiteknisesti tämä opettaa, miksi hakemiston pääsyn rajoittaminen on tärkeää.
+- Näin ollen tämä tarkoittaa palvelin sallii navigoinnin syvemmälle tiedostojärjestelmään.
+
+## Perustelut ja oppimispisteet
+Tämä haaste auttaa ymmärtämään hakemistorakenteiden hyödyntämistä palvelimilla sekä sen, miksi polkumuutosten validointi on kriittistä turvallisuuden kannalta. 🛡️
+
+
+---
 
 
 
