@@ -243,10 +243,19 @@ Input secret: <input name=secret><br>
 # Level 7 - START HERE;
 
 
+![alt text](./kuvat-level6-10/level7-0.png)
 
+![alt text](./kuvat-level6-10/level7-1.png)
 
+![alt text](./kuvat-level6-10/level7-2.png)
 
+![alt text](./kuvat-level6-10/level7-3.png)
 
+![alt text](./kuvat-level6-10/level7-4.png)
+
+![alt text](./kuvat-level6-10/level7-5.png)
+
+![alt text](./kuvat-level6-10/level7-6.png)
 
 
 
