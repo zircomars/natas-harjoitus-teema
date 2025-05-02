@@ -256,12 +256,17 @@ Kokeilin sijoittaa ton vihjeen `/etc/natas_webpass/natas8` - mukaan niin ainakin
 
 ![alt text](./kuvat-level6-10/level7-4.png)
 
-**Mitä neuvoksi ja mikä on ratkaisu?**
+**Mitä neuvoksi ja mikä on ratkaisu?** <br>
 Otettiin noita tiedoston ja/tai polkujen tietoja ylös eli `/var/www/natas/natas7/index.php` sivuston mukaisesti, että huomataan tällainen polku ja meitä vihjenä oli "`/etc/natas_webpass/natas8`" - että tästä saisi level 8:nen salasansa, mutta miten?
 
 Tässä tason levelissä harjoituksessa on tapahtuu ja yritettään selvittää sen **hakemistorakenteen manipulointia** tai jopa **path traversal -haavoittuvuutta**. Kertauksena `/etc/` tämä on **tiedostopolku** hakemistonsa. Periaatteessa meidän pitää muuttaa tässä harjoituksessa tämän `/var/www/natas/natas7/` - polku rakenne muuttaa `../../`:ksi, koska käyttämällä `../../../../`-merkintää polussa pyritään siirtymään ylemmille hakemistotasoille, mikä on tyypillinen path traversal -haavoittuvuuden hyödyntämistapa. Tämä tapahtuu silloin, kun verkkosovellus ei rajoita tai puhdista käyttäjän antamaa polkua asianmukaisesti, mahdollistaen sen manipuloinnin.
 
 Jos esimerkiksi verkkosivu sallii käyttäjän syöttää tiedoston polun **input-parametrina**, eikä se validoi polkua oikein, hyökkääjä voi yrittää päästä ulos rajoitetusta hakemistosta ja navigoida järjestelmän kriittisiin tiedostoihin, kuten `/etc/passwd`, joka sisältää käyttäjätiedot. Tällainen manipulointi voi johtaa arkaluonteisten tietojen paljastumiseen tai jopa luvattomaan pääsyyn.
+
+Path traversal on yksi yleisimmistä **web-sovellusten tietoturvahaavoittuvuuksista**, ja sen tunnistaminen on tärkeä osa penetraatiotestausta ja tietoturvaa.
+
+**Joten ratkaisuna;** <br>
+Sijoitin URl polkuun väliin muutaman `../` polku rakenteen ja käyttäen "/Home/" kotisivun hyödyntääkseen loppua. Siksi tuli näin: `natas7.natas.labs.overthewire.org/index.php?page=home../../../../../../etc/natas_webpass/natas8`
 
 ![alt text](./kuvat-level6-10/level7-5.png)
 
