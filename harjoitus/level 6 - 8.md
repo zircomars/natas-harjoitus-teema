@@ -272,15 +272,21 @@ Sijoitin URl polkuun väliin muutaman `../` polku rakenteen ja käyttäen "/Home
 
 Ja viimeisenä _voila_ ja siinä on level 8:nen salasansa ja näin päästiin selvitettyä ja ratkaistettua.
 
-**Tarkastuksena; **<br>
+**Tarkastuksena;** <br>
 Tämä on se toimiva polku linki: `natas7.natas.labs.overthewire.org/index.php?page=home../../../../../../etc/natas_webpass/natas8` <br>
 Tässä tiedostojen polussa on jokinlainen laskenta, että tässä mukaan on 6 tasoa ylöspäin `../../../../../../` ennen siirtymistä `/etc/natas_webpass/natas8` tiedostoon. 
 
 - Kun tarkastellaan `home../`, tässä tapahtuu ylöspäin siirtyminen, mutta muotoilu vaikuttaa puutteelliselta:
   - 1️⃣ `home../` ei ole täysin oikea syntaksi, koska `../` tulisi yleensä erottua hakemistosta, kuten `home/../`
   - 2️⃣ Jos `home` on hakemisto, sitten `../` tarkoittaa siirtymistä sen yläpuoliseen hakemistoon.
+    
+`/home../` niin toi home sana voi jättää väliinsä, että valinnaisena se voi toki olla mukana, mutta silti saattaa tuottaa pientä hämäystäkin url:issa. Tästä syystä URL-manipulaatioissa ja path traversal -hyökkäyksissä.
 
 ![alt text](./kuvat-level6-10/level7-6.png)
+
+Sekä periaatteessa molemmat kelpaa vastaukseen, että ylempi tai alempi vaihtoehto ja molempiakin sallittaan ja toimii.
+
+![alt text](./kuvat-level6-10/level7-7.png)
 
 # Level 7 - 1 - Kali Linux version - START HERE;
 
