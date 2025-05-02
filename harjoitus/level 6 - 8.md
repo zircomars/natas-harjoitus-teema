@@ -273,7 +273,7 @@ Sijoitin URl polkuun väliin muutaman `../` polku rakenteen ja käyttäen "/Home
 Ja viimeisenä _voila_ ja siinä on level 8:nen salasansa ja näin päästiin selvitettyä ja ratkaistettua.
 
 **Tarkastuksena;** <br>
-Tämä on se toimiva polku linki: `natas7.natas.labs.overthewire.org/index.php?page=home../../../../../../etc/natas_webpass/natas8` <br>
+Tämä on se yksi toimiva polku linki : `natas7.natas.labs.overthewire.org/index.php?page=home../../../../../../etc/natas_webpass/natas8` <br>
 Tässä tiedostojen polussa on jokinlainen laskenta, että tässä mukaan on 6 tasoa ylöspäin `../../../../../../` ennen siirtymistä `/etc/natas_webpass/natas8` tiedostoon. 
 
 - Kun tarkastellaan `home../`, tässä tapahtuu ylöspäin siirtyminen, mutta muotoilu vaikuttaa puutteelliselta:
@@ -282,9 +282,13 @@ Tässä tiedostojen polussa on jokinlainen laskenta, että tässä mukaan on 6 t
     
 `/home../` niin toi home sana voi jättää väliinsä, että valinnaisena se voi toki olla mukana, mutta silti saattaa tuottaa pientä hämäystäkin url:issa. Tästä syystä URL-manipulaatioissa ja path traversal -hyökkäyksissä.
 
+Siksi tässä käytettään `../../../../../../`-merkintää, se korvaa hakemistopolun ja siirtää navigointia ylöspäin. Esimerkiksi polun vinkkiä ja sitä sivun tarjoamaa vihjettä siksi tämä polku tiedostonhakemisto `/var/www/natas/natas7/index.php` voi toimia normaalina reitityksenä, mutta jos palvelin ei rajoita polun manipulointia, **path traversal -haavoittuvuutta** esille ja laskennassa molemmissa on **6 tasoa ylöspäin**.
+
 ![alt text](./kuvat-level6-10/level7-6.png)
 
 Sekä periaatteessa molemmat kelpaa vastaukseen, että ylempi tai alempi vaihtoehto ja molempiakin sallittaan ja toimii.
+
+Options 2 toimiva polku linkki; `http://natas7.natas.labs.overthewire.org/index.php?page=../../../../../../etc/natas_webpass/natas8`
 
 ![alt text](./kuvat-level6-10/level7-7.png)
 
