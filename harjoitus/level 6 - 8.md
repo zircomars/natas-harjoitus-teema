@@ -110,8 +110,6 @@ Input secret: <input name=secret><br>
 </html>
 ```
 
-
-
 **tämä on tarkistus HTTP-vastaus koodia** , että tämä ensimmäisenä;
 
 ```
@@ -258,8 +256,12 @@ Kokeilin sijoittaa ton vihjeen `/etc/natas_webpass/natas8` - mukaan niin ainakin
 
 ![alt text](./kuvat-level6-10/level7-4.png)
 
-Mitä neuvoksi ja mikä on ratkaisu?
-Otettiin noita tiedoston ja/tai polkujen tietoja ylös eli `/var/www/natas/natas7/index.php` , että huomataan tällainen polku ja meitä vihjenä oli "`/etc/natas_webpass/natas8`" - että tästä saisi level 8:nen salasansa, mutta miten?
+**Mitä neuvoksi ja mikä on ratkaisu?**
+Otettiin noita tiedoston ja/tai polkujen tietoja ylös eli `/var/www/natas/natas7/index.php` sivuston mukaisesti, että huomataan tällainen polku ja meitä vihjenä oli "`/etc/natas_webpass/natas8`" - että tästä saisi level 8:nen salasansa, mutta miten?
+
+Tässä tason levelissä harjoituksessa on tapahtuu ja yritettään selvittää sen **hakemistorakenteen manipulointia** tai jopa **path traversal -haavoittuvuutta**. Kertauksena `/etc/` tämä on **tiedostopolku** hakemistonsa. Periaatteessa meidän pitää muuttaa tässä harjoituksessa tämän `/var/www/natas/natas7/` - polku rakenne muuttaa `../../`:ksi, koska käyttämällä `../../../../`-merkintää polussa pyritään siirtymään ylemmille hakemistotasoille, mikä on tyypillinen path traversal -haavoittuvuuden hyödyntämistapa. Tämä tapahtuu silloin, kun verkkosovellus ei rajoita tai puhdista käyttäjän antamaa polkua asianmukaisesti, mahdollistaen sen manipuloinnin.
+
+Jos esimerkiksi verkkosivu sallii käyttäjän syöttää tiedoston polun **input-parametrina**, eikä se validoi polkua oikein, hyökkääjä voi yrittää päästä ulos rajoitetusta hakemistosta ja navigoida järjestelmän kriittisiin tiedostoihin, kuten `/etc/passwd`, joka sisältää käyttäjätiedot. Tällainen manipulointi voi johtaa arkaluonteisten tietojen paljastumiseen tai jopa luvattomaan pääsyyn.
 
 ![alt text](./kuvat-level6-10/level7-5.png)
 
@@ -267,7 +269,7 @@ Ja viimeisenä _voila_ ja siinä on level 8:nen salasansa ja näin päästiin se
 
 ![alt text](./kuvat-level6-10/level7-6.png)
 
-# Level 7 - 1 - Linux version - START HERE;
+# Level 7 - 1 - Kali Linux version - START HERE;
 
 
 
