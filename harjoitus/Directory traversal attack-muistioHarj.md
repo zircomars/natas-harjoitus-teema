@@ -87,3 +87,12 @@ muita kali linux työkaluja ettei vain pelkä **curl**- komentoa ja muita työka
 - wfuzz 
 - ffuf  
 - burp suite
+
+---
+
+
+
+
+
+
+
