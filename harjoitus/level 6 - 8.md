@@ -512,12 +512,49 @@ xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q
 
 # Level 8 - START HERE;
 
+
+
 Etusivussa on view sourcecode, joka viee tänne sivustolle eli `index-source.html` . Niin siinä on koodattu yksi pieni osa PHP-koodi, jossa on salainen salausmenetelmä koodipätkä, jonka pitäisi saada enkoodattuksi. Enkoodaus tarkoittaa "encode" siis enkoodattu joku salainen koodi jonka halutaan purkkaa takaisin sanaksi. Muutamia enkoodaus tyyppejä mm. base64, URL-enkoodaus, Hex ja jne.
 
-🔹 Enkoodaus (encode) → Muuntaa tiedon toiseen muotoon, esimerkiksi Base64- tai heksadesimaaliseen muotoon. 
-🔹 Dekoodaus (decode) → Palauttaa enkoodatun tiedon takaisin alkuperäiseen muotoonsa.
+![alt text](./kuvat-level6-10/level8-0.png)
+
+![alt text](./kuvat-level6-10/level8-1.png)
 
 
+## Välivaihe
+
+Tässä tulee välivaiheet, että kuinka purettaan (ylempi) salattukoodi pätkänsä (3d3d516343746d4d6d6c315669563362) ja tämä tapahtuu Kali Linux:sessa, ettei turha kirjoitetta erillistä kappaleta.
+
+1. Tämä on yksi tapa käyttäen Kali Linux PHP, jossa toistettaan se salattu koodi ja purettaan
+  - ensin purettaan hex to bin (hex koodattu takaisin binääriksi)
+  - toisena joka **kääntää annetun merkkijonon ja palauttaa sen** vähä kuin peilaus / takaperin
+  - viimeisenä base64 dekoodaus
+
+```
+┌──(kali㉿kali)-[~]
+└─$ php -a
+Interactive shell
+
+php > echo hex2bin("3d3d516343746d4d6d6c315669563362");
+==QcCtmMml1ViV3b
+php > echo strrev("==QcCtmMml1ViV3b");
+b3ViV1lmMmtCcQ==
+php > echo base64_decode ("b3ViV1lmMmtCcQ==");
+oubWYf2kBq
+```
+
+2. Toinen tapa, ja perus kantsii hyödyntää tekoäly apua ja nettien apua. Tämä alempi jossa tapahtuu `xxd` , `rev` ja `base64`-komentoa vastaavaa prosessia. <br>
+```
+┌──(kali㉿kali)-[~]
+└─$ echo "3d3d516343746d4d6d6c315669563362" | xxd -r -p | rev | base64 -d
+oubWYf2kBq                                                                                                              
+```
+
+![alt text](./kuvat-level6-10/level8-2.png)
+
+Sitten _voila_ ja saattiin level 9:nen salasanansa.
+
+![alt text](./kuvat-level6-10/level8-3.png)
 
 ## salausmenetelmä
 
