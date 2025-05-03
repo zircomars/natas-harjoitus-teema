@@ -83,7 +83,7 @@ for i in $(seq 1 10); do
 done
 ```
 
-
-
-
-
+muita kali linux työkaluja ettei vain pelkä **curl**- komentoa ja muita työkaluja onkin olemassa mm;
+- wfuzz 
+- ffuf  
+- burp suite
