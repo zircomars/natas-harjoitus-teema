@@ -472,7 +472,7 @@ Tämä haaste auttaa ymmärtämään hakemistorakenteiden hyödyntämistä palve
 
 ---
 
-
+Aikaisemmassa testauksessa menty `for-loop` kautta, mutta sekin voi mennä pikkasen vaikeammaksi, mutta nyt saattiin ainakin jotakin ja vihjeitä löytyy nettistäkin.
 
 
 
