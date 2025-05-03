@@ -544,6 +544,10 @@ oubWYf2kBq
 ```
 
 2. Toinen tapa, ja perus kantsii hyödyntää tekoäly apua ja nettien apua. Tämä alempi jossa tapahtuu `xxd` , `rev` ja `base64`-komentoa vastaavaa prosessia. <br>
+
+- xxd - tarkoittaa hex ja binäärimuunnin (muuntaa tiedoston hexadesmiaalisen muotoon eli sen binääridatana)
+- rev - tarkoittaa kääntö (reverse) eli kääntää annetun tekstin toisinpäin/peilikuvana esim. "Hello" --> "olleH"
+
 ```
 ┌──(kali㉿kali)-[~]
 └─$ echo "3d3d516343746d4d6d6c315669563362" | xxd -r -p | rev | base64 -d
@@ -556,9 +560,11 @@ Sitten _voila_ ja saattiin level 9:nen salasanansa.
 
 ![alt text](./kuvat-level6-10/level8-3.png)
 
+Tämä kokonaisuus tarkoittaa tyyppillisen menetelmän esim. piilotetun tiedon paljastamiseksi (CTF(Capture The Flag)-hakkerointihaasteissa tai tietoturvatutkimuksessa).
+
 ## salausmenetelmä
 
-Muutettaan jotakin sanaa ja/tai lausetta kohti salaiseksi kieleksi, että muutettuna tietokoneen omana kielenä. Tätä base64 on muutamia tapoja, mutta tämä on yksi niistä, mutta netistä löytyy ohjeitakin. 
+Muutettaan jotakin sanaa ja/tai lausetta kohti salaiseksi kieleksi, että muutettuna tietokoneen omana kielenä. Tätä base64 on muutamia tapoja, mutta tämä on yksi niistä, mutta netistä löytyy ohjeitakin.
 
 ```
 ┌──(kali㉿kali)-[~]
