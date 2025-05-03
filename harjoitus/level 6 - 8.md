@@ -562,9 +562,15 @@ Sitten _voila_ ja saattiin level 9:nen salasanansa.
 
 Tämä kokonaisuus tarkoittaa tyyppillisen menetelmän esim. piilotetun tiedon paljastamiseksi (CTF(Capture The Flag)-hakkerointihaasteissa tai tietoturvatutkimuksessa).
 
-## salausmenetelmä
+# salausmenetelmä
 
 Muutettaan jotakin sanaa ja/tai lausetta kohti salaiseksi kieleksi, että muutettuna tietokoneen omana kielenä. Tätä base64 on muutamia tapoja, mutta tämä on yksi niistä, mutta netistä löytyy ohjeitakin.
+
+
+Muutamia enkoodaus tyyppejä mm. base64, URL-enkoodaus, Hex ja jne. <br>
+🔹 Enkoodaus (encode) → Muuntaa tiedon toiseen muotoon, esimerkiksi Base64- tai heksadesimaaliseen muotoon. <br>
+🔹 Dekoodaus (decode) → Palauttaa enkoodatun tiedon takaisin alkuperäiseen muotoonsa.
+
 
 ```
 ┌──(kali㉿kali)-[~]
@@ -577,6 +583,16 @@ hei maailma
 ```
 
 
+## 🔧 Työkaluja, joita voit hyödyntää purkamisessa
+
+Kun kohtaat epäilyttävää tai salattua dataa web-sivustolla, voit käyttää seuraavia työkaluja datan purkamiseen, analysointiin ja käsittelyyn:
+
+| Tyyppi           | Työkalu                                                        |
+|------------------|----------------------------------------------------------------|
+| Perus-purku      | `base64`, `xxd`, `rev`, `cut`, `sed`, `awk`                    |
+| Analysointi      | `curl`, `burpsuite`, `httpie`, `wget`                          |
+| Käsittely        | Python (`binascii`, `base64`, `codecs`), PowerShell (`FromBase64String`) |
+| Online työkalut  | [CyberChef](https://gchq.github.io/CyberChef/), [dcode.fr](https://www.dcode.fr) |
 
 
 
