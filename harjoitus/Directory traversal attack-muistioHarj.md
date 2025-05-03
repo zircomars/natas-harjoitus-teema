@@ -24,12 +24,51 @@ Saattiin yhdestä/useammasta sivustosta vihjettä;
 
 2. seuraavaksi aloitettiin ottaa tuota tarjoamaa ettei ole tällaista tiedostoa ja/tai hakemiston polkua eli `/var/www/natas/natas7/index.php`- tässä tapauksessa kertoo, että tiedosto sijaitsee hakemistossa `/var/www/natas/natas7/`.
 
-Kuista päästääisiin maaliin asti? Käyttäen `/etc/natas_webpass/natas8` -tiedostoon ilman tarkkaa tietoa alkuperäisestä polusta, voisi lähteä oletuksesta, että sivusto pyörii web-palvelimen hakemistossa (`/var/www/`). Siitä voi arvioida tarvittavat siirtymät. Näin otettaan tämä tiedostopolkua `/var/www/natas/natas7/index.php` muutettaan `../` - merkintöjä päästäkseen ylöspäin hakemistorakennetta ja näin ollen haluttua kohdetta, ja se on oletuttu tiedostopolku siksi muuttuu näin `../../../../../../etc/natas_webpass/natas8`.
+Kuista päästääisiin maaliin asti? Käyttäen `/etc/natas_webpass/natas8` -tiedostoon ilman tarkkaa tietoa alkuperäisestä polusta, voisi lähteä oletuksesta, että sivusto pyörii web-palvelimen hakemistossa (`/var/www/`). Siitä voi arvioida tarvittavat siirtymät. Näin otettaan tämä tiedostopolkua `/var/www/natas/natas7/index.php` muutettaan `../` - merkintöjä päästäkseen ylöspäin hakemistorakennetta ja näin ollen haluttua kohdetta, ja se on oletuttu tiedostopolku siksi muuttuu näin `../../../../../../etc/natas_webpass/natas8`. Siksi tämä `../` alkaa `home` polusta alkaen, että korvautuu siihen tilalle.
+
 
 Periaatteessa tämä mahdollistaa **directory traversal** -hyökkäyksen, jossa pääset lukemaan tiedostoja, joita ei pitäisi olla saatavilla. Tästä syystä verkkopalveluiden pitäisi suojautua tällaiselta manipulaatiolta esimerkiksi **suodattamalla** `../`-merkinnät ja määrittämällä tiukat käyttöoikeudet tiedostoille.
 
+Sekä tämä on tärkeä pointti käytännön hyökkäyksissä tai CTF-tehtävissä, joissa ei tiedetä tarkkaa polkua (eli mistä hakemistosta `include()` suoritetaan). 
+
 ---
 
-# Mitä jos ei tiedetä, kuinka monta ../ tullaan syöttää?
+# Mitä tehdään, jos ei tiedetä kuinka monta `../?`
 
-# Vihjeitä sijainnista?
+Jos ei tiedetä, missä hakemistossa ollaan, voidaan kokeilla eri määriä `../`-tasoja ja toistaa yrityksiä kunnes osutaan oikeaan.
+
+esim. kokeilla näin; 
+```
+?page=../../etc/natas_webpass/natas8
+?page=../../../etc/natas_webpass/natas8
+?page=../../../../etc/natas_webpass/natas8
+?page=../../../../../etc/natas_webpass/natas8
+```
+
+Jatketaan, kunnes ei enää tule virhettä vaan sisältö ladataan. Tyypillisesti 4–6 kpl `../` riittää, jos ollaan jossain `/var/www/...` -rakenteessa.
+
+
+## Vihjeitä sijainnista?
+
+Jos saa virheilmoituksen kuten; `Warning: include(home/etc/...) in /var/www/natas/natas7/index.php`
+
+Tämä kertoo jo, että `index.php` sijaitsee hakemistossa `/var/www/natas/natas7/`. Nyt voidaan laskea tarvittavat `../` -tasot tarkasti:
+
+- /var (1)
+- /www (2)
+- /natas (3)
+- /natas7 (4)
+
+Yksi lisää, että päästään juureen: yhteensä 5 kpl `../`
+Eli `../../../../../etc/natas_webpass/natas8`
+
+
+## Jos mitään vihjettä ei ole?
+Jos PHP:n virheilmoituksia ei näytetä ollenkaan (esim. virheenkäsittely pois päältä), silloin pitää arvailla ja testata monta eri vaihtoehtoa, ja toivoa, että jossain vaiheessa saat oikean sisällön takaisin (esim. salasanan tai tunnistetekstin).
+
+---
+
+# Kali Linux - terminaalissa 
+
+
+
