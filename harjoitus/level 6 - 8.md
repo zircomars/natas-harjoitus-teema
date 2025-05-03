@@ -512,6 +512,28 @@ xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q
 
 # Level 8 - START HERE;
 
+Etusivussa on view sourcecode, joka viee tänne sivustolle eli `index-source.html` . Niin siinä on koodattu yksi pieni osa PHP-koodi, jossa on salainen salausmenetelmä koodipätkä, jonka pitäisi saada enkoodattuksi. Enkoodaus tarkoittaa "encode" siis enkoodattu joku salainen koodi jonka halutaan purkkaa takaisin sanaksi. Muutamia enkoodaus tyyppejä mm. base64, URL-enkoodaus, Hex ja jne.
+
+🔹 Enkoodaus (encode) → Muuntaa tiedon toiseen muotoon, esimerkiksi Base64- tai heksadesimaaliseen muotoon. 
+🔹 Dekoodaus (decode) → Palauttaa enkoodatun tiedon takaisin alkuperäiseen muotoonsa.
+
+
+
+## salausmenetelmä
+
+Muutettaan jotakin sanaa ja/tai lausetta kohti salaiseksi kieleksi, että muutettuna tietokoneen omana kielenä. Tätä base64 on muutamia tapoja, mutta tämä on yksi niistä, mutta netistä löytyy ohjeitakin. 
+
+```
+┌──(kali㉿kali)-[~]
+└─$ echo "hei maailma" | base64
+aGVpIG1hYWlsbWEK
+                                                                                                                        
+┌──(kali㉿kali)-[~]
+└─$ echo "aGVpIG1hYWlsbWEK" | base64 -d
+hei maailma
+```
+
+
 
 
 
