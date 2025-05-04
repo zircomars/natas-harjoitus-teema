@@ -22,9 +22,22 @@ natas9  ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t
 
 Tässä kappaleessa tapahtuu SQL injektiota, ja tässä tasossa käytettään puolikasta kaksoispistettä `;`. Miten tämä liittyy tähän haavoittuvuutteen ja tasoon? Koska SQL-injektiossa liittyy siihen, miten SQL-kyselyt voidaan ketjuttaa tai erottaa toisistaan. SQL-injektiossa hyökkääjä voi käyttää puolikasta kaksoispistettä ; lisätäkseen ylimääräisiä SQL-komentoja alkuperäiseen kyselyyn, mikä voi johtaa tietokannan manipulointiin tai tietojen vuotamiseen.
 
+Ensimmäisenä tarkistettaan koodit joko F12 / hiiren oikean klikkauksella, ja sama idea kuin aikaisempi taso (Level 8), jossa anna salainen koodi niin saadaan Level 10 salasanansa. Seuraavaksi sitten mennään **"view sourcode" välilehteen**.
+![alt text](./kuvat-level6-10/level9-0.png)
 
+Sama tässä "view sourcecode" sivuston välilehdessä toi pientä vihjettä, mutta ei paljoo - paitsi "dictionary.txt"
 
+![alt text](./kuvat-level6-10/level9-1.png)
 
+Sijoitin tiedoston polun URL linkkiin, mutta yhtäkkiä se onkin joku yleinen tiedosto kirjasto `/dictionary.txt`
+
+![alt text](./kuvat-level6-10/level9-2.png)
+
+## Level 9 - 1 selvittämistä
+
+Tässä välilehden sivustossa on koodattu PHP-koodkielellä (siinä välissä)
+
+![alt text](./kuvat-level6-10/level9-1.png)
 
 
 
