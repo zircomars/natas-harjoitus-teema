@@ -64,13 +64,30 @@ Harjoituksessa käytin kenttään; `;ls -l;` - jossa alkaa kaksois puolipiste ja
 ![alt text](./kuvat-level6-10/level9-3.png)
 
 
+Tässä välissä menin vähä monimutkaisesti, mutta harjoitus on harjoitus, ja hyväkin ymmärtää ja kulkeakin. Huomioina tässä välissä tarkistellin muita hakemistojen polkua, mutta en ois uskonut tässä hakemiston polussa on muitakin leveliä. Kuitenkin ei kannatta jäädä katsellee niitä, koska tämän *pelin* ideana mennä kohti vaikeammaksi ja vaikeammaksi.
+
+![alt text](./kuvat-level6-10/level9-4.png)
+
+![alt text](./kuvat-level6-10/level9-5.png)
+
+![alt text](./kuvat-level6-10/level9-6.png)
+
+![alt text](./kuvat-level6-10/level9-7.png)
+
+![alt text](./kuvat-level6-10/level9-8.png)
+
+![alt text](./kuvat-level6-10/level9-9.png)
+
+![alt text](./kuvat-level6-10/level9-10.png)
 
 
+## Level 9 - 3 the real answer
 
+Tämän virallisen helpoiten ja virallinen vastaus on syöttämällä tämä injektio vastaus kentälle, niin sitten toistuu virallinen Level 10:n salasansa eli `; cat /etc/natas/webpass/natas10`
 
+![alt text](./kuvat-level6-10/level9-11.png)
 
-
-
+![alt text](./kuvat-level6-10/level9-11-1.png)
 
 
 
