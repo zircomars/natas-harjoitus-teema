@@ -568,7 +568,7 @@ Tästä on hyvä myös varmistaakin, vaikka tämä onkin salausmenetelmä, mutta
 
 Tämä on aikaisempi Level 6 , syötettään salattu salasansa sinne formaattiin että menee sinne URL:iin kenttäänsä `└─$ curl -X POST -d "secret=FOEIUWGHFEEUHOFUOIU&submit=Submit" -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/`
 
-Nyt syötettään oma versio ja _voila_ , että ainakin toimii ja hyvän aikaisemman harjoittuksen mukaan.
+Nyt syötettään oma versio ja _voila_ , että ainakin toimii ja hyvän aikaisemman harjoituksen mukaan.
 
 ```
 ┌──(kali㉿kali)-[~]
@@ -599,12 +599,21 @@ Input secret: <input name=secret><br>
 </html>
 ```
 
-
+**miksi näin pelittää?**
+Koska tuolla (alempi kuva) forms elemetissä rivillä 16-19 Just tätä pitää ottaa huomioon, koska just siinä `<input> type = submit name=submit>` - on se mikä vaikuttaa curl komentoon, ja tätä pitää jäljittää siihen. Kentän `name=XXXX` on se ikään kuin määritettävä avain `key` , HTTP POST-datassa ja sen kirjainkoko täytyy täsmentyä curl-komennon mukaan.
 
 ![alt text](./kuvat-level6-10/level8-0.png)
 
+Pätee sama ideana muissa HTML lomakkeessa;
 
+| HTML-lomake                                  | Oikea `curl` POST-data                        |
+|----------------------------------------------|-----------------------------------------------|
+| `<input type="submit" name="submit">`        | `-d "secret=oubWYf2kBq&submit=submit"`        |
+| `<input type="submit" name="Submit">`        | `-d "secret=oubWYf2kBq&Submit=submit"`        |
+| `<input type="submit" name="GoButton">`      | `-d "secret=oubWYf2kBq&GoButton=submit"`      |
 
+📝 **Huom:** HTML-kenttien `name`-arvot ovat kirjainkoosta riippuvaisia (**case-sensitive**). <br> 
+`curl`-komennon täytyy käyttää täsmälleen samaa nimeä kuin lomakkeen kentässä, tai palvelin ei tunnista pyyntöä oikein.
 
 # salausmenetelmä
 
