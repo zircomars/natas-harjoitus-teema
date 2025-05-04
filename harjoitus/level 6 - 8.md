@@ -523,7 +523,7 @@ Etusivussa on view sourcecode, joka viee tänne sivustolle eli `index-source.htm
 
 ## Välivaihe
 
-Tässä tulee välivaiheet, että kuinka purettaan (ylempi) salattukoodi pätkänsä (3d3d516343746d4d6d6c315669563362) ja tämä tapahtuu Kali Linux:sessa, ettei turha kirjoitetta erillistä kappaleta.
+Tässä tulee välivaiheet, että kuinka purettaan (ylempi) salattukoodi pätkänsä (**3d3d516343746d4d6d6c315669563362**) ja tämä tapahtuu Kali Linux:sessa, ettei turha kirjoitetta erillistä kappaleta.
 
 1. Tämä on yksi tapa käyttäen Kali Linux PHP, jossa toistettaan se salattu koodi ja purettaan
   - ensin purettaan hex to bin (hex koodattu takaisin binääriksi)
@@ -561,6 +561,50 @@ Sitten _voila_ ja saattiin level 9:nen salasanansa.
 ![alt text](./kuvat-level6-10/level8-3.png)
 
 Tämä kokonaisuus tarkoittaa tyyppillisen menetelmän esim. piilotetun tiedon paljastamiseksi (CTF(Capture The Flag)-hakkerointihaasteissa tai tietoturvatutkimuksessa).
+
+## LEVEL 8 - 1 Kali Linux - START HERE;
+
+Tästä on hyvä myös varmistaakin, vaikka tämä onkin salausmenetelmä, mutta kokeillaan myös HTTP POST/PUT/DELETE eli niiden headeri requestit, että toistettaan tämä salausmenetelmän koodinsa sinne formaatti kenttäänsä.
+
+Tämä on aikaisempi Level 6 , syötettään salattu salasansa sinne formaattiin että menee sinne URL:iin kenttäänsä `└─$ curl -X POST -d "secret=FOEIUWGHFEEUHOFUOIU&submit=Submit" -H "Referer: http://natas6.natas.labs.overthewire.org/" -u "natas6:0RoJwHdSKWFTYR5WuiAewauSuNaBXned" http://natas6.natas.labs.overthewire.org/`
+
+Nyt syötettään oma versio ja _voila_ , että ainakin toimii ja hyvän aikaisemman harjoittuksen mukaan.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -X POST -d "secret=oubWYf2kBq&submit=submit" -H "Referer: http://natas8.natas.labs.overthewire.org/" -u "natas8:xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q" http://natas8.natas.labs.overthewire.org/
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas8", "pass": "xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q" };</script></head>
+<body>
+<h1>natas8</h1>
+<div id="content">
+
+Access granted. The password for natas9 is ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t
+<form method=post>
+Input secret: <input name=secret><br>
+<input type=submit name=submit>
+</form>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+![alt text](./kuvat-level6-10/level8-0.png)
+
+
+
 
 # salausmenetelmä
 
