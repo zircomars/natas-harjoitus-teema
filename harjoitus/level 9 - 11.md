@@ -61,6 +61,8 @@ Tässä harjoituksessa halutaan mennä kuin aikaisempi tasossa **(level 7)** ide
 
 Harjoituksessa käytin kenttään; `;ls -l;` - jossa alkaa kaksois puolipiste ja Linux list `-l` (long), ja kuvassa näkyy minkä toistin, niin se tuo sen tuloksensa.
 
+Näiden URL välilehdestä näkee, mitä toistin aikaisemmin ja kentässä on vain pientä toistoa, että mitä syötin.
+
 ![alt text](./kuvat-level6-10/level9-3.png)
 
 
@@ -90,7 +92,7 @@ Tämän virallisen helpoiten ja virallinen vastaus on syöttämällä tämä inj
 ![alt text](./kuvat-level6-10/level9-11-1.png)
 
 
-
+## Level 9 - 4 Kali Linux step - START HERE;
 
 
 
