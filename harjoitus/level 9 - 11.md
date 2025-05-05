@@ -263,12 +263,19 @@ Sekä tässä tapahtui  shell-komentoa (`grep`) ja `passthru()`-funktiota — mi
 
 natas10 t7I5VHvpa14sJTUGV0cbEsbYfFP2dmOu
 
+![alt text](./kuvat-level6-10/level10-0.png)
 
+![alt text](./kuvat-level6-10/level10-1.png)
 
+![alt text](./kuvat-level6-10/level10-2.png)
 
+![alt text](./kuvat-level6-10/level10-3.png)
 
+![alt text](./kuvat-level6-10/level10-4.png)
 
+![alt text](./kuvat-level6-10/level10-5.png)
 
+![alt text](./kuvat-level6-10/level10-6.png)
 
 
 
