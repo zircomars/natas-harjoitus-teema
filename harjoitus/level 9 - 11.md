@@ -263,7 +263,11 @@ Sekä tässä tapahtui  shell-komentoa (`grep`) ja `passthru()`-funktiota — mi
 
 natas10 t7I5VHvpa14sJTUGV0cbEsbYfFP2dmOu
 
+Nyt mennään sama idea kuin aikaisempi taso (**level 7 ja 9**), mutta nyt tässä tapahtuu yhdessä *view sourcecode* yhdessä PHP koodikielessä on estetty tiettyjä erikoismerkkejä. 
+
 ![alt text](./kuvat-level6-10/level10-0.png)
+
+periaatteessa tämä on se linux shell komentojen injektio estäminen eli ei voida käyttää enään `;` puoli kaksoispistettä ja siksi siinä lukee `if(preg_match..blahlbah)` tiettyä erikoismerkkejä estetty ja on mahdollista muita erikoismerkkiä saattavat toimia.
 
 ![alt text](./kuvat-level6-10/level10-1.png)
 
