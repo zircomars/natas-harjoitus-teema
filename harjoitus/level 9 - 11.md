@@ -292,10 +292,16 @@ Muita erikoismerkin testauksena ainakin samankaltainenkin toimii eli näkee URL 
 ![alt text](./kuvat-level6-10/level10-6.png)
 
 
+## Level 10 - Kali Linux version 
 
+Periaatteessa jos mentäisiin linux kautta niin menisi sama ideana kuin aikaisempi level 7 ja 9 mukaan, että joutu syöttää ja testailla useampi kerta sitä shell injektiota. Komennossa jouduttaisiin käyttää sitä formaatti lomaketta, ja muuttaa sitä komennon käskyä vähäsen.
 
+Tämä on se komento, mutta mikä sen formaattin avainsana onkaan, niin sitä pitää tarkistaa ja sama pätee erikoismerkien estämiset.
+`curl -X POST -d "needle=;ls -l;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org/`
 
+---
 
+# Level 11 - START HERE
 
 
 
