@@ -310,8 +310,15 @@ toi background color "#ffffff" on jo oletuksena valmiina kirjautuneena tähän l
 ![alt text](./kuvat-level11-15/level11-0.png)
 
 
+kokeilin toista väriä, et esim. joku risuaitta (#) jotakin, niin se kyllä toimii ja vain vaihtaa background color - ei mitään erikoista
+
 ![alt text](./kuvat-level11-15/level11-1.png)
 
+
+tarkistellaan viewsourcea seuraavaksi;
+ainakin ekana silmäyksellä näkyvin PHP koodia on tullut enemmän ja paljon funktiota ja if-else toimintoja. Ainakin muutamia toimintoja  kuten; ettei näytetä salasanaa jos syöttääisi `showpassword` , XOR-salaus (salaa tai purkaa tietoa XOR-opereaatiolla), tarkistaa käyttäjn evästeen dataa jotain sisältöä jsa saveData() - joka tallentaa kaikki tiedot uudelleen evästeeseen.
+
+ehkä tässä on jotakin vihjettä ja suoraan annettukin, joka liittyy evästeeseen ja XOR-salausta. Tässä idean on miten XOR-salausta voidaan murtaa jos tunetaan sekä salattu viestiä aj alkuperäisen viestiä (known plaintext attack)
 
 ![alt text](./kuvat-level11-15/level11-2.png)
 
