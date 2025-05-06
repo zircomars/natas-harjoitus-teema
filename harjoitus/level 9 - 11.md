@@ -271,13 +271,23 @@ periaatteessa tämä on se linux shell komentojen injektio estäminen eli ei voi
 
 ![alt text](./kuvat-level6-10/level10-1.png)
 
+Esim. kokeilin jotakin erikoismerkkiä, mitä tuossa PHP-koodissa on määritetty IF-lausessa. Siksi toistuu että **"input contains an illegal characters!"**
+
 ![alt text](./kuvat-level6-10/level10-2.png)
 
+Vain rajoitettu/tietty erikoismerkki toimii esim. tähti `*` --> `*ls -l*` ja voi olla jotakin erikoismerkkiä jos ovat kaksi yhdessä esim. piste ja tähti `.*` ja muita voi testata, mutta oman testauksena tässä harjoituksen levelissä menin jopa `.* $`
+
 ![alt text](./kuvat-level6-10/level10-3.png)
+
+Muutamista ja netistä etsitty vihjeitä, testattuna ainakin; `.* cat /etc/natas_webpass/natas11 .* ` - ja välilyönnitkin pitää olla mukana, jotta se formaatti ymmärtää, ja samankaltainen toimivakin `.* cat /etc/natas_webpass/natas11 $`.
+
+Tässä on se seuraavan levelin Natas11 salasansa.
 
 ![alt text](./kuvat-level6-10/level10-4.png)
 
 ![alt text](./kuvat-level6-10/level10-5.png)
+
+Muita erikoismerkin testauksena ainakin samankaltainenkin toimii eli näkee URL pääteestäkin (aikaisempi sama teksti); `.* cat /etc/natas_webpass/natas11 $`. Alkuun menevä `.*` ja päättyy dollari merkkiinsä.
 
 ![alt text](./kuvat-level6-10/level10-6.png)
 
