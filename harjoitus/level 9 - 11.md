@@ -303,11 +303,17 @@ Tämä on se komento, mutta mikä sen formaattin avainsana onkaan, niin sitä pi
 
 # Level 11 - START HERE
 
+natas11 - UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk
+
+toi background color "#ffffff" on jo oletuksena valmiina kirjautuneena tähän level 11 sivustoon ja etusivun oletuksen tekstin mukaan lukee näin ja vihjeenä *"Cookies are protected with XOR encryption"* 
+
+![alt text](./kuvat-level11-15/level11-0.png)
 
 
+![alt text](./kuvat-level11-15/level11-1.png)
 
 
-
+![alt text](./kuvat-level11-15/level11-2.png)
 
 
 
