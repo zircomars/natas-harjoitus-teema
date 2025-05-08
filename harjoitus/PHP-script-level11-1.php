@@ -16,7 +16,7 @@ function xor_encrypt($in) {
     return $outText;
 }
 
-//original cookie value 
+//original cookie value & small reminder; the cookie value will change and it might not stay same, because the server and website might be upgrade and update 
 $cookie = "HmYkBwozJw4WNyAAFyB1VUcqOE1JZjUIBis7ABdmbU1GIjEJAyIxTRg%3D";
 echo "Key = ";
 
