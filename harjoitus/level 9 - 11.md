@@ -578,6 +578,18 @@ Background color: <input name=bgcolor value="#ffffff">
 </html>
 ```
 
+## Level 11 - 4 muita ohjeita ja mini yhteenveto
+
+https://medium.com/@n01s/solving-natas-11-df246fcf7828 <br>
+https://samxia99.medium.com/overthewire-updated-natas-walkthrough-level-11-8567487106b4 <br>
+https://learnhacking.io/overthewire-natas-level-11-walkthrough/ <br>
+https://www.thezentester.com/natas11-natas12/ <br>
+https://www.youtube.com/watch?v=blNRSTBfyVA <br>
+https://www.youtube.com/watch?v=Xg7vXlZ04Og <br>
+
+olihan tämä vaikee, mutta perus ilman netistä antamia ohjeita menisi vaikeaksi ja tästähän menty vaikeammaksi tämän salausmentelmän kanssa. Sekä olihan siinä pitkän PHP-koodikielessä vinkkiä ja ohjetta ohjeistettu, mutta sitä pitää mietiä ja pähkäillä kuinka rakentu, että purkkaa sen `no` -> `yes` muotoon. Alunperin luulin muuttamalla sen vaan, mutta ei koska se vaikuttaa sen salauksen koodin muutoksensa.
+
+
 ---
 
 # LEVEL 12 - START HERE
