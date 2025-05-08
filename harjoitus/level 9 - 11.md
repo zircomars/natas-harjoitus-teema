@@ -447,6 +447,40 @@ location.reload();
 
 ## Level 11 - 3 viimeinkin
 
+Periaatteessa tämän alkuperäisen
+
+Mentiin yhden steppin mukaan niin syötettiin PHP-scripti koodilla ja sillä päästiin selville kuitenkin maaliin asti. 
+
+Eli Ekana tässä PHP koodi skriptissä tapahtuu näin;
+✅ "cookie se value + xor encryptaus + base64 enkoodaus" = **valmis eväste**
+
+```
+<?php
+
+function xor_encrypt($in) {
+    $key = json_encode(array( "showpassword"=>"no", "bgcolor"=>"#ffffff"));
+    $text = $in;
+    $outText = '';
+
+    // Iterate through each character
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+}
+
+//original cookie value 
+$cookie = "HmYkBwozJw4WNyAAFyB1VUcqOE1JZjUIBis7ABdmbU1GIjEJAyIxTRg%3D";
+echo "Key = ";
+echo xor_encrypt(base64_decode($cookie))
+
+?>
+```
+
+tuloksena on `Key = eDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeL`
+
+
 Nyt alkoi pelittää vihdoinkin eli ongelmana oli itsellä
 
 Nyt periaatteessa alkuperäisen tallennettun evästeestä korvataan uusi eväste avain
