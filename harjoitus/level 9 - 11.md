@@ -480,12 +480,34 @@ echo xor_encrypt(base64_decode($cookie))
 
 tuloksena on `Key = eDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeL`
 
+Tässä avaimen tuloksen tässä on toistettu `eDWo` muutaman kerran siksi pilkkosin näin luettavakseen `eDWo eDWo eDWo eDWo eDWo eDWo eDWoeDWoeDWoeDWoeL` 
+
 **Seuraavaksi** 
-Muutettaan näin;  array -> JSON -> XOR -> base64 niin saadaan uusi **data=-evästeen** oikeassa muodossa.
+Muutettaan näin;  array -> JSON -> XOR -> base64 niin saadaan uusi **data=-evästeen** oikeassa muodossa. Tämä on kuin samalainen aikaisempi skripti, mutta muutettu vähäsen. Sekä tässä skriptissä `xor_encrypt`-funktion sisällä oleva `$key = "eDWo"` on kovakoodattu avain, joka vaikuttaa salauksen lopputulokseen. Tämän avain perustuu ylempään tulokseensa siksi otin siitä yhden osan ja näin ollen päästään vielä viimeiseen asti. 
+
+```
+<?php
+
+function xor_encrypt($in) {
+    $key = "eDWo";
+    $text = $in;
+    $outText = '';
+
+    // Iterate through each character
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+}
+
+echo base64_encode(xor_encrypt(json_encode(array( "showpassword"=>"yes", "bgcolor"=>"#ffffff"))));
+
+?>
+```
 
 
-
-Nyt alkoi pelittää vihdoinkin eli ongelmana oli itsellä
+Nyt alkoi pelittää vihdoinkin eli ongelmana oli itsellä sen salausmenetelmän avain tuloksen kanssa.
 
 Nyt periaatteessa alkuperäisen tallennettun evästeestä korvataan uusi eväste avain
 
