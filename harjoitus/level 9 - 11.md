@@ -434,7 +434,7 @@ allow pasting
 document.cookie = "data=HmYkBwozJw4WNyAAFyB1VUc9MhxHaHUNAic4Awo2dVVHZzEJAyIxCUcY";
 location.reload();
 ```
-
+ 
 ![alt text](./kuvat-level11-15/level11-8.png)
 
 - Kolmas tapa on sama kuin toinen, mutta DEV tools-välilehdestä mentäisiin **Application** >> **Storage** >> **Cookies** ja kaksois klikkauks korvatakseen uuden eväste value siihen ja päivättää sivuston.
@@ -444,5 +444,65 @@ location.reload();
 ![alt text](./kuvat-level11-15/level11-6.png)
 
 ![alt text](./kuvat-level11-15/level11-7.png)
+
+## Level 11 - 3 viimeinkin
+
+Nyt alkoi pelittää vihdoinkin eli ongelmana oli itsellä
+
+Nyt periaatteessa alkuperäisen tallennettun evästeestä korvataan uusi eväste avain
+
+![alt text](./kuvat-level11-15/level11-8.png)
+
+Tuosta viimeisestä luvusta näkee ainakin se on muuttunut ja toki välissäkin jotakin muutosta tapahtunut, että sen koosta (oikeaman kateogrian luvun mukaan)
+
+![alt text](./kuvat-level11-15/level11-9.png)
+
+Sitten viimeisenä päivitä sivusto (refresh) tämä yhteys ja sitten _voila_ ja alkoi pelittää (eli vihdoinkin.
+
+![alt text](./kuvat-level11-15/level11-10.png)
+
+
+
+Viimeinen tarkastelut Kali linux:sessa 
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas11:UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk -b "data=HmYkBwozJw4WNyAAFyB1VUc9MhxHaHUNAic4Awo2dVVHZzEJAyIxCUc5" "http://natas11.natas.labs.overthewire.org"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas11", "pass": "UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk" };</script></head>
+
+<h1>natas11</h1>
+<div id="content">
+<body style="background: #ffffff;">
+Cookies are protected with XOR encryption<br/><br/>
+
+The password for natas12 is yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB<br>
+<form>
+Background color: <input name=bgcolor value="#ffffff">
+<input type=submit value="Set color">
+</form>
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
 
 
