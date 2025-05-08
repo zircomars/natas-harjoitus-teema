@@ -445,6 +445,28 @@ location.reload();
 
 ![alt text](./kuvat-level11-15/level11-7.png)
 
+## Level 11 - 2.5. salauskoodin muutos - START HERE
+
+Eli Tähän välikappale koskien tuota evästeen lukua (cookies value) muutosta, että miten se menekään, ja toki jälkimmäisen PHP skriptiä voi käyttää toisen vaihtoehtona että ei ole oikeata tai väärää menetelmää, kunhan pääsee sinne maaliin asti. 
+
+Ekana riittää netistä jonkun _online_ PHP koodipätkän ja pohjautuu HTML:ään esim. W3schools Tämä on se array-funktio osuus josta halutaan muuttaa jatkaista `no` --> `yes`.
+
+![alt text](./kuvat-level11-15/level11-2.5.png)
+
+seuraavaksi käytettään **Base64** + XOR cipher:iä, että annettaan aikaisempi PHP annettu koodi ja siitä tulotettuna ulos (output)  annetuksi avain koodi ja tätä joudutaan pilkkoa osiinsa ja siksi otettaan vain `eDWo` 
+
+![alt text](./kuvat-level11-15/level11-2.6.png)
+
+Tämä on vain kuin kääteisenä, että varmistan se on oikein ja tätä voi skippata (alempi kuva) 
+
+![alt text](./kuvat-level11-15/level11-2.7.png)
+
+Viimeisenä muutettusta otettaan käyttöön: XOR (avain koodi + UTF8 muodossa) + Base64, että tulostettuna saadaan se `yes` muutoksensa ja siksi Input tulee toi pieni koodipätkä
+
+![alt text](./kuvat-level11-15/level11-2.8.png)
+
+
+
 ## Level 11 - 3 viimeinkin
 
 Periaatteessa tämän alkuperäisen
@@ -556,7 +578,9 @@ Background color: <input name=bgcolor value="#ffffff">
 </html>
 ```
 
+---
 
+# LEVEL 12 - START HERE
 
 
 
