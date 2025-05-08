@@ -323,35 +323,126 @@ ehkä tässä on jotakin vihjettä ja suoraan annettukin, joka liittyy evästees
 ![alt text](./kuvat-level11-15/level11-2.png)
 
 
+## Level 11 - 2 selvittämistä ja steppiä
+
+Periaatteessa tuossa välilehden "view sourceode" - siellä PHP kielessä on annettu vihjeenä ja selvittämistä ja lukemista tässä vaattiikin.
+
+
+Tässä rivissä on määritetty oletus väri on valkoinen `#fffff`
+
+`$defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");`
+
+
+Tässä PHP-koodi rivissä kokoajan puhutaan sanalla `$data` , joka merkitsee jotakin ja viittaakin jotakin, että ohjaa sitä sanaa `bgcolor`.
+
+```
+<h1>natas11</h1>
+<div id="content">
+<body style="background: <?=$data['bgcolor']?>;">
+Cookies are protected with XOR encryption<br/><br/>
+
+<?
+if($data["showpassword"] == "yes") {
+    print "The password for natas12 is <censored><br>";
+}
+```
+
+
+Seuraavissa yhdessä riveissäkin on nimetyä funktiota, että tallentaa datansa ja jotakin asettaa evästettä ja muuttoksensa koskien salausmenetelmää **base64_encode(xor_encrypt(json_encode))**
+
+```
+function saveData($d) {
+    setcookie("data", base64_encode(xor_encrypt(json_encode($d))));
+}
+```
 
 
 
+Tässä funktiossa jotenkin se on muutettu tai tallennettu evästeeseen, että jos avainsana `data` täsmentyy muutettuksi salausmentelmään eli muutettu salaiseksi koodiksi niin näyttää sen virallisen salasanansa
+
+```
+function loadData($def) {
+    global $_COOKIE;
+    $mydata = $def;
+    if(array_key_exists("data", $_COOKIE)) {
+    $tempdata = json_decode(xor_encrypt(base64_decode($_COOKIE["data"])), true);
+    if(is_array($tempdata) && array_key_exists("showpassword", $tempdata) && array_key_exists("bgcolor", $tempdata)) {
+        if (preg_match('/^#(?:[a-f\d]{6})$/i', $tempdata['bgcolor'])) {
+        $mydata['showpassword'] = $tempdata['showpassword'];
+        $mydata['bgcolor'] = $tempdata['bgcolor'];
+        }
+    }
+    }
+    return $mydata;
+}
+```
+
+## XOR cipher - lyhyesti
+XOR cipher on yksinkertainen salaustekniikka, joka perustuu bitin vertailuun ja manipulointiin. Se toimii käyttämällä XOR-operaatiota (engl. exclusive OR) salaamiseen ja purkamiseen.
 
 
+**Miten se toimii?**
+Jokainen bitti (0 tai 1) salattavassa tiedossa yhdistetään avaimen bittiin käyttämällä XOR-operaatiota.
 
+XOR-operaatio palauttaa 1, jos kaksi bittiä ovat erilaisia, ja 0, jos ne ovat samoja.
 
+Salaaminen ja purkaminen ovat symmetrisiä: kun salattu tieto XORataan samalla avaimella, alkuperäinen tieto palautuu.
 
+Esim. A kirjain (ASCII: 01000001 - eli bitteinä) ja käytettään XOR salauksen avainta (00101100) 
 
+```
+01000001  (A)
+XOR 00101100  (avain)
+------------
+01101101  (salattu data)
+```
 
+Vaikka XOR cipher on helppo ja nopea, se ei ole kovin turvallinen yksinään, koska yksinkertainen avaimen toistaminen tekee sen haavoittuvaksi hyökkäyksille. Sitä käytetään usein osana monimutkaisempia kryptografisia järjestelmiä.
 
+XOR cipher perustuu siihen, että valitset avaimen, joka voi olla mikä tahansa bittijono. Tämä avain ei ole kiinteä, eli se voi vaihtua joka kerta, kun haluat salata uuden sanan tai lauseen.
 
+## Level 11 - 2 salausmentelmän prosessi
 
+Takaisin salausmentelmän prosessiin, ja perus etsii lisätietoa netistä kuinka tämä taso-harjoitus on ratkaistettukaan ja tapoja on monta. PHP-koodissa on määritetty näin; `$defaultdata = array( "showpassword"=>"no", "bgcolor"=>"#ffffff");` - niin tätä yrittään ratkaista.
 
+Periaatteessa oletuksena se on antanutkin vihjeenä, että ekana kirjauttuessa sivustoon "background color: #fffff" - normaalisti syötin satunnaisen värikoodin niin se ainakin tallensin evästeeksi (cookies). Seuraavan kerran kun menen tähän samaan level 11 sivustoon niin se on se sama satunnainen väri minkä annoin esim. vaaleasininen.
 
+**cookies eväste**
+Tässä osa-aleuissaan tapahtuu; eväste, XOR-salaus ja tarkkan JSON-muoto. 
+Chrome evästeen tarkistus steppi; F12 >> application (sovellus) >> "Storage" >> "coookies". 
 
+Tämän valkoinen `#fffff` sen cookies value tallennettu data joka on URL-enkoodattu(encoded) arvo `HmYkBwozJw4WNyAAFyB1VUcqOE1JZjUIBis7ABdmbU1GIjEJAyIxTRg%3D` - koska merkki `=` joka on korvattu muodolla `%3D`.
 
+![alt text](./kuvat-level11-15/level11-3.png)
 
+Kun laitettaan **show URL decoded** niin lukee näin; `HmYkBwozJw4WNyAAFyB1VUcqOE1JZjUIBis7ABdmbU1GIjEJAyIxTRg=` - koska tämä on purettu (decoed) arvo. Pieni huomiona evästeiden luku saattaa muuttua mm. palvelimen/sivuston/järjestelmän päivityksen takia, että ei mene ihan kuin nettien löytämien ohjeiden mukaan.
 
+**Miksi näin tehdään?**
+Joissakin tapauksissa evästeen sisältö voi sisältää erikoismerkkejä (esim. =, ;, &), jotka voisivat aiheuttaa ongelmia HTTP-otsikoissa, joten ne enkoodataan turvalliseen URL-muotoon. Selain ja palvelin osaavat dekoodata ne takaisin oikeaan muotoon.
 
+Seuraavaksi huomattaan PHP-funktiossa luke näin `showpassword=no` - mutta me haluttaan muuttaa se `showpassword=yes`. Nyt jouduttaan käyttää XOR decryptiä, mutta ongelmana meillä ei ole avainta, ja joten jouduttaan siksi käyttää tätä funktionkutusa `setcookie("data", base64_encode(xor_encrypt(json_encode($d))));`
 
+![alt text](./kuvat-level11-15/level11-4.png)
 
+Tässä harjoituksessa on menty monta tapaa, mutta suurin osatkin menee vaikeaksi eli ideana on vain muuttaa tämä funktio osuus `{"showpassword":"yes","bgcolor":"#ffffff"}` muotoon, ja siitä saa sen evästeet (cookies value) ja korvatakanseen kieletyn `no` osuuden. Niin näin saattaisiin seuraavan levelin 12 salasansa. 
 
+- Yksi tapa on curl komentoja löytyy, mutta se menisi näin sitten: `$curl -u natas11:UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk -b "data=<newCookiesValue>" http://natas11.natas.labs.overthewire.org`
 
+- Toinen tapa avaa F12/inspect DEV tools-välilehden, josta ensin pitää sallia copy paste ja sitten syöttämällä uuden evästeen luvun ja päivittääkseen sivuston sivun.
+```
+allow pasting
+document.cookie = "data=HmYkBwozJw4WNyAAFyB1VUc9MhxHaHUNAic4Awo2dVVHZzEJAyIxCUcY";
+location.reload();
+```
 
+![alt text](./kuvat-level11-15/level11-8.png)
 
+- Kolmas tapa on sama kuin toinen, mutta DEV tools-välilehdestä mentäisiin **Application** >> **Storage** >> **Cookies** ja kaksois klikkauks korvatakseen uuden eväste value siihen ja päivättää sivuston.
 
+![alt text](./kuvat-level11-15/level11-5.png)
 
+![alt text](./kuvat-level11-15/level11-6.png)
 
-
+![alt text](./kuvat-level11-15/level11-7.png)
 
 
