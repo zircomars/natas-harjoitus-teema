@@ -451,7 +451,7 @@ Periaatteessa tämän alkuperäisen
 
 Mentiin yhden steppin mukaan niin syötettiin PHP-scripti koodilla ja sillä päästiin selville kuitenkin maaliin asti. 
 
-Eli Ekana tässä PHP koodi skriptissä tapahtuu näin;
+Eli Ekana tässä PHP koodi skriptissä tapahtuu näin; <br>
 ✅ "cookie se value + xor encryptaus + base64 enkoodaus" = **valmis eväste**
 
 ```
@@ -479,6 +479,10 @@ echo xor_encrypt(base64_decode($cookie))
 ```
 
 tuloksena on `Key = eDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeL`
+
+**Seuraavaksi** 
+Muutettaan näin;  array -> JSON -> XOR -> base64 niin saadaan uusi **data=-evästeen** oikeassa muodossa.
+
 
 
 Nyt alkoi pelittää vihdoinkin eli ongelmana oli itsellä
