@@ -592,14 +592,6 @@ https://www.youtube.com/watch?v=Xg7vXlZ04Og <br>
 olihan tämä vaikee, mutta perus ilman netistä antamia ohjeita menisi vaikeaksi ja tästähän menty vaikeammaksi tämän salausmentelmän kanssa. Sekä olihan siinä pitkän PHP-koodikielessä vinkkiä ja ohjetta ohjeistettu, mutta sitä pitää mietiä ja pähkäillä kuinka rakentu, että purkkaa sen `no` -> `yes` muotoon. Alunperin luulin muuttamalla sen vaan, mutta ei koska se vaikuttaa sen salauksen koodin muutoksensa.
 
 
----
-
-# LEVEL 12 - START HERE
-
-
-
-
-
 
 
 
