@@ -5,7 +5,7 @@ Eli perus harjoittuksien kannalta kertyy ja taso menee vaikeammaksi ja vaikeamma
 - tarkista sivuston koodit ja onko siellä vihejeitä joko avamalla F12, tai joko sivustolta oikea hiirellä "inspect" - ja katso onko koodissa mitään `username:password`
   - tarkista onko tiedoston polussa mitään polkuaja kuten `/file/image.jpg`, eli poista image.jpg , ja mene `/file`- polkuun, ja tarkista onko mahdollista olla .txt tiedostoa tai muuta arkistoa
   - lisää url polkuun `/robots.txt` , jos ois robots tiedosto, niin siellä voi lukea lisä vinkkejä. Todellisuudessaan kaikilla sivustoilla ei ole robots.txt-tiedostoa, koska sen käyttö ei ole pakollista. Jotkut haluavat hakukoneiden indeksoivan kaiken, kun taas toiset eivät tarvitse erityisiä rajoituksia. Ilman tätä tiedostoa hakukoneet voivat silti yrittää indeksoida kaikki löydettävissä olevat sivut, ellei muita estomekanismeja ole käytössä.
-  - muutamissa tasoissa on **view sourcecode**, joka kertoo tämän tason vihjeitä se ohjeistaa usein uuden välilehden `index-source.html`, ja siellä voi olla pientä apua hakkerille, että miten purettaan seuraavan tason salasansa.
+  - muutamissa tasoissa on **view sourcecode**, joka kertoo tämän tason vihjeitä se ohjeistaa usein uuden välilehden `/index-source.html`, ja siellä voi olla pientä apua hakkerille, että miten purettaan seuraavan tason salasansa.
 
 ## curl komentoja
 
@@ -21,6 +21,13 @@ käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutt
 `$curl -u natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org`
 
 ### evästeen hakeminen
+
+Oletuksena sivustosta voi tarkistaa evästeen esim. Chrome DEV työkalusta ja steppi menee: (F12/ oikea hiiren klikkaus **inspect**), sieltä välilehdestä kuin **application** --> **storage** >> **cookies** ja sieltä listasta valitsee tämän kyseisen sivuston mukaisen mitä datoja löytyy. 
+
+Tämä on esimerkki (alempi kuva), mutta idea on sama ja tuotannossa *cookies* listauksia voi olla enemmän kuin yksi:
+![alt text](./kuvat/level5-7.1.png)
+
+
 
 loggin muutettu 0 (false) --> 1 (true)
 
