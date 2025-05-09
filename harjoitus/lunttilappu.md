@@ -6,6 +6,7 @@ Eli perus harjoittuksien kannalta kertyy ja taso menee vaikeammaksi ja vaikeamma
   - tarkista onko tiedoston polussa mitään polkuaja kuten `/file/image.jpg`, eli poista image.jpg , ja mene `/file`- polkuun, ja tarkista onko mahdollista olla .txt tiedostoa tai muuta arkistoa
   - lisää url polkuun `/robots.txt` , jos ois robots tiedosto, niin siellä voi lukea lisä vinkkejä. Todellisuudessaan kaikilla sivustoilla ei ole robots.txt-tiedostoa, koska sen käyttö ei ole pakollista. Jotkut haluavat hakukoneiden indeksoivan kaiken, kun taas toiset eivät tarvitse erityisiä rajoituksia. Ilman tätä tiedostoa hakukoneet voivat silti yrittää indeksoida kaikki löydettävissä olevat sivut, ellei muita estomekanismeja ole käytössä.
   - muutamissa tasoissa on **view sourcecode**, joka kertoo tämän tason vihjeitä se ohjeistaa usein uuden välilehden `/index-source.html`, ja siellä voi olla pientä apua hakkerille, että miten purettaan seuraavan tason salasansa.
+  - kantsii testata onko mahdollista käyttää injektiota päästäkseen selvittää Natas tiedostohakemistoa ja sitä juurta `/etc/natas_webpass/natasX` - Tämä myös pätee URL perään, että voiko/kertoa vihjeitä tallennettun tiedoston polkua, että menee tähän hakemistoon. esim. `http://natas7.natas.labs.overthewire.org/index.php?page=../../../../../../etc/natas_webpass/natas8`
 
 ## curl komentoja
 
@@ -20,13 +21,21 @@ käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutt
 - tässäkin ekana on toistettaan se nykyinen level ja se salasansa, että haettaan seuraava leveli; <br>
 `$curl -u natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ --referer http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org`
 
-### evästeen hakeminen
+- tässä komennossa tapahtuu ensimmäisenä -u käyttäjän autentikoinnin vahvistaminen `<username:password`, seuraavaksi `-b` niin lähettää HTTP-pyynnön mukana evästeen joka on nimetty uusi data="VALUE". Tätä data kantsii tarkistaa sivuston evästeen nimestä, koska se nimi saatta olla nimetty muulla nimityksellä. Lähetetyn tämän pyynnön jälkeen se tallentuu siihen istuntoon ja kannattaa päivittää sivustoa, että muuttuiko mitään. 
+`curl -u "natas11:UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk" -b "data=<NewValue>" http://natas11.natas.labs.overthewire.org/`
+
+
+- Tässä versiossa tapahtuu lähettää POST `-d` formaatti kenttään jos on ja vaikuttaa nimeämiseen, sitten käyttäen shell/linux komennon  injektiota ja sit vaan submit=submit (tätä kantsii tarkistaa HTML formaatti nimeämistä) ja -H palvelimen **Referer** headeriä, sitte -u käyttäjän autentikoinnin vahvistamista.
+`curl -X POST -d "needle=;ls -l;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org`
+
+
+
+## evästeen hakeminen
 
 Oletuksena sivustosta voi tarkistaa evästeen esim. Chrome DEV työkalusta ja steppi menee: (F12/ oikea hiiren klikkaus **inspect**), sieltä välilehdestä kuin **application** --> **storage** >> **cookies** ja sieltä listasta valitsee tämän kyseisen sivuston mukaisen mitä datoja löytyy. 
 
 Tämä on esimerkki (alempi kuva), mutta idea on sama ja tuotannossa *cookies* listauksia voi olla enemmän kuin yksi:
 ![alt text](./kuvat/level5-7.1.png)
-
 
 
 loggin muutettu 0 (false) --> 1 (true)
