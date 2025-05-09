@@ -546,7 +546,9 @@ Sitten viimeisenä päivitä sivusto (refresh) tämä yhteys ja sitten _voila_ j
 
 
 Viimeinen tarkastelut Kali linux:sessa 
-
+- alkuun perus `-u` (user) käytttäjän vahvistaminen perusautentikointi _username:password_
+- seuraavaksi: `-b` (cookie data) - tässä tapauksessa lähettää HTTP-pyynnön mukana evästeen joka on nimetty uusi **data="VALUE"**. Tätä `data` kantsii tarkistaa sivuston evästeen nimestä, koska se nimi saatta olla nimetty muulla nimityksellä.
+- Viimeisenä kohti sitä osoitetta mistä halutaan tehdä se HTTP pyynnön prosessi.
 ```
 ┌──(kali㉿kali)-[~]
 └─$ curl -u natas11:UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk -b "data=HmYkBwozJw4WNyAAFyB1VUc9MhxHaHUNAic4Awo2dVVHZzEJAyIxCUc5" "http://natas11.natas.labs.overthewire.org"
