@@ -4,7 +4,7 @@ natas12 is yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB
 
 Perus ekana tarkistellaan, mitä tässä on koodattukaan 
 
-![alt text](/kuvat-level11-15/natas12-0.png)
+![alt text](./kuvat-level11-15/natas12-0.png)
 
 Jotenkin tässä harjoituksessa huomataan PHP-koodikielestä että **JPEG** - kuva tiedosto maksimi on 1KB (MAX_FILE_SIZE).
 
