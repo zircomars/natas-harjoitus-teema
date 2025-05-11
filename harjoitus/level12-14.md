@@ -97,6 +97,7 @@ Muista välissä sulkea toi **intercept** , koska jos jatkuvasti seurataan pelkk
 
 Tämä on jotakin tarkistusta, mutta varmuuden vuoksi otin screenshotin.
 
+![alt text](./kuvat-level11-15/natas12-18.png)
 
 Nyt alemmassa kuvassa huomioina toi **URL** kentässä näkyy lisäsin perään *Vastaus=ls* - koska oma testi tiedoston koodi pätkässsä on se **"Vastaus"** sana ja katsotaan löytääkö sen mistään skriptien ja muualta hakemiston alta. Tuloksena antoi jotakin loorem ipsum hebreeta dataa.
 
@@ -105,7 +106,7 @@ http://natas12.natas.labs.overthewire.org/upload/am34u6tos4.php?Vastaus=ls
 ls (linux komento $ls)
 ```
 
-![alt text](./kuvat-level11-15/natas12-18.png)
+![alt text](./kuvat-level11-15/natas12-19.png)
 
 
 ** Seuraavaksi**:
@@ -116,7 +117,7 @@ testataan hakemiston tiedoston URL kuin **=cat /etc/natas_webpass/natas13** - ja
 
 Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
 
-![alt text](./kuvat-level11-15/natas12-19.png)
+![alt text](./kuvat-level11-15/natas12-20.png)
 
 ---
 
