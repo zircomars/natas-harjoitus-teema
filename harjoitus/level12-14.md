@@ -72,9 +72,25 @@ Samanaikaisesti kun tarkistaa **Burp Suite** ohjelman HTTP historiasta että nä
 
 ![alt text](./kuvat-level11-15/natas12-12.png)
 
+Tämä on sama kuin ylempi kuva, mutta oikealle lisäsin ton firefox selaimen, että varmistettaan on tosi id.
 ![alt text](./kuvat-level11-15/natas12-13.png)
 
+**Seuraavaksi**;
+Varmistettaan toi "intercept" on otettu ja kaapattu tämä natas 12 level sivuston tietoja, koskevien tuota upotettu *.php* koodia palvelimelle.
 
+![alt text](./kuvat-level11-15/natas12-14.png)
+
+
+Sitten vaan muuttaa ton **.jpg** kuvan tiedoston **.php**:ksi, ja klikkauksesta **Forward** - niin tämä Burp suite ohjelma lähettää sen HTTP pyynnön sinne Firefox selaimeen.
+
+![alt text](./kuvat-level11-15/natas12-15.png)
+
+
+Vastaan otettu Burp Suite ohjelman Forward - HTTP pyyntö (ylemän kuvan toiminnasta) ja tänne muuttuu se *.php* tiedosto. 
+
+![alt text](./kuvat-level11-15/natas12-16.png)
+
+Muista välissä sulkea toi **intercept** , koska jos jatkuvasti seurataan pelkkää tätä linkkiä niin ei toimi ja muutettun jälkeen
 
 
 
