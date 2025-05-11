@@ -93,7 +93,35 @@ Vastaan otettu Burp Suite ohjelman Forward - HTTP pyyntö (ylemän kuvan toiminn
 
 Muista välissä sulkea toi **intercept** , koska jos jatkuvasti seurataan pelkkää tätä linkkiä niin ei toimi ja muutettun jälkeen
 
+![alt text](./kuvat-level11-15/natas12-17.png)
+
+Tämä on jotakin tarkistusta, mutta varmuuden vuoksi otin screenshotin.
 
 
+Nyt alemmassa kuvassa huomioina toi **URL** kentässä näkyy lisäsin perään *Vastaus=ls* - koska oma testi tiedoston koodi pätkässsä on se **"Vastaus"** sana ja katsotaan löytääkö sen mistään skriptien ja muualta hakemiston alta. Tuloksena antoi jotakin loorem ipsum hebreeta dataa.
+
+```
+http://natas12.natas.labs.overthewire.org/upload/am34u6tos4.php?Vastaus=ls
+ls (linux komento $ls)
+```
+
+![alt text](./kuvat-level11-15/natas12-18.png)
+
+
+** Seuraavaksi**:
+testataan hakemiston tiedoston URL kuin **=cat /etc/natas_webpass/natas13** - ja tätä sijoittuu sinne URL peräänsä siksi lukee näin:
+
+`http://natas12.natas.labs.overthewire.org/upload/am34u6tos4.php?Vastaus=cat%20/etc/natas_webpass/natas13`
+<br><br>
+
+Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
+
+![alt text](./kuvat-level11-15/natas12-19.png)
+
+---
+
+## Level 12 - 3 - Kali Linux steppi START HERE;
+
+Tämä on vain sivullinen Kali linux versio, että vähä kuin mentäisiin käyttöliittymän ja selaimen version kautta, ja aina harjoituksen toinen vaihtoehtoinen valinta.
 
 
