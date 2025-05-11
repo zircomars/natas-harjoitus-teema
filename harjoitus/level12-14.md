@@ -52,3 +52,31 @@ HTTP pyynnöstä lähetettyn jälkeen kannattaa päivittää tämä sivusto norm
 Tämän jälkeen kaksois klikkaa sitä tiedostoa (ylemmän kuvan) mukaista liitettä niin avattuna niin se kertoo tämän **testi.php** skripti/koodi sisällön ja se on _Hello World!_ .
 
 ![alt text](./kuvat-level11-15/natas12-9.png)
+
+
+## Level 12 - 3 - find the password
+
+Nyt tässä kappaleessa alettaan selvittää sitä seuraavan level 13 salasansa ja tässä harjoituksessa tapahtui/tapahtui kaltainen tyyppinen kuin etsitään sitä hakemiston polkua eli **/etc/natas_webpass/natasX** . 
+
+
+Seuraavaksi loin tällaiset HTTP GET skriptin PHP-koodikielellä ja riittää tekstiin sisälle voi olla jotakin, mutta parhaimmillaan että itse tietää ja mahdollisimman lyhyeksi.
+ <br>
+`<?php passthru($_GET['Vastaus']); ?>` <br> - Sitten upotetun jälkeen normi "Upload file" ja sen jälkeen huomaa tiedosto on upotettu palvelimeen ja muutettu kuvaksi. 
+
+![alt text](./kuvat-level11-15/natas12-10.png)
+
+![alt text](./kuvat-level11-15/natas12-11.png)
+
+
+Samanaikaisesti kun tarkistaa **Burp Suite** ohjelman HTTP historiasta että näkee sen saman upotettun tiedoston nimensä (**testi2.php**) ja kuvan tiedoston nimi.
+
+![alt text](./kuvat-level11-15/natas12-12.png)
+
+![alt text](./kuvat-level11-15/natas12-13.png)
+
+
+
+
+
+
+
