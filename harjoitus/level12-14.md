@@ -109,7 +109,7 @@ ls (linux komento $ls)
 ![alt text](./kuvat-level11-15/natas12-19.png)
 
 
-** Seuraavaksi**:
+**Seuraavaksi**: <br>
 testataan hakemiston tiedoston URL kuin **=cat /etc/natas_webpass/natas13** - ja tätä sijoittuu sinne URL peräänsä siksi lukee näin:
 
 `http://natas12.natas.labs.overthewire.org/upload/am34u6tos4.php?Vastaus=cat%20/etc/natas_webpass/natas13`
@@ -125,4 +125,14 @@ Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
 
 Tämä on vain sivullinen Kali linux versio, että vähä kuin mentäisiin käyttöliittymän ja selaimen version kautta, ja aina harjoituksen toinen vaihtoehtoinen valinta.
 
+
+## Level 12 - 4 - vinkkejä ja ohjeita:
+
+https://samxia99.medium.com/overthewire-updated-natas-walkthrough-level-12-0688ea43ef92 <br>
+
+https://nils-maeurer.de/post/overthewire-natas12-13/ <br>
+
+https://learnhacking.io/overthewire-natas-level-12-walkthrough/ <br>
+
+https://medium.com/@enesaladag/overthewires-natas12-3c6e7ce72900 <br>
 
