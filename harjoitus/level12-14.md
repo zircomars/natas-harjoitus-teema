@@ -119,11 +119,14 @@ Näin _voila_ saattiin tämän seuraavan level 13 salasansa.
 
 ![alt text](./kuvat-level11-15/natas12-20.png)
 
+![alt text](./kuvat-level11-15/natas12-21.png)
+
+
 **Mini yhteenveto**:
 Tässä harjoituksessa tapahtuu tiedoston upottaminen, mutta siinä tapahtui haavoittuvuutta joka on nimellä (Unrestricted File Upload).
 
 <br><br>
-Unrestricted File Upload -haavoittuvuus syntyy, kun järjestelmä sallii käyttäjien ladata tiedostoja ilman asianmukaisia tarkistuksia, kuten tiedostotyypin tai koon rajoittamista. Jos tätä ei ole kontrolloitu, hyökkääjä voi ladata haitallisia tiedostoja, kuten skriptejä tai suoritettavia ohjelmia, jotka voivat vaarantaa järjestelmän. Kun haavoittuvuus on "exploitable", se tarkoittaa, että hyökkääjät voivat käyttää sitä käytännössä hyväkseen.
+**Unrestricted File Upload** -haavoittuvuus syntyy, kun järjestelmä sallii käyttäjien ladata tiedostoja ilman asianmukaisia tarkistuksia, kuten tiedostotyypin tai koon rajoittamista. Jos tätä ei ole kontrolloitu, hyökkääjä voi ladata haitallisia tiedostoja, kuten skriptejä tai suoritettavia ohjelmia, jotka voivat vaarantaa järjestelmän. Kun haavoittuvuus on "exploitable", se tarkoittaa, että hyökkääjät voivat käyttää sitä käytännössä hyväkseen.
 
 ---
 
