@@ -18,7 +18,7 @@ Periaatteessa upotin jonkun satunnaisen kuvatiedoston ja testiä ainakin toimii 
 
 ## Level 12 - 2 - some testing 
 **Virallinen testi ja selvitettään level 12 salasansa** <br>
-Perus selvittämistä ja etsitään netistä lisää ohjeita ja lisätietoa, mutta siellä on jotakin testejä että upottaa PHP-koodikielisen scriptin. Rakensin simppelin PHP koodikielen pikaisesti joku **Hello world** Kali Linux:seen , `testi1.php`. Huomioina ennen kuin upottaa ton PHP-scriptin testin sinne Natas12 harjoitukseen, niin avaa ohjelmisto työkalu kuin **Burp Suite**. Tämän ohjelma tarjoaa Kali Linux ohjelman alustalla, ja sen versio on suht kattava ettei tarvitse olla mitään _pro / subscribe_ versiot
+Perus selvittämistä ja etsitään netistä lisää ohjeita ja lisätietoa, mutta siellä on jotakin testejä että upottaa PHP-koodikielisen scriptin. Rakensin simppelin PHP koodikielen pikaisesti joku **Hello world** Kali Linux:seen , `testi1.php`. Huomioina ennen kuin upottaa ton PHP-scriptin testin sinne natas12 harjoitukseen, niin avaa ohjelmisto työkalu kuin **Burp Suite**. Tämän ohjelma tarjoaa Kali Linux ohjelman alustalla, ja sen versio on suht kattava ettei tarvitse olla mitään _pro / subscribe_ versiot
 
 **Burp Suite**:ssa riittää avaa _History_ välilehden ja seuraa sieltä tarkasti sivussa, kun on upottanut PHP-koodi scriptin Natas 12 levelin alle. Ei ole pakko olla PHP-koodia , että uskon varmasti perus "Hi" tai jotakin tekstiä/sanaa voi syöttää ja ideana se liitteen tiedoston perässä on nimetty **.php**.
 
@@ -132,7 +132,7 @@ Tässä harjoituksessa tapahtuu tiedoston upottaminen, mutta siinä tapahtui haa
 
 ## Level 12 - 3 - Kali Linux steppi START HERE;
 
-Tämä on vain sivullinen Kali linux versio, että vähä kuin mentäisiin käyttöliittymän ja selaimen version kautta, ja aina harjoituksen toinen vaihtoehtoinen valinta.
+Tämä on vain sivullinen Kali linux versio, että vähä kuin mentäisiin käyttöliittymän ja selaimen version kautta, ja aina harjoituksen toinen vaihtoehtoinen valinta. Tässä stepissä ei tarvittu **Burp Suite** työkalu ohjelmansa, että riittää runnaa pelkän terminaalinsa.
 
 - `curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org"`
 
@@ -202,7 +202,7 @@ The file <a href="upload/q7r2uzojcg.php">upload/q7r2uzojcg.php</a> has been uplo
 
 Siksi tuleksena ja kun tarkistettaan se URL linkki ja perään toi *upload* tiedostonsa, eli `upload/q7r2uzojcg.php` --> http://natas12.natas.labs.overthewire.org/upload/q7r2uzojcg.php
 
-![alt text](./kuvat-level11-15/Natas12-Kali-1.png)
+![alt text](./kuvat-level11-15/natas12-Kali-1.png)
 
 Seuraavaksi halutaan selvittää Natas 13:sen salasansa, mutta periaatteessa samalla ideana ja muuttaa tämän `<?php phpinfo(); ?>` - PHP koodinsa muuttaen haettavaksi hakemiston polun `/etc/natas_webpass/natas13` - ja koska me halutaan määrittää sen samana ideana nuolikärjellä ulos > *tiedosto.php*
 
@@ -224,11 +224,11 @@ PHP Warning:  file_get_contents(/etc/natas_webpass/natas13): Failed to open stre
 $p = file_get_contents("/etc/natas_webpass/natas13"); echo $p;
 ```
 
-![alt text](./kuvat-level11-15/Natas12-Kali-2.png)
+![alt text](./kuvat-level11-15/natas12-Kali-2.png)
 
 
 **Seuraavaksi, viralliset testit ja maaliin asti - START HERE**
-Kuitenkin aikaisempien säätöä ohjeiden ja vinkkien kanssa mutta nyt päästiin maaliin asti kutienkin.
+Kuitenkin aikaisempien säätöä ohjeiden ja vinkkien kanssa mutta nyt päästiin maaliin asti kutienkin. Tässä joutuu aloittaa ikään kuin melkein alusta, mutta toi **PHP-info** kuva oli ainakin yksi toimiva osuus ja jotakin uutta sentään.
 
 ```
 ┌──(kali㉿kali)-[~]
@@ -260,7 +260,7 @@ trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC
 
 ```
 
-![alt text](./kuvat-level11-15/Natas12-Kali-3.png)
+![alt text](./kuvat-level11-15/natas12-Kali3.png)
 
 
 ## Level 12 - 4 - vinkkejä ja ohjeita:
@@ -274,7 +274,12 @@ https://learnhacking.io/overthewire-natas-level-12-walkthrough/ <br>
 https://medium.com/@enesaladag/overthewires-natas12-3c6e7ce72900 <br>
 
 **Mini yhteenveto**: 
+perus vaikeammaksi menee sitä mennään, mutta alku on perus se ei tiedetä miten se menekään ja siitä vähitelen ymmärtää. 
 
 ---
 
 # Level 13 - START HERE
+
+Kuulemma tai jotakin netistä löytyi tämä on samankaltainen steppi kuin **Level 12**.
+
+
