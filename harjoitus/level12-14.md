@@ -282,4 +282,48 @@ perus vaikeammaksi menee sitä mennään, mutta alku on perus se ei tiedetä mit
 
 Kuulemma tai jotakin netistä löytyi tämä on samankaltainen steppi kuin **Level 12**.
 
+Melkein sama kuin Level 12 - mutta voi olla vähä vaikeampi, mutta ainakin Level 12:ssa tapahtui polkujen etsiminen eli */etc/natas_webpass/natas13* 
+
+Koodin pätkäst ainakin huomattuna että se ymmärtää tiedoston upottamisessa onko se kuva vai ei, eli tiedoston tunnistaminen. Jos alataus epäonnistuu, niin käytetään `exif_imagetype()`-funktiota, joka tarkistaa tiedoston tyypin.
+
+```
+if($err){
+    if($err === 2){
+        echo "The uploaded file exceeds MAX_FILE_SIZE";
+    } else{
+        echo "Something went wrong :/";
+    }
+} else if(filesize($_FILES['uploadedfile']['tmp_name']) > 1000) {
+    echo "File is too big";
+} else if (! exif_imagetype($_FILES['uploadedfile']['tmp_name'])) {
+    echo "File is not an image";
+}
+```
+
+    - Periaatteessa sama idea kuin aikaisempi, josta laittaa PHP-koodipätkän ja muutta kuvatiedoston (JPEG, PNG, JPG, jne). Kuitenkin hylättään muita tiedostoja jos ei ole kuvatiedosto tyyppinen.
+
+
+```
+function makeRandomPath($dir, $ext) {
+    do {
+        $path = $dir."/".genRandomString().".".$ext;
+    } while(file_exists($path));
+    return $path;
+}
+```
+Tässä funktiossa luodaan satunnainen tiedostonnimi, joka varmistaa ettei tule saman nimistä tiedostoa ellei ole jo olemassa.
+
+🎯 **Seuraavaksi**:
+- Rajoituksia, eli PHP koodi tarkituksena tiedostonkoo (1KB) ja sallittu vain kuva tiedostontyyppille
+- Hyökkäysstrategia ja harjoituksena, että asettaa PHP-skriptin kuvan alle ja se latautuu sinne palvelimelle.
+- Jos lataus onnistuu ja käytä URL-osoitetta, jotta päästään käsiksi seuraavaan Levelin salasansa sisältävään tiedostoon.
+
+## Level 13 - 1 selvittämistä
+
+
+
+
+
+
+
 
