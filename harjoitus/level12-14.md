@@ -320,9 +320,14 @@ Tässä funktiossa luodaan satunnainen tiedostonnimi, joka varmistaa ettei tule 
 
 ## Level 13 - 1 selvittämistä
 
+![alt text](./kuvat-level11-15/natas13-0.png)
+
+![alt text](./kuvat-level11-15/natas13-1.png)
 
 
+Kokeilin jopa upottaa jotakin kuvaa, et ainakin näytti toimivana et se menee yli 1KB ja on se vaikea etsiä jokin kuva on alle sen kokoinen tiedosto, ehkä parhaimmissaan menee ehdottamasti joku koodi pätkä ja sillä perään satunnainen kuva tiedostotyyppi mm. jpg, png, jne.
 
+![alt text](./kuvat-level11-15/natas13-2.png)
 
 
 
