@@ -332,7 +332,8 @@ Kokeilin jopa upottaa jotakin kuvaa, et ainakin näytti toimivana et se menee yl
 Voi olla tässä harjoituksessa eli level 13:ssa jouduttaan käyttää toisen kerran **Burp Suite** ohjelmansa kertaalleen, koska se on tosi hyvä ja seuraa tämän kyseisen sivustoa ja muuttaakseen HTTP:ksi. Lisäksi voi suorittaa *Forward*:in mikä kuin lähettää HTTP pyynnön palvelimelle ja suorittaa tehdyn muutoksensa. 
 
 **Tässä välissä on jotakin error, mitkä ei toimi**
-Pari - muutamia testejä ainakin ainakin screenshot ja hyvä harjoituksen kannalta
+Pari - muutamia testejä ainakin ainakin screenshot ja hyvä harjoituksen kannalta. Tässä väli steppissä mentäisi kuin aikaisempi **level 12**, mutta meneekö lävitse. Voi olla ettei mene, kun tämä on vaikeampi taso. Tätä testataan UI nettisivuston kautta, ja erikseen kun toimii niin sitten lisätää Kali linxu versio.
+
 
 ![alt text](./kuvat-level11-15/natas13-3.png)
 
@@ -344,4 +345,30 @@ Tähän asti kuitenkin miltä se näytti, mutta ainakin **Burp Suite** ohjelman 
 
 
 ## Level 13 - 2 real one
+
+Yllättyksenä tähän ainakin sen pitää olla **virallinen kuva tyyppi** eikä mitään koodipätkiä ja tiedosto tyyppi on esim. jpg. Pari muutamia testiä testattuna leikkisti PHP hello world koodi ja _png_ tiedostona niin se ainakin tunnisti.
+
+Nyt upotin ainakin virallisen satunnaisen kuvan mikä löytyy esim. kuvahaku tai aikaisempi ladattu kuva versio. Ei ole pakko olla _auringonlasku_ mutta yksi pieni suosikki.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
