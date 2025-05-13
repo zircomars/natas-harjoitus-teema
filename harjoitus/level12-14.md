@@ -329,6 +329,13 @@ Kokeilin jopa upottaa jotakin kuvaa, et ainakin näytti toimivana et se menee yl
 
 ![alt text](./kuvat-level11-15/natas13-2.png)
 
+Voi olla tässä harjoituksessa eli level 13:ssa jouduttaan käyttää toisen kerran **Burp Suite** ohjelmansa kertaalleen, koska se on tosi hyvä ja seuraa tämän kyseisen sivustoa ja muuttaakseen HTTP:ksi. Lisäksi voi suorittaa *Forward*:in mikä kuin lähettää HTTP pyynnön palvelimelle ja suorittaa tehdyn muutoksensa. 
+
+
+
+
+
+
 
 
 
