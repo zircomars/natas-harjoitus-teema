@@ -331,11 +331,17 @@ Kokeilin jopa upottaa jotakin kuvaa, et ainakin näytti toimivana et se menee yl
 
 Voi olla tässä harjoituksessa eli level 13:ssa jouduttaan käyttää toisen kerran **Burp Suite** ohjelmansa kertaalleen, koska se on tosi hyvä ja seuraa tämän kyseisen sivustoa ja muuttaakseen HTTP:ksi. Lisäksi voi suorittaa *Forward*:in mikä kuin lähettää HTTP pyynnön palvelimelle ja suorittaa tehdyn muutoksensa. 
 
+**Tässä välissä on jotakin error, mitkä ei toimi**
+Pari - muutamia testejä ainakin ainakin screenshot ja hyvä harjoituksen kannalta
+
+![alt text](./kuvat-level11-15/natas13-3.png)
+
+![alt text](./kuvat-level11-15/natas13-4.png)
+
+![alt text](./kuvat-level11-15/natas13-5.png)
+
+Tähän asti kuitenkin miltä se näytti, mutta ainakin **Burp Suite** ohjelman alla näkee sen skriptin sisällön.
 
 
-
-
-
-
-
+## Level 13 - 2 real one
 
