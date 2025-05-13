@@ -351,19 +351,29 @@ Yllättyksenä tähän ainakin sen pitää olla **virallinen kuva tyyppi** eikä
 Nyt upotin ainakin virallisen satunnaisen kuvan mikä löytyy esim. kuvahaku tai aikaisempi ladattu kuva versio. Ei ole pakko olla _auringonlasku_ mutta yksi pieni suosikki.
 
 
+![alt text](./kuvat-level11-15/natas13-6.png)
 
+![alt text](./kuvat-level11-15/natas13-7.png)
 
+![alt text](./kuvat-level11-15/natas13-8.png)
 
+![alt text](./kuvat-level11-15/natas13-9.png)
 
+![alt text](./kuvat-level11-15/natas13-10.png)
 
+![alt text](./kuvat-level11-15/natas13-11.png)
 
+![alt text](./kuvat-level11-15/natas13-12.png)
 
+![alt text](./kuvat-level11-15/natas13-13.png)
 
+![alt text](./kuvat-level11-15/natas13-14.png)
 
+![alt text](./kuvat-level11-15/natas13-15.png)
 
+![alt text](./kuvat-level11-15/natas13-16.png)
 
-
-
+![alt text](./kuvat-level11-15/natas13-17.png)
 
 
 
