@@ -467,7 +467,14 @@ Sitten tarkistettaan sen sisältö ja normi `curl` komento, ja saattiin Natas 14
 z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ
 ```
 
+## Level 13 - 4 - vinkkejä ja ohjeita:
 
+https://samxia99.medium.com/overthewire-updated-natas-walkthrough-level-13-1f5407b6f35a
+
+
+https://learnhacking.io/overthewire-natas-level-13-walkthrough/
+
+https://github.com/psmiraglia/ctf/blob/master/overthewire/natas/natas13.md
 
 
 
