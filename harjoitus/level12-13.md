@@ -1,3 +1,6 @@
+## alkuinfo
+Supistin tämän aikaisemman levelin kun tähän tulee olemaan pitkä rivi, ettei jaksa lukea ja scrollata niin alas asti, että nyt **level 12 - 13** ,  aikaisemmin nimesin 12-14. Koska level 12 ja 13 liittyvät toisiinsa, mutta vain harjoitus menee vaikeammaksi ja vaikeammaksi.
+
 # LEVEL 12 - START HERE
 
 natas12 is yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB
