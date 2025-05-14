@@ -376,16 +376,30 @@ Tämä kuva on **BEFORE**.
 ![alt text](./kuvat-level11-15/natas13-11.png)
 
 Tässä kuvassa on **AFTER**.
-Tässä vähitelen tuli muutamia epäonnistumisen kohteita, kun klikkasin **Forward** (alempi kuva)
+Tässä vähitelen tuli muutamia epäonnistumisen kohteita, kun klikkasin **Forward** (alempi kuva) niin se ei lähettänyt sinne Natas 14 sivuston alle eli ei tehnyt mitään muutosta. 
 ![alt text](./kuvat-level11-15/natas13-12.png)
+
+Nyt vähittelen alkaa ymmärtää, mutta testaamalla niin se menee. Tässä nyt (alempi kuva) siis kokeilin supistaa/poistaa osan tuosta **punaista höpönlöpöä** dataa siksi jätin noin tuohon asti. SItten vaan tekee tarkistuksen muuttaa viimeisen _upotettujen_ kuva tiedostotyyppi kohti _.php_:ksi. Muutettun jälkeen sitten vaan **Forward** ja tarkistaa onko tapahtunut muutosta.
 
 ![alt text](./kuvat-level11-15/natas13-13.png)
 
+Sitten yllätyksenä se lähetti sen HTTP pyynnön, että _wau_ alemman kuvan yllätys, ja kannattaa katkaista/lopettaa toi *Burp Suite* ohjelman **intercept** seurannan, koska tätä alleviivattua URL polkua tarvitaan ja just sitä mitä halutaan saada. Seuraavaksi klikkaa toi <ins>upload/nsvpjgakdb.php</ins> linkki.
+
 ![alt text](./kuvat-level11-15/natas13-14.png)
+
+
+<ins>upload/nsvpjgakdb.php</ins> ainakin tämä kertoi vähittelen jotakin mysteeristä dataa ja eli jatkuu selvittämistä. Huomattua ainakin antoi vihjeenä **Undefined index: Vastaus in/var/www/natas/natas13.....** pitkä höpönlöpö tekstiä.
 
 ![alt text](./kuvat-level11-15/natas13-15.png)
 
+
+**Undefined index: Vastaus in/var/www/natas/natas13.....** - ainakin tästä annettua viestiä ainakin kertoo jotakin mitä aikaisemmin on toistunut mm. tiedostonhakemiston polkua *etc/var/www*. Seuraavaksi kokeillaan tuosta URL kokeillaan URL:in injektiota, minun upottamani oli jotenkin **Vastaus** , en muista mistä se nimi tuli ja voi olla aikaisempi _php_ koodi pätkästä tullut.. ja siksi nyt kokeillaan perään lisätä **=ls** eli linux komento *ls* ja tuloksena tuli tällainen aikaisempia PHP koodi tiedostojentyyppejä (alempi kuva). 
+
 ![alt text](./kuvat-level11-15/natas13-16.png)
+
+Viimeisenä seuraavaksi sijoitettaan mitä aikaisemmassa harjoituksessa ollaan saatu toi polkutiedosto tyyppi ja halutaan selvittää se seuraavan level (natas 14) salasanansa. Toisinsanoen sijoitettaan tämä *cat /etc/natas_webpass/natas14* polku sijoitettaan URL:iin, ja huomioina toi on enkoodattu ja siksi tämä väli muodostuu **%20**. 
+
+Ja missä se Natas 14 salasanansa onkaan? Se on toi tummennettu osa, ja kantsii testata erissä välilehdessä ettei sotkeudu samaan välilehteen ja selaimen kanssa. 
 
 ![alt text](./kuvat-level11-15/natas13-17.png)
 
