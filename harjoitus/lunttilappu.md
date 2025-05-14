@@ -64,6 +64,26 @@ natas5.natas.labs.overthewire.org       FALSE   /       FALSE   0       loggedin
 Ylemmän muutettun loggin=1:seksi, niin sitten suoritettaan ja haettaan sitä seuraavan levelin salasannsa; <br>
 `$curl http://natas5.natas.labs.overthewire.org/ -u natas5 -b "natas5_cookie.txt"`
 
+---
+
+# s3cr3t
+
+Miksi salasana on `s3cr3t`?
+Salasana s3cr3t on todennäköisesti tarkoituksellisesti manipuloitu muoto sanasta "secret". Se on yleinen tapa piilottaa salasana tai arvo tekemällä pieniä muunnelmia, kuten vaihtamalla kirjaimia numeroiksi tai muiksi merkeiksi (tässä tapauksessa "e" on vaihdettu "3":ksi). Tällaista käytetään usein tietoturvahaasteissa, joissa pitää tunnistaa salasanan muodostustapa.
+
+Mikä tässä voisi paljastaa, että salasana on "s3cr3t"?
+- "debug" parametri: Jos palvelin on konfiguroitu palauttamaan debug-tietoja, se voi antaa vihjeitä siitä, miksi juuri tietynlaista käyttäjätunnusta ja salasanaa yritetään. Esimerkiksi palvelin saattaa paljastaa virheviestejä, jotka kertovat, miksi kirjautuminen epäonnistuu tai mihin kohtiin salasana vaikuttaa.
+
+- Salasanan muunnos: Haasteessa saattaa olla selkeä logiikka, jossa käyttäjän salasanan pitää olla tavallista muunneltu (kuten "secret" -> "s3cr3t"). Tällaista käytetään usein ohjelmoinnissa, koska se on helppo tapa hämärtää oikea salasana, mutta se on silti tunnistettavissa.
+
+
+
+
+
+
+
+
+
 
 
 
