@@ -1,5 +1,5 @@
 ## alkuinfo
-Supistin tämän aikaisemman levelin kun tähän tulee olemaan pitkä rivi, ettei jaksa lukea ja scrollata niin alas asti, että nyt **level 12 - 13** ,  aikaisemmin nimesin 12-14. Koska level 12 ja 13 liittyvät toisiinsa, mutta vain harjoitus menee vaikeammaksi ja vaikeammaksi.
+Supistin tämän aikaisemman levelin kun tähän tulee olemaan pitkä rivi, ettei jaksa lukea ja scrollata niin alas asti, koska on paljon suuria kuvia ja nyt **level 12 - 13**. Aikaisemmin nimesin 12-14, koska nämä level 12 ja 13 liittyvät toisiinsa, mutta vain harjoitus menee vaikeammaksi ja vaikeammaksi.
 
 # LEVEL 12 - START HERE
 
@@ -349,14 +349,17 @@ Tähän asti kuitenkin miltä se näytti, mutta ainakin **Burp Suite** ohjelman 
 
 ## Level 13 - 2 real one
 
-Yllättyksenä tähän ainakin sen pitää olla **virallinen kuva tyyppi** eikä mitään koodipätkiä ja tiedosto tyyppi on esim. jpg. Pari muutamia testiä testattuna leikkisti PHP hello world koodi ja _png_ tiedostona niin se ainakin tunnisti.
+Yllättyksenä tähän ainakin sen pitää olla **virallinen kuva tyyppi** eikä mitään koodipätkiä ja tiedostotyyppi/-muoto ole esim. jpg. Pari muutamia testiä testattuna leikkisti PHP hello world koodi ja _.png_ tai _jpeg_ tiedostona niin se ainakin tunnisti.
 
 Nyt upotin ainakin virallisen satunnaisen kuvan mikä löytyy esim. kuvahaku tai aikaisempi ladattu kuva versio. Ei ole pakko olla _auringonlasku_ mutta yksi pieni suosikki.
 
-
 ![alt text](./kuvat-level11-15/natas13-6.png)
 
+Nyt kun katsotaan **Burp Suite** ohjelman alta ainakin näyttävän jotakin hepreetä dataa siellä on näkyvillä (vasen ala kulman olevaa punaista tekstiä) ja tämä on se viimeinen toiminta mitä tehtiin.
+
 ![alt text](./kuvat-level11-15/natas13-7.png)
+
+Otettiin tämä **intercept** päälle ja pikaisella päivitystä sivustoon, että tämä kaappaa siitä tiedotteet ylös ja eli tämän viimeisimmän suoritteensa ylös. 
 
 ![alt text](./kuvat-level11-15/natas13-8.png)
 
