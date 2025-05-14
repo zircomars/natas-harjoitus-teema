@@ -6,6 +6,8 @@ Perus selvittämistä ja tässä näyttää ainakin koodin ainakin on *username 
 
 PHP - koodikielessä ainakin (_index-source.html_) on *query* - kyselly, että hakee käyttäjännimen ja salasanansa, että jos täsmää sitten päästään eteenpäin, että pääsee hakee seuraavan levelin salasanansa, eli on **SQL injektio**.
 
+ainakin pikaisella testauksella syötä **username:username** , **password:password** - *access denied!*
+
 ![alt text](./kuvat-level11-15/natas14-0.png)
 
 ![alt text](./kuvat-level11-15/natas14-1.png)
