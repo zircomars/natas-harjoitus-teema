@@ -363,12 +363,20 @@ Otettiin tämä **intercept** päälle ja pikaisella päivitystä sivustoon, ett
 
 ![alt text](./kuvat-level11-15/natas13-8.png)
 
+Tässä välissä alkaen tulee muutamia testejä kun seurattu ohjeiden mukaan, ja tähän väliin tulee tällainen PHP-koodipätkä funktio kuin: `<?php passthru($_GET['Vastaus']); ?>`
+
 ![alt text](./kuvat-level11-15/natas13-9.png)
+
+Nyt alemmassa `Content-Type: image/jpg` nuoli kärjessä ja muutamissa kohteessa tullaan muuttaa formaatti tiedosto tyyppi, kun halutaan saada tätä **PHP:ksi**. 
 
 ![alt text](./kuvat-level11-15/natas13-10.png)
 
+Nyt tässä kuvassa (alempi kuva), niin muutamissa kärjessä näkee tehdyt muutokset.
+Tämä kuva on **BEFORE**.
 ![alt text](./kuvat-level11-15/natas13-11.png)
 
+Tässä kuvassa on **AFTER**.
+Tässä vähitelen tuli muutamia epäonnistumisen kohteita, kun klikkasin **Forward** (alempi kuva)
 ![alt text](./kuvat-level11-15/natas13-12.png)
 
 ![alt text](./kuvat-level11-15/natas13-13.png)
