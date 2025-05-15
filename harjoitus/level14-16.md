@@ -133,9 +133,38 @@ esim: `' OR 1=1 /*'`
 - Vahvistaa että kyseessä on injektio testaamalla SLEEP, ORDER BY, jne. <br>
 - Käyttää automatisoituja työkaluja kuten sqlmap <br>
 
+## Harjoitusta kohti mestariksi
+
+Alkuum meneekin `' OR 1=1 --` - koska se on perusideana mikä lähtee harjoittelusta. Sitä näkee nopeasti, reagoi järjestelmän jollakin tavalla, että onnistuuko kirjautuminen vai tuleeko virhettä, jäätyykö pyyntö ja tms. Tämä periaatteessa toimii kuin ensimmäinen _pingi_ eli testaa onko järjestelmässä injektiota. 
+
+Periaatteessa tämä `' OR 1=1 --` - voi toimia pienenä lunttilappuna ja pikaisella koodina.
+
+Jos taso menee vaikeammaksi niin lomake kenttään käytä suodatusta  ' - merkkiä 
+
+Muita vaiheita tulee mukaan:
+- Blind SQLi (testataan vaikka `AND 1=1` vs. `AND 1=2` ja katsotaan käyttäytyminen)
+- Time-based SQLi (esim. `SLEEP(5)`-pohjaiset injektiot)
+- Automatisointi (sqlmap) kun payloadit monimutkaistuvat
+
+
+## SQL injektio kali linux:issa
+
+`curl "http://target.site/login?username=admin' OR 1=1 --&password=whatever"`
+
+```
+curl -X POST http://target.site/login \
+  -d "username=admin' OR 1=1 --&password=whatever"
+```
+
+**Sqlmap** - joka antaa automaattisesti erilaisia sql injektio, et tunnistaa classic/blind/time-based ja union pohjaisia, jne.
+`sqlmap -u "http://target.site/login?username=admin&password=test" --batch --risk=3 --level=5`
 
 
 
+
+---
+
+# Level 14 - 2 - virallinen testi ja harjoitus - START HERE
 
 
 
