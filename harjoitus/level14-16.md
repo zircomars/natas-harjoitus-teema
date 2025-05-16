@@ -196,6 +196,7 @@ password = admin' OR 1=1 --"
 ```
 
 <br>
+
 **TESTI10** ,  tämä on sama idea kuin _testi9_ , mutta mentiin lomakkeen formaattin kautta kirjauttumisen prosessilla. Molemmat ovat samoja sisältöjä, mutta eri kuljetusmuoto. 
 
 Alemman pieni toisto:
@@ -206,6 +207,14 @@ password' OR 1=1 --"
 
 ![alt text](./kuvat-level11-15/natas14-14.png)
 ![alt text](./kuvat-level11-15/natas14-15.png)
+
+---
+
+# Level 14 - 3 Kali Linux version - START HERE
+
+Tämä menisi kali linux versiolla, mutta skippaan osan ja tässä mennään curl komennolla, ja just aikaisempien kuvien URL komento vain liittettään siihen ja näin saattaisiin vastaus - aikalailla kuin _copy paste_. 
+
+
 
 
 ---
@@ -235,7 +244,7 @@ Alkuum meneekin `' OR 1=1 --` - koska se on perusideana mikä lähtee harjoittel
 
 Periaatteessa tämä `' OR 1=1 --` - voi toimia pienenä lunttilappuna ja pikaisella koodina.
 
-Jos taso menee vaikeammaksi niin lomake kenttään käytä suodatusta  ' - merkkiä 
+Jos taso menee vaikeammaksi niin lomake kenttään käytä suodatusta  `'` - merkkiä 
 
 Muita vaiheita tulee mukaan:
 - Blind SQLi (testataan vaikka `AND 1=1` vs. `AND 1=2` ja katsotaan käyttäytyminen)
@@ -327,6 +336,18 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
 
 --batch: automaattivastaukset (ei kysy interaktiivisesti)
 
+
+## Level 14 - 4 linkkejä ja ohjeita; 
+
+https://nils-maeurer.de/post/overthewire-natas14-15/
+https://www.abatchy.com/2016/11/natas-level-14-and-15
+
+https://www.youtube.com/watch?v=cCQFblftpr8
+
+
+https://learnhacking.io/overthewire-natas-level-14-walkthrough/
+
+https://medium.com/@enesaladag/overthewires-natas14-b83d28872ffe
 
 
 
