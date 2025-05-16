@@ -166,17 +166,32 @@ curl -X POST http://target.site/login \
 
 # Level 14 - 2 - virallinen testi ja harjoitus - START HERE
 
+Tähän väliin tulee muutamia kuvia, josta on suoritettu testejä ja vasta sen jälkeen toimivista ainakin osa antoi pientä vihjettä.
 
 
+![alt text](./kuvat-level11-15/natas14-2.png)
 
+![alt text](./kuvat-level11-15/natas14-3.png)
 
+![alt text](./kuvat-level11-15/natas14-4.png)
 
+![alt text](./kuvat-level11-15/natas14-5.png)
 
+![alt text](./kuvat-level11-15/natas14-6.png)
 
+![alt text](./kuvat-level11-15/natas14-7.png)
 
+![alt text](./kuvat-level11-15/natas14-8.png)
 
+![alt text](./kuvat-level11-15/natas14-9.png)
 
+![alt text](./kuvat-level11-15/natas14-10.png)
 
+![alt text](./kuvat-level11-15/natas14-11.png)
+
+![alt text](./kuvat-level11-15/natas14-12.png)
+
+![alt text](./kuvat-level11-15/natas14-13.png)
 
 
 
