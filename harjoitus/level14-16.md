@@ -160,32 +160,38 @@ curl -X POST http://target.site/login \
 `sqlmap -u "http://target.site/login?username=admin&password=test" --batch --risk=3 --level=5`
 
 
-
-
 ---
 
 # Level 14 - 2 - virallinen testi ja harjoitus - START HERE
 
 Tähän väliin tulee muutamia kuvia, josta on suoritettu testejä ja vasta sen jälkeen toimivista ainakin osa antoi pientä vihjettä.
 
-
+**TESTI1**
 ![alt text](./kuvat-level11-15/natas14-2.png)
 
+**TESTI2** - et lisäsin alkuun ton _sadf'_ 
 ![alt text](./kuvat-level11-15/natas14-3.png)
 
+**TESTI3** tässä alkoi tapahtua jotakin seuraavina, että antoi tämän tiedostonhakemiston polunsa eli **var/www/natas/natas14/index.php** ja jne.
 ![alt text](./kuvat-level11-15/natas14-4.png)
-
 ![alt text](./kuvat-level11-15/natas14-5.png)
 
+**TESTI4** seuraava testinä joka toimii sama ideana kuin aikaisempi, mutta virheitä ja voi ollaan lähellä maalia. 
 ![alt text](./kuvat-level11-15/natas14-6.png)
-
 ![alt text](./kuvat-level11-15/natas14-7.png)
 
+**TESTI5** <br>
 ![alt text](./kuvat-level11-15/natas14-8.png)
-
 ![alt text](./kuvat-level11-15/natas14-9.png)
 
+**TESTI6** seuraavina testeinä aloin kokeilla iskeä sitä SQL-injektiota URL-perään, kun PHP-koodi pätkässä viittasi tämän _if_ lausekkeensa `if(array_key_exists("debug", $_GET)) {`. Perään sijoitin pari-muutama  `&&` merkin, koska ne viittaa kyseisen lomakkeen username;password formaattia.  
 ![alt text](./kuvat-level11-15/natas14-10.png)
+
+
+**TESTI7** tämä on sama idea kuin aikaisempi, mutta perässä on tämä `' OR 1=1 --` - joka on enkodaattu ja näin se sijoittuu URL-perään. Jos menisi lomakkeen kautta se ois kuin `"admin' OR 1=1 --`.
+
+**`' OR 1=1 --`** - enkoodattuna: <br>
+Tämä enkodaattu pätee myös todellisuudessaan kirjauttumisen formaattissa ja URL:issa , periaate pätee todellisuudessakin web-sovelluksissa, jos ne ovat haavoittuvia SQL-injektiolle.
 
 ![alt text](./kuvat-level11-15/natas14-11.png)
 
