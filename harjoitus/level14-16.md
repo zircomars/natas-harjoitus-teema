@@ -166,7 +166,7 @@ curl -X POST http://target.site/login \
 
 Tähän väliin tulee muutamia kuvia, josta on suoritettu testejä ja vasta sen jälkeen toimivista ainakin osa antoi pientä vihjettä.
 
-**TESTI1**
+**TESTI1** <br>
 ![alt text](./kuvat-level11-15/natas14-2.png)
 
 **TESTI2** - et lisäsin alkuun ton _sadf'_ 
@@ -195,8 +195,12 @@ Tämä enkodaattu pätee myös todellisuudessaan kirjauttumisen formaattissa ja 
 
 ![alt text](./kuvat-level11-15/natas14-11.png)
 
+
+**TESTI8** - tämä on sama kuin aikaisempi _TESTI7_ mutta perässä lisäsin erikoismerkin kuin `"` - ja tässä vähitelen koskien tätä SQL injektiota, että testataan lisätä username ja password kenttään menisi tällä merkillä. 
+
 ![alt text](./kuvat-level11-15/natas14-12.png)
 
+**TESTI9** ja nyt päästiin. 
 ![alt text](./kuvat-level11-15/natas14-13.png)
 
 
