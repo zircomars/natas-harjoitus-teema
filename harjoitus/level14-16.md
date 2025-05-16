@@ -200,10 +200,22 @@ Tämä enkodaattu pätee myös todellisuudessaan kirjauttumisen formaattissa ja 
 
 ![alt text](./kuvat-level11-15/natas14-12.png)
 
-**TESTI9** ja nyt päästiin. 
+**TESTI9** ja nyt päästiin, mutta jälkimmäisessä _TESTI10_ on tarkennusta vähäsen
 ![alt text](./kuvat-level11-15/natas14-13.png)
 
+Tämä enkoodattu (URL) 
+`username=admin%22%20OR%201%3D1%20--&password=admin` 
+vastaa --> 
+dekoodattua: 
+```username=admin" OR 1=1 --
+password=admin
+```
 
+
+
+**TESTI10** ,  tämä on sama idea kuin _testi9_ , mutta mentiin lomakkeen formaattin kautta kirjauttumisen prosessilla. Molemmat ovat samoja sisältöjä, mutta eri kuljetusmuoto. 
+![alt text](./kuvat-level11-15/natas14-14.png)
+![alt text](./kuvat-level11-15/natas14-15.png)
 
 
 
