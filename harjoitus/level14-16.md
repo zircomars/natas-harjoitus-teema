@@ -755,6 +755,31 @@ jos aikoo käyttää MySQL omaa koemntoa, mutta se ei oikeasti toimi Linux termi
 
 echo komento esim. `echo "SELECT * FROM users;" | mysql -u user -p database_name`- ja huomiona, tämä ottaa vain yhteyttä omaan tietokantaansa ei muuta, ellei ole yhdistynyt muihin tietokantoihin ohjelmiinsa. 
 
+## 🧩 miniyhteenveto natas 14
+
+Tästä kuitenkin SQL injektio hyökkäyksestä on monta tapaa joko:
+1. **Manuaalinen**  
+   - Esimerkiksi syötetään suoraan kirjautumislomakkeeseen:  
+     `" OR 1=1 --`  
+   - Tämä toimii erityisesti, jos syötteitä ei suodateta kunnolla.
+
+2. **sqlmap**  
+   - Automaattinen työkalu, joka testaa ja hyödyntää SQL-injektioita.
+   - Etsii mm. haavoittuvuudet, taulut, tietokannan sisällön (`--dump`), ja tietokantatyypin.
+
+3. **Muut työkalut**  
+   - Esimerkiksi `Burp Suite`, `OWASP ZAP`, käsintehdyt skriptit tai `curl`-komennot HTTP-pyyntöihin.
+
+
+- SQL-injektioiden tehokkuus riippuu kohteesta ja sen suojaustasosta.
+- Esimerkiksi `time-based blind injection` voi olla hidas, mutta toimii tilanteissa, joissa muuta palautetta ei tule.
+- Harjoittelussa on hyödyllistä käyttää sekä manuaalisia että automaattisia menetelmiä.
+- Testaaminen onnistuu mm.:
+  - Selaimen lomakkeella
+  - URL-parametrin kautta (esim. `?username=admin'%20OR%201=1--`)
+  - Komentoriviltä (`sqlmap`, `curl` jne.)
+
+monipuolinen testaus ja työkalujen tuntemus auttavat ymmärtämään todellisia hyökkäysmenetelmiä sekä suojausratkaisuja.
 
 ## Level 14 - 4 linkkejä ja ohjeita; 
 
@@ -768,7 +793,11 @@ https://learnhacking.io/overthewire-natas-level-14-walkthrough/
 
 https://medium.com/@enesaladag/overthewires-natas14-b83d28872ffe
 
+---
 
+# Natas 15 - START HERE
+
+natas15 is SdqIqBsFcz3yotlNYErZSZwblkm0lrvx
 
 
 
