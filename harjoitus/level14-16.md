@@ -230,6 +230,7 @@ Executing query: SELECT * from users where username="admin" and password="admin"
 ```
 
 nyt tässä on syötettu url enkoodattuna toi **"admin"' OR 1=1 --"** muodosta sinne URL username ja password kentään
+**Vastaus** löytyy kun rullaa siitä oikealle, sekä kantsii katsoa loppuun asti
 
 ```
 ┌──(kali㉿kali)-[~]
