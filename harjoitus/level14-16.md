@@ -339,7 +339,9 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
 
 ## SQL injektio koskien MYSQL komentoa
 
-jos aikoo käyttää MySQL terminaalia, mutta se ei oikeasti toimi Linux terminaalissa, koska se on eri ja sitä joutuu käyttää **PHPMYADMIN** ohjelman alla. Jos linux terminaalissa voi runnata MySQL komentoa eli `SELECT * FROM USERS` - jotakin linux terminaalin alta, mutta käyttää paikallisen esim. `php -r` - tai tiedostoa, niin se voi yhdistää yhteyden MySQL:ään tai normi echo komento esim. `echo "SELECT * FROM users;" | mysql -u user -p database_name`.
+jos aikoo käyttää MySQL omaa koemntoa, mutta se ei oikeasti toimi Linux terminaalissa, koska se on eri ja sitä joutuu käyttää **PHPMYADMIN** ohjelman alla. Linux terminaalissa voi runnata MySQL komentoa eli `SELECT * FROM USERS` - jotakin linux terminaalin alta, mutta käyttää paikallisen esim. `php -r` - tai tiedostoa tai muuta menetelmänsä mm. echo (eli toista jotakin) niin se voi yhdistää yhteyden MySQL:ään. 
+
+echo komento esim. `echo "SELECT * FROM users;" | mysql -u user -p database_name`- ja huomiona, tämä ottaa vain yhteyttä omaan tietokantaansa ei muuta, ellei ole yhdistynyt muihin tietokantoihin ohjelmiinsa. 
 
 
 ## Level 14 - 4 linkkejä ja ohjeita; 
