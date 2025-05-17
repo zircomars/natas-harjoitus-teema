@@ -180,9 +180,12 @@ Esim. tässä Natas 14 harjoituksessa: `http://natas14.natas.labs.overthewire.or
 
 ---
 
-## SQLMAP komento
+# SQLMAP komento
 
 tehokkuus ja laajuus säädetään sqlmapissa `--level` ja `--risk` -asetuksilla. Ne vaikuttavat siihen, kuinka aggressiivisesti ja syvällisesti sqlmap hyökkää.
+
+sqlmap automaattisesti testaa ja etsii SQL-injektioreikiä eri parametreissa (esim. username, id, search, jne.). Tämä työkalu **ei suoranaisesti kerro**, toimiiko esim. juuri joku syöte (`admin" OR 1=1 --`), vaan se testaa laajasti erilaisia hyökkäyksiä taustalla. Jos haavoittuvuus löytyy, se raportoi tyypin (esim. _boolean_based, time-based, jne_), ei niin tarkkaa manuaalisyötettä. 
+
 
 Asetus	Merkitys
 --level=1-5	- Kuinka laajasti testataan parametreja (1 = nopea, 5 = kaikki mahdolliset)
@@ -196,5 +199,83 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
   --data="username=admin&password=admin" \
   --level=5 --risk=3 --batch
 ```
+
+## Sqlmapa tuloksia
+
+Sqlmap kertoo myös muitakin tuloksia ettei vain **"onko injektoitavissa"**.
+
+🔍 Mitä sqlmap voi kertoa, jos haavoittuvuus löytyy?
+| Tieto                        | Selitys                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------- |
+| 🔹 **DBMS-tunnistus**        | Se tunnistaa taustalla olevan tietokannan, esim. `MySQL`, `PostgreSQL`, `MSSQL`, jne. |
+| 🔹 **Haavoittuva parametri** | Esim. `username` POST-parametrina oli injektoitavissa.                                |
+| 🔹 **Injektiotyyppi**        | Esim. `boolean-based blind`, `time-based blind`, `error-based`, `union-based`.        |
+| 🔹 **Payload**               | Näyttää millä syötteellä sai läpi, esim. `username=admin" OR NOT 9188=9188#`.         |
+| 🔹 **Tietokannan nimi**      | Usein `sqlmap` pystyy hakemaan käytössä olevan tietokannan nimen, esim. `natas14`.    |
+| 🔹 **Taulut**                | `sqlmap` voi listata taulut tietokannasta.                                            |
+| 🔹 **Kentät**                | Se voi listata kenttien nimet (esim. `username`, `password`).                         |
+| 🔹 **Dumppaus**              | Lopuksi voi `--dump`-komennolla hakea tietorivejä (esim. käyttäjät + salasanat).      |
+| 🔹 **Palvelin**              | Näyttää usein web-palvelimen ja käyttöjärjestelmän tiedot (esim. Apache, Ubuntu).     |
+| 🔹 **WAF-tunnistus**         | Havaitsee, onko Web Application Firewall käytössä.                                    |
+
+
+
+📋 Täydellinen SQLMap-tulostietojen yhteenvetotaulukko
+| Kategoria                | Mitä tietoa `sqlmap` voi löytää                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| 🧩 **Haavoittuvuus**     | Injektoitava parametri (GET, POST, cookie jne.)                                                                     |
+|                          | Injektiotyyppi: <br> - boolean-based <br> - time-based <br> - error-based <br> - union-based <br> - stacked queries |
+|                          | Käytetty payload (esim. `admin" OR 1=1 --`)                                                                         |
+|                          | DBMS-haavoittuvuuden tyyppi (esim. MySQL-specific)                                                                  |
+| 🧠 **Tietokanta**        | Tietokantapalvelimen tyyppi: `MySQL`, `PostgreSQL`, `Oracle`, jne.                                                  |
+|                          | Tietokantaversio (esim. `MySQL >= 5.0.12`)                                                                          |
+|                          | Aktiivinen tietokanta (`--current-db`)                                                                              |
+|                          | Käytettävissä olevat tietokannat (`--dbs`)                                                                          |
+| 📦 **Rakenne**           | Taulut valitusta tietokannasta (`--tables`)                                                                         |
+|                          | Sarakkeet valitusta taulusta (`--columns`)                                                                          |
+|                          | Primary keys (`--schema`)                                                                                           |
+| 🧾 **Data**              | Taulujen sisällöt (`--dump`)                                                                                        |
+|                          | Yksittäisten kenttien tai rivien haku                                                                               |
+| 🧑‍💼 **Käyttöoikeudet** | Tietokannan käyttäjät (`--users`)                                                                                   |
+|                          | Käyttäjien salasanahashit (`--passwords`)                                                                           |
+|                          | Käyttäjän roolit / oikeudet (`--privileges`, `--roles`)                                                             |
+| 🛡️ **Turva**            | WAF/IPS-tunnistus (Web Application Firewall)                                                                        |
+|                          | Cookie-arvojen tarkastelu ja injektio (`--cookie`)                                                                  |
+|                          | HTTP-header manipulaatio                                                                                            |
+| 🖥️ **Palvelintiedot**   | Palvelimen OS ja ohjelmistot (esim. Apache, Ubuntu)                                                                 |
+|                          | Tietokantamoottorin tiedot ja asetukset                                                                             |
+| 🔄 **Muut työkalut**     | Shellin tai tiedostojen käyttö, jos oikeudet sallivat (harvinaista)                                                 |
+|                          | Komentorivisyötteiden automatisointi (esim. `--batch`, `--threads`)                                                 |
+
+
+Jos käyttää lisävahtoehtoja kuten: `--curent-db`, `--tables`, `--columns`, `--dump`, niin saa tareknnettuja tietoja vaiheittain. 
+<br>
+
+✅ Esimerkki: Mitä voisi tehdä vaiheittain
+- Tarkista DBMS: `--banner`, `--current-db`
+- Näytä tietokannat: `--dbs`
+- Listaa taulut: `--tables -D <dbname>`
+- Listaa sarakkeet: `--columns -D <dbname> -T <table>`
+- Dumppaa dataa: `--dump -D <dbname> -T <table>`
+
+Esim. käytetty komento: 
+```
+sqlmap -u "http://natas14.natas.labs.overthewire.org/index.php" \
+  --auth-type Basic \
+  --auth-cred "natas14:z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ" \
+  --data "username=admin&password=admin" \
+  --batch --level=5 --risk=3 --dump
+```
+
+## levelin skannaus tasot steppit
+
+Useimmin alkaa pienestä levelistä, että normikäyttö (kevyt skannaus ja nopea testi), mutta aikooko mennä syvemmälle ja selvittelee sitä palvelinta sitten alkaa mennä raskaampaa tasoa.
+
+Esim. mennään kevyesti ja tällä komennolla: `sqlmap -u "http://example.com/page.php?id=1" --batch --level=1 --risk=1` 
+
+Alkutarkistuksena kantsii mennä oletuksena `--level=1` , ja `--risk=1` , että etsii perusinjektioa nopeasti. <br>
+Syvempään analyysiin (lisätasoa):
+- levelistä 3 tai 5 - josta tuo enemmän parametreja testiin mukaan (esim. HTTP headers, cookies, jne.)
+- riskistä 2 tai 3 - josta , aggressiivisempia ja mahdollisesti häiritsevämpiä hyökkäyksiä (esim. time-based, stacked queries)
 
 
