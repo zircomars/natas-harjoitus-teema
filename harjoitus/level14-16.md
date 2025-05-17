@@ -337,6 +337,11 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
 --batch: automaattivastaukset (ei kysy interaktiivisesti)
 
 
+## SQL injektio koskien MYSQL komentoa
+
+jos aikoo käyttää MySQL terminaalia, mutta se ei oikeasti toimi Linux terminaalissa, koska se on eri ja sitä joutuu käyttää **PHPMYADMIN** ohjelman alla. Jos linux terminaalissa voi runnata MySQL komentoa eli `SELECT * FROM USERS` - jotakin linux terminaalin alta, mutta käyttää paikallisen esim. `php -r` - tai tiedostoa, niin se voi yhdistää yhteyden MySQL:ään tai normi echo komento esim. `echo "SELECT * FROM users;" | mysql -u user -p database_name`.
+
+
 ## Level 14 - 4 linkkejä ja ohjeita; 
 
 https://nils-maeurer.de/post/overthewire-natas14-15/
