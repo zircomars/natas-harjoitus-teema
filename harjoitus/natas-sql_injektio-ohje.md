@@ -251,12 +251,12 @@ Sqlmap kertoo myös muitakin tuloksia ettei vain **"onko injektoitavissa"**.
 Jos käyttää lisävahtoehtoja kuten: `--curent-db`, `--tables`, `--columns`, `--dump`, niin saa tareknnettuja tietoja vaiheittain. 
 <br>
 
-✅ Esimerkki: Mitä voisi tehdä vaiheittain
+✅ Esimerkki: Mitä voisi tehdä vaiheittain (nämä ovat parametrit).
 - Tarkista DBMS: `--banner`, `--current-db`
 - Näytä tietokannat: `--dbs`
 - Listaa taulut: `--tables -D <dbname>`
 - Listaa sarakkeet: `--columns -D <dbname> -T <table>`
-- Dumppaa dataa: `--dump -D <dbname> -T <table>`
+- Dumppaa dataa (datan tyhjentäminen tai ulostuomista jostakin järjestelmästä näkyviksi): `--dump -D <dbname> -T <table>`
 
 Esim. käytetty komento: 
 ```
@@ -278,4 +278,21 @@ Syvempään analyysiin (lisätasoa):
 - levelistä 3 tai 5 - josta tuo enemmän parametreja testiin mukaan (esim. HTTP headers, cookies, jne.)
 - riskistä 2 tai 3 - josta , aggressiivisempia ja mahdollisesti häiritsevämpiä hyökkäyksiä (esim. time-based, stacked queries)
 
+---
+
+## Kali linux ja Sqlmap - skannauksen kesto
+
+SQLMapin skannauksen kesto riippuu monesta tekijästä, ja Kali Linux tai mikä tahansa järjestelmä saattaa alkaa kuormitua rajusti, etenkin kun käytetään korkea level ja riskin asetusta yhdesssä `--dump` tai `--technique` - parametrien kanssa.
+
+🕒 Arvioitu SQLMap-skannauksen kesto
+
+| Tilanne                                          | Arvioitu kesto          | Kuormitus (CPU/RAM) | Kommentti                                                                                                      |
+| ------------------------------------------------ | ----------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **--level=1 --risk=1**                           | Sekunneista minuuttiin  | Alhainen            | Kevyt testi, nopea.                                                                                            |
+| **--level=3 --risk=2**                           | Minuuteista 15–30 min   | Keskitaso           | Käytännössä hyödyllisin kompromissi nopeuden ja kattavuuden välillä.                                           |
+| **--level=5 --risk=3** + `--dump` tai `--banner` | 30 min – useita tunteja | Korkea              | Varsinkin **time-based blind injection** voi kestää pitkään, koska SQLMap odottaa jokaisen vastauksen viiveet. |
+| **Lisäksi: `--technique=T` (Time-based only)**   | Todella hidasta         | Erittäin korkea     | CPU ja verkko saattavat kuormittua rajusti.                                                                    |
+
+
+Jos käyttää raskaita SQLMap-asetuksia, skannaus voi kestää pitkään ja Kali Linux ohjelman itsensä voi kuormittua, että sen CPU voi nousta jopa 100%. Tämä on normaalia erityisesti **time-based** hyökkäyksissä. Kesto riippuu haavoittuvuudesta, vasteajoista ja siitä, mitä pyydät dumpattavaksi. Jos etsit vain haavoittuvuutta etkä halua koko tietokantaa, rajoita parametreja.
 
