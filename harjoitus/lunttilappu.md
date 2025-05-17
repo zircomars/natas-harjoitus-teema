@@ -115,12 +115,35 @@ Mikä tässä voisi paljastaa, että salasana on "s3cr3t"?
 
 ---
 
-## ✅ Vinkit harjoitteluun
+## ✅ Vinkit harjoitteluun ja etenemisen ajattelu
 
 - Aloita yksinkertaisilla injektioilla: `' OR 1=1 --`
 - Kokeile molempia: `'` ja `"` eri syötekentissä
 - Tarkkaile virheilmoituksia (esim. `bool given`, SQL error)
 - Kommentti `--` on tärkeä katkaisemaan loppulause
+
+### Etenemisen portaikkoa ja vaiheittain
+
+Periaatteessa alkaa lähtee loogisesti, käytännöllisesti ja portaikkoina niin kokeillee esim. alkuun onko käyttäjätunnus + salasana `admin` . Jos ei ole niin sitten alkaa syöttelee erikoismerkkejä mm. `"` tai `'` , tai molemmat yhdistettynä eli `"'` - huomoithan se on yhteen. 
+
+Tämä taulukko kuvaa SQL-injektion testauksen ja hyödyntämisen etenemistä vaiheittain. Jokainen vaihe rakentuu edellisen päälle, mahdollistaen syvemmän ymmärryksen ja tehokkaamman testauksen.
+
+| Vaihe | Taso                      | Tarkoitus / Toiminta                                                  | Esimerkkejä                                                         |
+|-------|---------------------------|------------------------------------------------------------------------|----------------------------------------------------------------------|
+| 1     | 🔍 Haavoittuvuuden tunnistus | Testaa pääseekö syöte SQL-kyselyyn                                    | `'` , `"` , `admin'`                                                 |
+| 2     | 🛠️ Perus injektio         | Riko rakenne ja ohita kirjautuminen                                   | `admin' OR 1=1 --` , `admin" OR 1=1 --`                              |
+| 3     | 🌐 URL-testit             | Sama injektio URL-parametreissa (enkoodattuna)                        | `username=admin%27%20OR%201%3D1%20--&password=x`                     |
+| 4     | 🧪 Muunnelmat             | Eri ehto- ja rakennevariaatiot                                        | `OR 'a'='a'` , `OR 1=1 LIMIT 1` , `OR 1=1#`                          |
+| 5     | 🧱 Rakenneanalyysi        | Testaa montako saraketta, missä kohtaa lause menee rikki              | `ORDER BY 1` , `ORDER BY 2` , sulkujen rikkominen                   |
+| 6     | 🧩 UNION SELECT -hyökkäys | Yhdistä omia valintoja SQL:ään, yritä hakea käyttäjätietoja            | `UNION SELECT 1,2 --` , `UNION SELECT username, password FROM users --` |
+| 7     | 🔄 Automatisointi (sqlmap)| Automatisoi kaikki yllä olevat vaiheet ja hae tietokantatietoja        | `sqlmap -u "http://target?username=*" --dbs`                        |
+
+## 📌 Vinkit etenemiseen:
+
+- 🔸 Testaa ensin manuaalisesti (lomake tai URL)
+- 🔸 Tarkkaile virheilmoituksia (esim. SQL-syntaksivirheitä)
+- 🔸 Käytä oikeita enkoodauksia URL:issa
+- 🔸 Dokumentoi, mikä toimii missäkin vaiheessa
 
 ---
 
@@ -159,6 +182,9 @@ HTML: `/index.php?username=admin%22%20OR%201%3D1%20--&password=x`
 
 ja vastaa tähän SQL muodossa: `SELECT * FROM users WHERE username="admin" OR 1=1 --" AND password="x"`
 
+--- 
+
+# 🧪 SQL Injection Curl-Komennot – Lunttitaulukko
 
 
 
