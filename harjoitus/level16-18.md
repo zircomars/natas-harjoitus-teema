@@ -17,9 +17,15 @@ Haavoittuvuuden osalta on tämä osuus: `grep -i "$key" dictionary.txt` - tämä
 
 kokeilin "bsana" niin siellä `dictionary.txt` - alta ei löydy sellaista ainakaan, mutta voisi kirjoittaa mikä ei täsmenny sen listan mukaan. 
 
-kokeilaaln tätä `$(grep b /pwd)Sana`- ainakin toisti alemmat jutut
+![alt text](./kuvat-level16-20/natas16-2.png)
+
+kokeillaan tätä `$(grep b /pwd)Sana`- ainakin toisti alemmat jutut
 
 sanatoria
 sanatorium
 sanatorium's
 sanatoriums
+
+![alt text](./kuvat-level16-20/natas16-3.png)
+
+
