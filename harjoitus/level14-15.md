@@ -1515,7 +1515,7 @@ Table: users
 
 Viimeisenä: <br>
 Tässä nyt päästään dumppaa (tulostaa) se mitä halutaan hakea just tämän `username` sarakkeesta ulos.
-Eli kertauksena: -D (database) natas15 , --tables (taulukko) users, --column (sarake) username, --dump (dumppataan ulos sitä dataa)
+Eli kertauksena: -D (database) natas15 , --tables (taulukko) users, --column (sarake) username, --dump (dumppataan ulos sitä dataa). Samahan näillä on omia lyhenteitäkin.
 ```
 ┌──(kali㉿kali)-[~]
 └─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
