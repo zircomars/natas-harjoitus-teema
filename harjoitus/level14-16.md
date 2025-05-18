@@ -724,7 +724,25 @@ https://medium.com/@enesaladag/overthewires-natas14-b83d28872ffe
 natas15 is SdqIqBsFcz3yotlNYErZSZwblkm0lrvx
 
 
+Tämä näyttää vähä samankaltaiselta kuin level 14:ssa, mutta vaikeampi taso. Ainakin **index-source** välilehdessä lukee siellä on luotu tietokannan yksittäinen sarakke/taulukko mikälie _käyttäjät_ että on _username:password_ ja tässä on koodattuna ainaki perus PHP-koodikielellä.
 
+![alt text](./kuvat-level11-15/natas15-0.png)
+
+
+Tässä skriptissä ainakin näkyvinsä, jos on olemassa oleva _username_ niin se kertoo tämä on jo varattu ja jne. sekä ainakin avainsanoja haavoittuvuudesta kiinnostaa kuten `debug` , `username` ainakin, että tarkistaa onko sellainen käyttäjänimi jo olemassa entuudestaan.
+
+Voi olla tähän SQLmap komentoa/työkalua ei suoraan auta, koska tämä on tehokkaampi tehdä **manuaaliselal hyökkäyksellä** , esim. kirjain kerrallaan testaus: `natas16" AND SUBSTRING(password,1,1) = "a"` jne.
+
+
+![alt text](./kuvat-level11-15/natas15-1.png)
+
+Pientä kokeilua erissä muodossa mm:
+-  Kokeilin esim. yksi (username) niin tarkistaa "check existence" - no ainakin kokeilin "_admin123_" - ja tuloksena "This user doesn't exist" 
+- toinen testi kokeilin syöttää username kentään "bob" - ja ainakin tämä tulosti _This user exists._ eli vain tietyt nimet
+- kolmanetena syötin **admin" OR 1=1 --"** - sehän antoi _Error in query._ tuloksensa. 
+
+
+Tässä tuloksena ainakin se tarkistaa sen tietokannan mukaisen datan että täsmentyykö se nimi, mitä käyttäjä syöttää niin täsmentyykö sinne taulukkoon. Toi "bob" nimestä, jonka toistettu on tämän tason nimetyt tietokannan taulukkon nimet ja vain rajoitetut nimet - sellaiset helpot mm. alice , bob , charlie.
 
 
 
