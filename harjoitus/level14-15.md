@@ -1360,6 +1360,17 @@ Tästä rakentuu se parametri **SQLmap**:
 
 # mini yhteenveto 
 
+Perus vähä kuin aikaisempi tasot, että mennään vaikeammaksi ja vaikeammaksi, että selvityksestä joutuu käydä lähes kaikki lävitse mm. curl komento, että pyörittää sqlmap. Ongelmana SQLmap komennon kautta alkaisi mennä vaikeaksi, että mitä me haluataan saada sitä ulos ja rakentaa sitä parametriä asetusta. Ainakin tämä level 14 ja 15 liittyykin toisiinsa jotenkin, mutta vaikeammaksi versus mitä sql injektiota tehdään.
 
+
+## vinkkejä ja lisää ohjeita:
+
+https://medium.com/hacker-toolbelt/natas-15-sql-injection-with-sqlmap-66cb4f89e3f7
+
+https://owasp.org/www-community/attacks/SQL_Injection
+
+http://github.com/sqlmapproject/sqlmap/blob/master/README.md
+
+https://nils-maeurer.de/post/overthewire-natas14-15/
 
 
