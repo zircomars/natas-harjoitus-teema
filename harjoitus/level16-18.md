@@ -48,6 +48,13 @@ vähä kuin muuttuu muotoon: `grep -i "african" dictionary.txt`  - ja toisaalta 
 Vaikka lopullinen komento menee vain grep:iin ja dictionary.txt sisällä olevia komento suoritettaan joka tapauksessa.
 
 
+## Level 16 - 2 ACTION START HERE
+
+Aloitettaan jotenkin tehdä sitä toimintaa, että seurattuna ja katsottu erilaisia ohjeita ja tapoja, sekä on mahdollista kokeilla ja runnata Kali Linux erikseen.
+
+Paljon ohjeissa löytyy, että käyttää Python koodi pätkää, että sillä runnaa ja samahan pätee siinä pitää olla funktio, josta sallii tämä natas16 level:in ja sen kirjauttumisen salasanan.
+
+
 
 
 
