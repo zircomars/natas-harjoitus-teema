@@ -102,6 +102,24 @@ EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC
 Tämä (ylempi) on se natas 17 salasanansa
 
 
+# Level 16 - 2.5 miniyhteenveto
+
+**Python**:
+Miksi vastauksena mentiin Python koodilla, koska voi olla sen käyttö on hyödyllistä ja silloin kun suorassa komennossa injektiossa on vaikeuksia sen suodattimien takia. Python voi toistaa syötteitä ja analysoida tuloksia automaattisesti, mikä tekee brute force -hyökkäyksestä tehokkaamman.
+
+Tämä ikään kuin varmistaisi, että syötteet on muotoiltu oikein ja käyttää PHP-scriptiä hyödyntämällä oikeita merkkejä kuten just `$()`. Tämä python koodi ratkaisu on yksi joka voi toteuttaa hyökkäystä tehokkaamin. 
+
+Tämän level johtuen on siitä haasteessa käytettävä ympäristö suodattaa tai estää tietyt komennon, että siksi saatoi joutua käyttämäään Python ohjelmointikielen scriptiä ja täät olisi voinut suorittaa hyökkäystä normaalisti selaimen ja/tai terminaalin kautta, tai muita Kali Linux hyökkäys työkaluja.
+
+Python voi mahdollista HTTP-pyyntöä ohjelmallisen lähettämistä ja vastausen käsittelyn automaattisesti, kun halutiin toteuttaa **brute-force hyökkäyst**, jossa tapahtui erilaisia merkkejä tai sanoja jatkuvasti ja automaattisesti. Jos palvelimella on suodattimia, niin voivat estää Python suoritettavaa komennon samalla tavalla kuin suora komentoinjektioiden yrittämisen terminaalissa.
+
+
+**Mites Kali linux terminaali ja selaimen kautta**?
+
+Molemmissa kuitenkin on rajoiteitta että haasteena on mahdolliset suodattimet, jotka estävät monimutkaisempia komentoja ja sama pätee erikoismerkkejä, ja websovellus ei suodattaa syötteitä ennen niiden lähettämistä palvelimelle. Selain kuitenkin on etu siinä, että käyttäjä voi nopeasti kokeilla erilaisia syötteitä ja nähdä palautteen. Terminaalissa kuitenkin voi suorittaa injektiota, mutta jos suodatus on liian tiukka, niin komennot voivat estyä.
+
+
+
 ## Level 16 - 3 Natas ohjeita ja linkkejä:
 
 https://www.abatchy.com/2016/11/natas-level-16
@@ -118,10 +136,45 @@ https://learnhacking.io/overthewire-natas-level-16-walkthrough/
 
 # Level 17 - START HERE
 
+natas17 : EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC
+
+Etusivulla ainakin syötin jotakin satunnaista sanaa, mutta tuloksena antoi tyhjän sivuston eli "index.php" - Kun tarkastellaan sitä "index-source.tml" välilehden sivustoa ainakin näyttää siellä on vinkkinä annettu on luotu tietokanta taulukkona `users`.
+
+![alt text](./kuvat-level16-20/natas17-0.png)
+
+![alt text](./kuvat-level16-20/natas17-1.png)
 
 
+Koodi pätkä muistuu kuitenkin aikaisempaa level 14 ja 15 SQL injektiota, mutta tämä on haasteellisempi ja se hakee sen kysellynsä
+
+![alt text](./kuvat-level16-20/natas17-2.png)
 
 
+Tässä PHP-koodipätkässä, kertoo jos käyttäjä syöte ehto jos on olemassa, toisena käyttäjä ei ole olemassa ja viimeisenä tuntematon/virhe kysely.
+
+```
+    if(mysqli_num_rows($res) > 0) {
+        //echo "This user exists.<br>";
+    } else {
+        //echo "This user doesn't exist.<br>";
+    }
+    } else {
+        //echo "Error in query.<br>";
+    }
+```
+
+## Natas 17 - 1 - pikainen testaus
+
+Kokeillaan aikaisempien perusteella mitä harjoiteltu mm. SQL injektiota ja jne, että kokeillaan saadaan selville mitään.
+
+Username kenttään lomakkeelle ainakin kokeilin muutamia vaihtoehtoja, mutta niissäkin siirtyy "index.php" tyhjään välilehteen mm. näitä injektiota
+
+- ' OR 1=1
+- sdf' OR 1=1
+- username=1 OR "1"
+- http://natas17.natas.labs.overthewire.org/index.php?debug?username=%22admin%22
+
+![alt text](./kuvat-level16-20/natas17-3.png)
 
 
 
