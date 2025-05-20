@@ -30,7 +30,7 @@ for i in range(0, 32):
 print(out)
 
 
-'''
+"""
 ┌──(kali㉿kali)-[~/Desktop]
 └─$ python3 pythonkoodi.py 
 E
@@ -66,4 +66,4 @@ EqjHJbo7LFNb8vwhHb9s75hokh5TF0
 EqjHJbo7LFNb8vwhHb9s75hokh5TF0O
 EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC
 EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC
-'''
+"""
