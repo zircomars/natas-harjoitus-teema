@@ -163,6 +163,59 @@ Tässä PHP-koodipätkässä, kertoo jos käyttäjä syöte ehto jos on olemassa
     }
 ```
 
+Eli tästä tuloksesta emme saada mitään tulosta (feedback), koska jos syöttää esim. "matti" - niin se ei kerro meille onko matti olemassa vai ei, että virheittäkään ei tulostu - niin tässä on kyseessä **time-blind SQL inection** level. Tässä tullaan suoriutua/testata ajallisen viivettä (aikataso hyökkäys) -> palvelin vastaa hitaammin, jos tietty ehto on tosi.
+
+## Natas 17 - SLEEP() Injection
+
+Tässä harjoituksessa onkin kyseessä suoritettava SQL-injektio (blind SQL injection), eli hyökkäystekniikka, jossa palvelin ei anna näkyvää vastausta — ei "käyttäjä on olemassa" tai "ei ole olemassa" — vaikka syötät mitä tahansa.
+
+Mutta nyt tarkasti: vaikka palvelin ei palauta mitään näkyvää vastausta, voimme päätellä silti jotain sen käytöksestä — esimerkiksi vastausajasta.
+
+Tämä on esim kommento, että testatan toimiiko ja jos palvelin viivyttää 5 sekunnin ajan, niin se voi kertoa SQL injektio onnistui ja ehto 1=1 - toisinsanoen totta.
+```
+time curl -s -X POST -d "username=x\" OR IF(1=1,SLEEP(5),0) -- " \
+  -u natas17:hPkjKYviLQctEW33QmuXL6eDVfMW4sGo \
+  http://natas17.natas.labs.overthewire.org/
+``` 
+
+
+**Ajallinen viive SQL-injektiossa** on hyödyllinen tekniikka, jossa hyödynnetään palvelimen vastauksen viivettä paljastamaan tietokannan rakenteita tai paljastamaan tietoa, kuten oikea salasana tai käyttäjänimi. Ajalliset SQL-injektiot hyödyntävät `SLEEP()`-komentoa tietokannassa, joka viivyttää palvelimen vastausta tietyn ajan.
+
+
+**Ajallinen viive SQL-injektio:**
+- Tavoite: Aikaviiveen avulla voidaan päätellä, onko syötetty SQL-lause oikein muodostettu ja onko tietty ehto totta. Jos SQL-lauseessa on SLEEP()-komento ja se toteutuu, palvelin viivyttää vastausta.
+
+- Toteutus: Testaamalla, kuinka kauan vastaus kestää, voidaan päätellä, onko tietty ehto totta (esim. 1=1), mikä voi paljastaa tietoa.
+
+**Mitä SLEEP(5) tekeekään?**
+Käyttäjä ei lähetä mitään pyyntöä 5 sekunnin välein, vaan palvelin itse odottaa, jos SQL-ehto on tosi ennen kuin se palauttaa viestinsä takaisin käyttäjälle.
+
+Esim. tapahtumana SQL lause luodaan palvelimella: `SELECT * FROM users WHERE username="test" OR IF(1=1, SLEEP(5), 0) --`
+- `1=1`on aina tosi -> SLEEP(5) aktivoituu
+- palvelin odottaa 5 sekunttia ennen kuin se palauttaa mitään
+- Käyttäjä odottaa sen 5 sekunnin ja sitten vasta saa vastauksensa
+
+Vaikka ei näkisi mitään tulostetta niin voi päätellä ehdon onnistumisen viiveen perusteella.
+
+
+🧠 Miksi tämä on hyödyllistä?
+Tämä viive kertoo sinulle, että:
+- Injektio onnistui (koska viivettä tuli)
+- Ehto oli tosi (esim. joku tietty merkki salasanassa oli oikea)
+- Voit käyttää tätä tietovuotoon ilman näkyviä tulosteita!
+
+Sekä tässä harjoituksessen toisessa välilehdessä `index-source.html` kentällä on mainittu tietokantaa.
+Mikä tarkoittaa etsiäkseen tietokannasta salasansa merkkiä kerrallaan käyttämällä palvelimen vastausviivetä (ajallisen SQL injektio), ilman että näkee mitään suoraan tulosettta.
+
+Tämä ois looginen brute-force esimerkki, joka sitten tarkoittaisi kävisi kaikki aakkos järjestykset lävitse, ja tämä ei ole satunnainen arvaaminen, vaan **järjestelmällinen, viiveeen perustuva brute-force:**
+```
+username=natas18" AND IF(SUBSTRING(password,1,1)="a",SLEEP(3),0) -- 
+username=natas18" AND IF(SUBSTRING(password,1,1)="b",SLEEP(3),0) -- 
+username=natas18" AND IF(SUBSTRING(password,1,1)="c",SLEEP(3),0) -- 
+...
+```
+
+
 ## Natas 17 - 1 - pikainen testaus
 
 Kokeillaan aikaisempien perusteella mitä harjoiteltu mm. SQL injektiota ja jne, että kokeillaan saadaan selville mitään.
