@@ -2,6 +2,13 @@
 
 6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ | natas18
 
+![alt text](./kuvat-level16-20/natas18-0.png)
+
+![alt text](./kuvat-level16-20/natas18-1.png)
+
+![alt text](./kuvat-level16-20/natas18-2.png)
+
+
 Kokeiltiin username ja password molempiin "admin" - se potki minut istunnosta ja kirjauduttua takaisin natas 18 tunnuksella ja sen salasanalla jonka purettiin aikaisemmin niin palattua sisään lukee näin 
 
 "You are logged in as a regular user. Login as an admin to retrieve credentials for natas19." . - Tämä tarkoittaa uusi istunto on alkanut. Nyt ei päästä takaisin etusivulle jossa voidaan syöttää sitä kirjauttumisen lomaketta eli username;password.
@@ -12,6 +19,8 @@ Sama kokeiltu tällä SQL injektio keinolla **admin" OR 1=1 --"**, mutta sekin m
 
 **Miten halutaan tyhjentää ja unohtaa se kirjauttumisen istunto?** Chrome: F12 --> Application ja siitä "cookies" alempi ja ensimmäinen vaihtoehto siitä oikea hiiren klikkaus ja "clear" ja sitten päivitä sivusto. Ei se välttämättä toimi yhdellä päivityksellä kannattaa kokeila toisen/kolmannen kerran ja poistaa eväste istunto.
 
+![alt text](./kuvat-level16-20/natas18-3.png)
+
 
 ## selvittämistä ja pähkäilyä
 
@@ -19,6 +28,16 @@ sivuston - index-source.html sivuston mukaan siellä lukee näin
 
 Tämä luku koskien on varmasti toi PHPSESSID - jossa chrome:ssa tyhjennettiin/poistettiin evästeiden tietoja ja voi olla tästä pitää saada täsmällinen luku. Tämä luku on riittävän alhainen, jotta PHPSESSID-muuttujaan voidaan kohdistaa raa'alla voimalla hyökkäys istunnon kaappaamiseksi (**session hijacking**). 
 - $maxid = 640; // 640 should be enough for everyone
+
+![alt text](./kuvat-level16-20/natas18-4.png)
+
+![alt text](./kuvat-level16-20/natas18-5.png)
+
+![alt text](./kuvat-level16-20/natas18-5-1.png)
+
+![alt text](./kuvat-level16-20/natas18-5-2.png)
+
+![alt text](./kuvat-level16-20/natas18-5-3.png)
 
 
 
