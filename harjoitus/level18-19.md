@@ -69,6 +69,8 @@ function isValidAdminLogin() { /* {{{ */
 
 ## Kali Linux komentoja - START HERE;
 
+### CURL komentoja - START HERE;
+
 Muutama curl komentoja testaillaan
 
 Aika perus:
@@ -122,6 +124,73 @@ Vary: Accept-Encoding
 Content-Type: text/html
 ```
 
+Tässä ensimmäisennä haluttaan muuttaa natas18 salasansa mukaan base64 muotoon (username + salasansa itsensä molemmat muuttuvat base64 muotoon)
+
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n "natas18:6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ" | base64
+bmF0YXMxODo2T0cxUGJLZFZqeUJscHhnRDRERGJSRzZaTGxDR2dDSg==
+```
+
+Tässä ei toiminutkaan, mutta silti testattiin. Ajatuksena tässä oli syöttää base64 (username + password), PHPSESSID ei vielä oikea, silti testattiin toi **brute-force session ID:t** (0-640), kunnes löytö sessio admin         
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl 'http://natas18.natas.labs.overthewire.org/index.php' \
+  -H 'Authorization: Basic bmF0YXMxODo2T0cxUGJLZFZqeUJscHhnRDRERGJSRzZaTGxDRmdDSg==' \
+  -H 'Cookie: PHPSESSID=515' \
+  --insecure
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>401 Unauthorized</title>
+</head><body>
+<h1>Unauthorized</h1>
+<p>This server could not verify that you
+are authorized to access the document
+requested.  Either you supplied the wrong
+credentials (e.g., bad password), or your
+browser doesn't understand how to supply
+the credentials required.</p>
+<hr>
+<address>Apache/2.4.58 (Ubuntu) Server at natas18.natas.labs.overthewire.org Port 80</address>
+</body></html>
+```
+
+
+Nyt alkoi pelittää voi olla jotakin kirjoitus tai muuta virhettä..
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n "natas18:6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ" | base64
+bmF0YXMxODo2T0cxUGJLZFZqeUJscHhnRDRERGJSRzZaTGxDR2dDSg==                                                                                                                                                
+┌──(kali㉿kali)-[~]
+└─$ curl 'http://natas18.natas.labs.overthewire.org/index.php' \
+  -H 'Authorization: Basic bmF0YXMxODo2T0cxUGJLZFZqeUJscHhnRDRERGJSRzZaTGxDR2dDSg==' \
+  -H 'Cookie: PHPSESSID=515' \
+  --insecure
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas18", "pass": "6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ" };</script></head>
+<body>
+<h1>natas18</h1>
+<div id="content">
+You are logged in as a regular user. Login as an admin to retrieve credentials for natas19.<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+---
+
+### SQLMAP - START HERE;
 
 ```
 ┌──(kali㉿kali)-[~]
