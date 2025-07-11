@@ -281,9 +281,72 @@ Esimerkki: --tamper=space2comment muuttaa välilyönnit SQL-kommenteiksi, mikä 
 
 ## Jotakin uutta esille ja katsotaan netistä vihjeitä:
 
+Mentiin tällaisen Python koodilla - se on yksi tapa laskea, se count-muuttuja joka käyttää sitä **"PHPSESSID:le"**. Tämän ideana on kuin lähettää yhdessä basicAuth-tietoja GET pyynnön kautta ja periaatteessa laskee kuitenkin sen PHPSESSID luvunsa. Tosiaan vastaus PHPSESSID luku 119.
 
+Python koodissa on alkava luku 1 ja maksimi päättyy 640, että siksi päädyssä päättyy 640 asti, että pitää tarkistaa mikä on se virallinen luku. Jos mentäisiin F12 cookies (eväste) kautta niin on tosi työllästä ja joutuu päivittelee sitä sivusstoa.
 
+![alt text](./kuvat-level16-20/natas18-6.png)
 
+![alt text](./kuvat-level16-20/natas18-6-1.png)
+
+![alt text](./kuvat-level16-20/natas18-6-2.png)
+
+Tämä on siitä osasta (ylempi kuva pätkä), mutta dejavu toistoa ja tämä kertoo sen PHPSESSID luku on 119.
+
+```
+PHPSESSID=118
+PHPSESSID=119
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas18", "pass": "6OG1PbKdVjyBlpxgD4DDbRG6ZLlCGgCJ" };</script></head>
+<body>
+<h1>natas18</h1>
+<div id="content">
+DEBUG: Session start ok<br>You are an admin. The credentials for the next level are:<br><pre>Username: natas19
+Password: tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr</pre><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+
+PHPSESSID=120
+```
+
+Tässä nähdään se laskee siihen 640 asti.
+
+![alt text](./kuvat-level16-20/natas18-6-3.png)
+
+**Seuraavaksi**:
+Samalla tarkistellaan sivustoa, että täsmentyykö ja tarkistuksen kannalta varmuuden vuoksi. Heitetään oletus ja ensimmäinen tunnus + salasana on admin koska halutaan päästä siihen evästeen käsiksi.
+
+![alt text](./kuvat-level16-20/natas18-7.png)
+
+Kirjauduttua huomataan se antoi PHPSESSID luvunsa ja muutettaan sille virallinen oikea luku eli 119
+
+![alt text](./kuvat-level16-20/natas18-8.png)
+
+![alt text](./kuvat-level16-20/natas18-9.png)
+
+Sitten sivuston URL perään laitoin *?debnug* , koska jotta päästää siihen ja siinä view source html:ssäkin **debug** funktio osuus.
+
+![alt text](./kuvat-level16-20/natas18-10.png)
+
+**OPTIONAL** aikaisemmasta kummosin ton debug url:in perässä , että toimiiko se ilman ja toimi. Tässä on Natas 19 salasansa.
+
+![alt text](./kuvat-level16-20/natas18-11.png)
+
+---
+
+# Natas 19 - START HERE:
+
+Username: natas19 <br>
+Password: tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr
 
 
 
