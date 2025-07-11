@@ -9,11 +9,11 @@
 ![alt text](./kuvat-level16-20/natas18-2.png)
 
 
-Kokeiltiin username ja password molempiin "admin" - se potki minut istunnosta ja kirjauduttua takaisin natas 18 tunnuksella ja sen salasanalla jonka purettiin aikaisemmin niin palattua sisään lukee näin 
+Kokeiltiin username ja password molempiin "admin" tunnuksella - se potki minut istunnosta ja kirjauduttua takaisin natas 18 tunnuksella ja sen salasanalla jonka purettiin aikaisemmin niin palattua sisään lukee näin 
 
-"You are logged in as a regular user. Login as an admin to retrieve credentials for natas19." . - Tämä tarkoittaa uusi istunto on alkanut. Nyt ei päästä takaisin etusivulle jossa voidaan syöttää sitä kirjauttumisen lomaketta eli username;password.
+**"You are logged in as a regular user. Login as an admin to retrieve credentials for natas19."** . - Tämä tarkoittaa uusi istunto on alkanut. Nyt ei päästä takaisin etusivulle jossa voidaan syöttää sitä kirjauttumisen lomaketta eli username;password.
 
-Siinä view source koodin pätkän funktiossa ainakin if-else parametrissä on nimetty jos on "admin" niin se pätevä osuus ikään kuin toimii ja alkaa uusi istunto. 
+Siinä view source koodin pätkän funktiossa ainakin if-else parametrissä on nimetty jos on "admin" tunnus niin se pätevä osuus ikään kuin toimii ja alkaa uusi istunto. 
 
 Sama kokeiltu tällä SQL injektio keinolla **admin" OR 1=1 --"**, mutta sekin menee samaan sivustoon ja näkymänsä eli "You are logged in as regular case.."
 
@@ -29,15 +29,41 @@ sivuston - index-source.html sivuston mukaan siellä lukee näin
 Tämä luku koskien on varmasti toi PHPSESSID - jossa chrome:ssa tyhjennettiin/poistettiin evästeiden tietoja ja voi olla tästä pitää saada täsmällinen luku. Tämä luku on riittävän alhainen, jotta PHPSESSID-muuttujaan voidaan kohdistaa raa'alla voimalla hyökkäys istunnon kaappaamiseksi (**session hijacking**). 
 - $maxid = 640; // 640 should be enough for everyone
 
+Tässä pientä toistoa, että miten pääsee puhdistaa ja unohtamaan istunnon kirjauttuneen tunnuksensa ja salasansa. 
+
 ![alt text](./kuvat-level16-20/natas18-4.png)
 
 ![alt text](./kuvat-level16-20/natas18-5.png)
+
+Tässä (alempi kuva), muutin ton kirjauttuneen *maxid* se value 54:stä 1:seksi, josta on se 0 ja 1.
+Mitä tämä tarkoittaa? 
+- PHPSESSID on selaimen eväste, jolla PHP ylläpitää käyttäjän istuntotietoja. Kun arvo oli alun perin 54, se tarkoitti, että palvelin oli määrittänyt tälle istunnolle yksilöllisen tunnisteen “54”. Jos muuttaisin ykköseksi käsin, selaimen lähettämä istuntotunniste on 1:nen.
 
 ![alt text](./kuvat-level16-20/natas18-5-1.png)
 
 ![alt text](./kuvat-level16-20/natas18-5-2.png)
 
+Päivitin sen sivuston niin tuli näin **DEBUG: Session start ok** - outoa. PHPSESSID-arvon muokkaaminen on lähinnä hyödyllistä testaukseen tai kehitykseen, ei normaaliin käyttöön. Tämä muutettun ykköseksi voi tarkoittaa muutakin mm:
+<br><br>
+- 🔐 Palvelin ei tunnista 1:stä, ellei se ole aiemmin luotu ja tallennettu palvelimen istuntotietokantaan.
+- 🚫 Todennäköisesti palvelin pitää istuntoa virheellisenä tai ei löydä mitään siihen liittyvää tietoa.
+- 🔄 Tämä voi johtaa siihen, että joudut kirjautumaan uudelleen, istuntosi nollautuu tai et saa mitään sisältöä.
+
 ![alt text](./kuvat-level16-20/natas18-5-3.png)
+
+
+Seuraavaksi tässä alemmassa funtio osuudessa eli *index-source.html* sivustossa.
+Tässä return kohdassa on laitettu kommentti, koska tämä tarkoittaisi emme voi päästä *admin* käyttäjätunnuksella sisään ja kertauksena 0 ja 1 ovat totuusarvoja eli **boolean logic** - **0 on false** ja **1 on true**. Tässä voittaisiin asettaa * $_SESSION["admin"] = 0; i*  - ikäään kuin tarvittaisiin salasansa vastaus. Sekä tästäkin toi PHPSESSID kokeiltiin jos kertalleen *1* niin se antoi sen index.php sivuston *DEBUG: Session start ok*. 
+
+```
+function isValidAdminLogin() { /* {{{ */
+    if($_REQUEST["username"] == "admin") {
+    /* This method of authentication appears to be unsafe and has been disabled for now. */
+        //return 1;
+    }
+
+    return 0;
+```
 
 
 
@@ -184,4 +210,17 @@ SQLMap ehdottaa kokeilemaan --tamper-asetusta, joka muokkaa hyökkäyspyyntöjä
 Esimerkki: --tamper=space2comment muuttaa välilyönnit SQL-kommenteiksi, mikä voi hämätä WAF:ia.
 
 
-## Jatkuu - selvittämistä
+## Jotakin uutta esille ja katsotaan netistä vihjeitä:
+
+
+
+
+
+
+
+
+
+
+---
+
+
