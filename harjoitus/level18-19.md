@@ -348,14 +348,21 @@ Sitten sivuston URL perään laitoin *?debnug* , koska jotta päästää siihen 
 Username: natas19 <br>
 Password: tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr
 
+![alt text](./kuvat-level16-20/natas19-0.png)
+
+![alt text](./kuvat-level16-20/natas19-1.png)
+
 Tämä on sama kuin aikaisepi taso eli 18, mutta **session ID:tä** ei ole saatavilla eli vaikeammaksi mennään. Ainakin tästä testattu yleis käyttäjätunnus ja salasanalla sisään (admin:admin) niin antoi uuden sivustson, jossa lukee näin:
 
 **This page uses mostly the same code as the previous level, but session IDs are no longer sequential... You are logged in as a regular user. Login as an admin to retrieve credentials for natas20.**
+
+![alt text](./kuvat-level16-20/natas19-2.png)
 
 Sama jouduttiin clear sitä evästettä, josta sitten päästään tähän kirjauttumisen etusivulle eli syötä *username;password*. Voi olla tämä konfiguroitu *view-source.html* sama kuin aikaisempi, mutta tässä tasossa ei annetta lisää vihjeitä kuitenkaan paitsi tämä (ylempi kuvaus)
 
 Myös sama testasin SQL injektiota, että ei antanut mitään vastausta, että tämä on vaikeampi ja koska PHPSESSID ei toistu peräkkäin. Siksi nyt tämä sulkee pois brutoe-force lähetymistavan.
 
+![alt text](./kuvat-level16-20/natas19-3.png)
 
 
 ## Kali linux - testausta START HERE;
@@ -523,6 +530,15 @@ PHPSESSID=3634302d61646d696e
 Done!
 ```
 
+![alt text](./kuvat-level16-20/natas19-4-0.png)
+
+![alt text](./kuvat-level16-20/natas19-4-1.png)
+
+![alt text](./kuvat-level16-20/natas19-4-2.png)
+
+
+![alt text](./kuvat-level16-20/natas19-5.png)
+
 
 Jos tarkistellaan toi luku "3238312d61646d696e" varmuuden vuoksi:
 ```
@@ -531,7 +547,13 @@ Jos tarkistellaan toi luku "3238312d61646d696e" varmuuden vuoksi:
 281-admin 
 ```
 
+**Nyt tarkistellaan se eväste luku ja pitääkö paikkaansa:**
 
+![alt text](./kuvat-level16-20/natas19-6.png)
+
+![alt text](./kuvat-level16-20/natas19-7.png)
+
+![alt text](./kuvat-level16-20/natas19-8.png)
 
 
 ---
