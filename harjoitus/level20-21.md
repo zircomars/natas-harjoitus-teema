@@ -26,6 +26,36 @@ Tässä lisäsin url perään `?debug` - jonka jälkeen toi uuden sivuston ja t�
 
 ![alt text](./kuvat-level16-20/natas20-4.png)
 
+Tässä ideana on jotenkin syötettyö muutoksen nimensä "test" ja sitten toisen kerran "\naadmin 1" , siinä pitää tulla välilyönti mukaan.
+
+![alt text](./kuvat-level16-20/natas20-5.png)
+
+![alt text](./kuvat-level16-20/natas20-6.png)
+
+![alt text](./kuvat-level16-20/natas20-7.png)
+
+
+## Burpsuite - kali linux
+
+Avaa ohjelmasta kuin **Burp suite** - ja sitä tarvittaan tässä levelissä. Tässä jotekin pitää saada kaappattua se sivuston dataa ja sitten muuttaa "test":stä --> "\naadmin 1":ksi. 
+
+Tässä on muutama kuva, josta on tullut pientä epäonnistumista, mutta jälkeen tulee se toimiva osuus.
+
+![alt text](./kuvat-level16-20/natas20-8.png)
+
+![alt text](./kuvat-level16-20/natas20-9.png)
+
+![alt text](./kuvat-level16-20/natas20-9-1.png)
+
+Tästä jotekin pitää saada otettua **repeater** talteen, jonka idea on toistaa ja lähettää sitä muutettua osaa.
+
+![alt text](./kuvat-level16-20/natas20-9-2.png)
+
+![alt text](./kuvat-level16-20/natas20-10.png)
+
+
+
+
 
 
 
