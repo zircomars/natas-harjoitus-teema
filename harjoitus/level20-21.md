@@ -34,8 +34,130 @@ Tässä ideana on jotenkin syötettyö muutoksen nimensä "test" ja sitten toise
 
 ![alt text](./kuvat-level16-20/natas20-7.png)
 
+## Source code analyysi (lähdekoodi)
+Tästä nähdään kuin saattaisiin istunnon arvon yllä olevia debug näkymiä. Näiden annettujen lähdekoodi loppua nähdään seuraavat koodit:
+Tämä koskien on toi istunnon tallennus hallinta mikälie
 
-## Burpsuite - kali linux
+```
+
+session_set_save_handler(
+    "myopen",
+    "myclose",
+    "myread",
+    "mywrite",
+    "mydestroy",
+    "mygarbage");
+session_start();
+
+if(array_key_exists("name", $_REQUEST)) {
+    $_SESSION["name"] = $_REQUEST["name"];
+    debug("Name set to " . $_REQUEST["name"]);
+}
+
+print_credentials();
+
+$name = "";
+if(array_key_exists("name", $_SESSION)) {
+    $name = $_SESSION["name"];
+}
+
+?>
+
+```
+
+Aletaan purkkaa tätä funktiotta vähäsen
+1. ensimmäisessä funktiossa (sesion-set_save_handler() on se omien sessiontallennusfunktioiden käyttö koskien: **avaus, sulkeminen, lukea, kirjoittaa, tuhota ja käsittelä roskia**. 
+Tämä tosiaan on yleinen esim. kun istunto tallenntaan tietokantaan, tiedostoon tai muuhun kuin tavalliseen PHP $_SESSION - mekanismiin.
+
+2. tarkastuksena onko $_REQUEST["name"] olemassa
+
+- Jos käyttäjä on lähettänyt name-arvon (esim. lomakkeesta), se tallennetaan $_SESSION["name"]-muuttujaan.
+- debug()-funktio voi esim. tallentaa tämän arvon lokiin, mutta ei vaikuta toiminnallisuuteen.
+
+3. print_credentials();
+
+- Tämä funktio todennäköisesti tarkistaa sessiossa olevan nimen ja näyttää salasanan vain jos käyttäjä on "admin".
+- Eli jos sessioon saadaan tallennettua name = admin, voi flagi paljastua.
+
+VIimeisenä luetaan sessiosta "name" ja asetetaan muuttujaan "$name". Periaatteessa tässä funktiossa koskien on "lukea" ja "kirjoittaa" kun ne käsittelevät istuntojen tallennusta ja lukemista. Jos sessio-ID saadaan johtuen admin sessio (esim. oikeanlainen heksattu tunniste) niin serveri saattaa palauttaa admin oikeudet.
+
+# Haavoittuvuuden paikantaminen
+
+Eli nyt alettaan selvittää ja tarkisteellaan tämä tason haavoittuvuutta ja debugoidaan muuttujansa. Tässä välissä/tilanteessa joutuu kirjoittaa url perään toi **?debug**, koska jotta se ymmärtää ja syöttää toi kentän muuttamisen nimensä.
+
+Ohjeissa on käytettään burp suit jotenkin jännästi (vanhat ohjeet), mutta jos yrittää saada toistetua "test" sitten "admin + 1" ja lisää url perään *"?debug"* niin sen jälkeen pitäisi saada nähdättyä natas21 salasanasa, mutta voi olla mennään mutkan kautta.
+
+Burpsuit siinä kun syöttää kenttään "test admin 1" niin tässä välilyönnissä se muuttuu automaattisesti URL enkoodattuna ja sama pätee muita erikoismerkkiä ja sen kanssa.
+
+Vastauksena ja ratkaistettuna pitisi mennä **\nAadmin 1** , et toi välilyönti tulee mukaan. Ja samahan pitäisi jotenkin aktivoida **BurpSuite** kautta ton **Proxy**:n *Intercept* asetuksensa päälle, jotta ikään kuin seuraa suoraan sitä lomakekenttäänsä. Keinona on jotenkin muuttaa sen lähetyksensä et menee oikeasti, koska joka kerta kun toistaa "test" ja "\naadmin 1" niin se ei ymmärrä sitä pyyntöä.
+
+---
+
+## kali linux - checkkausta
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas20.natas.labs.overthewire.org/" http://natas20:p5mCvP7GS2K6Bmt3gqhM2Fc1A5T8MVyw@natas20.natas.labs.overthewire.org 
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas20", "pass": "p5mCvP7GS2K6Bmt3gqhM2Fc1A5T8MVyw" };</script></head>
+<body>
+<h1>natas20</h1>
+<div id="content">
+You are logged in as a regular user. Login as an admin to retrieve credentials for natas21.
+<form action="index.php" method="POST">
+Your name: <input name="name" value=""><br>
+<input type="submit" value="Change name" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+Muutamissa funtion koodissa on mainittu *debug* sana, että lisätty URl perään **?debug**, et ainakin näytti jotakin mielenkiintoista dataa/infoa. Toistin saman curl komennon, et verrattuna selaimessa on sama toisto. Tarkistin ton saving in /var polun, joka ei viennyt mihinkään
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas20.natas.labs.overthewire.org/" http://natas20:p5mCvP7GS2K6Bmt3gqhM2Fc1A5T8MVyw@natas20.natas.labs.overthewire.org?debug 
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas20", "pass": "p5mCvP7GS2K6Bmt3gqhM2Fc1A5T8MVyw" };</script></head>
+<body>
+<h1>natas20</h1>
+<div id="content">
+DEBUG: MYREAD pual2spejim19i8j0rhalfksrt<br>DEBUG: Session file doesn't exist<br>You are logged in as a regular user. Login as an admin to retrieve credentials for natas21.
+<form action="index.php" method="POST">
+Your name: <input name="name" value=""><br>
+<input type="submit" value="Change name" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+DEBUG: MYWRITE pual2spejim19i8j0rhalfksrt <br>DEBUG: Saving in /var/lib/php/sessions/mysess_pual2spejim19i8j0rhalfksrt<br>
+```
+
+
+## Kali linux - Burpsuite
 
 Avaa ohjelmasta kuin **Burp suite** - ja sitä tarvittaan tässä levelissä. Tässä jotekin pitää saada kaappattua se sivuston dataa ja sitten muuttaa "test":stä --> "\naadmin 1":ksi. 
 
@@ -53,12 +175,21 @@ Tästä jotekin pitää saada otettua **repeater** talteen, jonka idea on toista
 
 ![alt text](./kuvat-level16-20/natas20-10.png)
 
+Tässä on pientä toistoa, mutta tässä (vasemmalla) alhaala sitten muuttaa **"test"** kohti --> **"\naadmin 1"** ja huomoina, jokaisesta erikoismerkistä/tietty sana ja välilyönti muuttuu enkoodattuna URL:issa. 
+
+Muutetun jälkeen sitten "\naadmin 1" --> sitten *send* , jonka jälkeen päivittä sivusto ja laita perään **?debug**, koska sitä tarvittaan ja näin saatujen jälkeen niin tulos tulee näkyviinsä.
+
+![alt text](./kuvat-level16-20/natas20-11.png)
+
+![alt text](./kuvat-level16-20/natas20-12.png)
+
+--- 
+
+# natas 21 - START HERE
 
 
-
-
-
-
+Username: natas21 <br>
+Password: BPhv63cKE1lkQl04cE5CuFTzXe15NfiH
 
 
 
