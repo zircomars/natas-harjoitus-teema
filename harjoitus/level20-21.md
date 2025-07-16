@@ -191,6 +191,49 @@ Muutetun jälkeen sitten "\naadmin 1" --> sitten *send* , jonka jälkeen päivit
 Username: natas21 <br>
 Password: BPhv63cKE1lkQl04cE5CuFTzXe15NfiH
 
+Tässä on pari erisivustoa, josta etusivu on ja toisessa on väri sivusto, että molemmissa menee sama salasansa. Toisessa sivustossa voi muuttaa värinsä natas21 - CSS style experimenter
+
+![alt text](./kuvat-level16-20/natas21-0.png)
+
+![alt text](./kuvat-level16-20/natas21-1.png)
+
+
+![alt text](./kuvat-level16-20/natas21-2.png)
+
+
+![alt text](./kuvat-level16-20/natas21-3.png)
+
+Pikainen tarkistus tuosta evästeestä, kun kirjauduttiin normaalisti natas21 ja sen salasansa mukaan.
+
+![alt text](./kuvat-level16-20/natas21-4.png)
+
+
+![alt text](./kuvat-level16-20/natas21-5.png)
+
+
+![alt text](./kuvat-level16-20/natas21-6.png)
+
+Testasin muutamalla admin tunnuksella, et miltä se näyttikään ja siellä css style view source koodissa on mainittukin **debug** sana.
+
+CSS Tyle experimenter - sallitut ominaisuudet ja ainoastaan sanalla "hello world" - että sen takana on pieni taustaväri. Vain validoitut ominaisuudet ja tietyt voi muuttaa esim. se teksti voi siirtyä keksellä, vasen ja oikealle, että taustaväri ja oletuksena on se on väriltään keltainen kun kirjautuu uudestaan, että fontti koko voi muuttaa prosenttin mukaan. Sekä siellä koodi pätkässä on **debug** joten lisättin url perään **?debug** ja antoi tämän eli just: 
+
+```
+[DEBUG] Session contents:
+Array ( )
+```
+
+![alt text](./kuvat-level16-20/natas21-7.png)
+
+Pientä pohdiskelua ainakin tämä muistuu aikaisemman tason mukaan (natas20), mutta silti kirjauduttu natas21 etusivuston mukaan ollaan kirjauduttu regular user.
+
+---
+
+
+
+
+
+
+
 
 
 
