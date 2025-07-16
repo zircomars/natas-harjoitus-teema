@@ -30,7 +30,7 @@ käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutt
 
 
 
-## evästeen hakeminen
+## evästeen hakeminen ja tarkistus
 
 Oletuksena sivustosta voi tarkistaa evästeen esim. Chrome DEV työkalusta ja steppi menee: (F12/ oikea hiiren klikkaus **inspect**), sieltä välilehdestä kuin **application** --> **storage** >> **cookies** ja sieltä listasta valitsee tämän kyseisen sivuston mukaisen mitä datoja löytyy. 
 
@@ -63,6 +63,28 @@ natas5.natas.labs.overthewire.org       FALSE   /       FALSE   0       loggedin
 
 Ylemmän muutettun loggin=1:seksi, niin sitten suoritettaan ja haettaan sitä seuraavan levelin salasannsa; <br>
 `$curl http://natas5.natas.labs.overthewire.org/ -u natas5 -b "natas5_cookie.txt"`
+
+---
+
+
+Evästeen tarkistaminen ja muuttaminen, että josta voi tomia kuin pikainen tarkistus.
+
+Riippuu jos on kirjautunut admin admin niin antaa special dekoodattu dataa tai muulla salakielellä, mutt voi normaalisti tehdä tarkistuksensa ja tässä on pari esimerkkiä.
+
+![alt text](./kuvat-level16-20/natas19-2.png)
+
+![alt text](./kuvat-level16-20/natas18-9.png)
+
+Tosiaan riittää kopsaa sen evästeen kirjauttuneen <value> ja liittää tuohon alle, eli `echo -n <COOKIES_VALUE> | xxd -r -p`
+<br>
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n 3131392d61646d696e | xxd -r -p                             
+119-admin                                                                                                                                                      
+┌──(kali㉿kali)-[~]
+└─$ echo -n 39342d61646d696e | xxd -r -p
+94-admin                                                                                                                                                                   
+```
 
 ---
 
