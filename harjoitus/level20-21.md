@@ -228,9 +228,119 @@ Pientä pohdiskelua ainakin tämä muistuu aikaisemman tason mukaan (natas20), m
 
 ---
 
+## Kali linux checkkausta
 
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas21.natas.labs.overthewire.org/" http://natas21:BPhv63cKE1lkQl04cE5CuFTzXe15NfiH@natas21.natas.labs.overthewire.org 
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas21", "pass": "BPhv63cKE1lkQl04cE5CuFTzXe15NfiH" };</script></head>
+<body>
+<h1>natas21</h1>
+<div id="content">
+<p>
+<b>Note: this website is colocated with <a href="http://natas21-experimenter.natas.labs.overthewire.org">http://natas21-experimenter.natas.labs.overthewire.org</a></b>
+</p>
 
+You are logged in as a regular user. Login as an admin to retrieve credentials for natas22.
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
 
+Otin toisesta sivusta vähä lisätietoa ja katsotaan mitä tulostui;
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas21-experimenter.natas.labs.overthewire.org/" http://natas21:BPhv63cKE1lkQl04cE5CuFTzXe15NfiH@natas21-experimenter.natas.labs.overthewire.org 
+curl: (3) URL rejected: Malformed input to a URL function
+<html>
+<head><link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css"></head>
+<body>
+<h1>natas21 - CSS style experimenter</h1>
+<div id="content">
+<p>
+<b>Note: this website is colocated with <a href="http://natas21.natas.labs.overthewire.org">http://natas21.natas.labs.overthewire.org</a></b>
+</p>
+
+<p>Example:</p>
+<div style='background-color: yellow; text-align: center; font-size: 100%;'>Hello world!</div>
+<p>Change example values here:</p>
+<form action="index.php" method="POST">align: <input name='align' value='center' /><br>fontsize: <input name='fontsize' value='100%' /><br>bgcolor: <input name='bgcolor' value='yellow' /><br><input type="submit" name="submit" value="Update" /></form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+Tässä lisäsin `-v` eli verbose (`--verbose`) , mitä halutaan nähdä tarkemmin mitä tapahtuu;
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -v -Headers "Referer: http://natas21-experimenter.natas.labs.overthewire.org/" http://natas21:BPhv63cKE1lkQl04cE5CuFTzXe15NfiH@natas21-experimenter.natas.labs.overthewire.org
+* URL rejected: Malformed input to a URL function
+* Closing connection
+curl: (3) URL rejected: Malformed input to a URL function
+* Host natas21-experimenter.natas.labs.overthewire.org:80 was resolved.
+* IPv6: (none)
+* IPv4: 13.50.19.111
+*   Trying 13.50.19.111:80...
+* Connected to natas21-experimenter.natas.labs.overthewire.org (13.50.19.111) port 80
+* Server auth using Basic with user 'natas21'
+> GET / HTTP/1.1
+> Host: natas21-experimenter.natas.labs.overthewire.org
+> Authorization: Basic bmF0YXMyMTpCUGh2NjNjS0UxbGtRbDA0Y0U1Q3VGVHpYZTE1TmZpSA==
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Wed, 16 Jul 2025 16:03:48 GMT
+< Server: Apache/2.4.58 (Ubuntu)
+< Set-Cookie: PHPSESSID=2f3uc769empjoea1dgk92peue5; path=/; HttpOnly
+< Expires: Thu, 19 Nov 1981 08:52:00 GMT
+< Cache-Control: no-store, no-cache, must-revalidate
+< Pragma: no-cache
+< Vary: Accept-Encoding
+< Content-Length: 830
+< Content-Type: text/html; charset=UTF-8
+< 
+<html>
+<head><link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css"></head>
+<body>
+<h1>natas21 - CSS style experimenter</h1>
+<div id="content">
+<p>
+<b>Note: this website is colocated with <a href="http://natas21.natas.labs.overthewire.org">http://natas21.natas.labs.overthewire.org</a></b>
+</p>
+
+<p>Example:</p>
+<div style='background-color: yellow; text-align: center; font-size: 100%;'>Hello world!</div>
+<p>Change example values here:</p>
+<form action="index.php" method="POST">align: <input name='align' value='center' /><br>fontsize: <input name='fontsize' value='100%' /><br>bgcolor: <input name='bgcolor' value='yellow' /><br><input type="submit" name="submit" value="Update" /></form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+* Connection #0 to host natas21-experimenter.natas.labs.overthewire.org left intact
+```
+
+## Kali linux - Burpsuite
+
+Tämä burp suite harjoitus joka muistuu sama kuin aikaisempi taso eli *natas20* level, mutta tarvittaan se burp suit sivusto ja toistetaan se "send to repeater" välilehteen. Tällä kertaa käytettään se **css style sivustoa**, koska siellä on lomakekenttä, vaikka se on tarkoitettu syöttää vain muotoilua värinvaihto, tekstin kenttä onko keskellä-vasen-oikealla ja fonttin kokoon.
+
+Jotenkin osasta ohjeesta, muuttaa tuosta kentästä ja lähettää **&admin=1** - niin saa uuden PHPSESSID tunnuksensa, sitten korvaa sinne natas21 etusivuun ja päivittää sivuston niin natas22 salasana pitäisi tulla.
+
+Periaatteessa pitäisi mennä sivuston natas21-experimenter-sivulle ja tehdä lomakemuokkaus (admin=1). Niin sieltä tulee joku PHPSESSID-arvo ja sitä pitää liittää natas21 pääsivulle ja sitten päivittää uuden sivuston niin pitäisi saada admin oikeus..
 
 
 
