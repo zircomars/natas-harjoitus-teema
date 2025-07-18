@@ -111,6 +111,94 @@ Kali Linux tarjoaa lukuisia työkaluja, joita voi käyttää harjoitteluun ja er
 
 ---
 
+# 🛡️ Web CTF & Pentest Taktiset Perusmenetelmät
+
+Tämä dokumentti osa kokoaa yhteen yleisiä ja tehokkaita menetelmiä, joita käytetään web-pohjaisissa CTF-haasteissa ja penetraatiotestauksessa. Menetelmät keskittyvät HTTP-pyyntöjen manipulointiin, debug-parametrien hyödyntämiseen, uudelleenohjauksien tarkasteluun ja mahdollisiin injektioihin.
+
+## 📌 1. `curl`-komennon käyttö
+
+`curl` on tehokas työkalu HTTP-pyyntöjen lähettämiseen ja vastausten analysointiin.
+
+### 🔧 Peruskomennot
+
+```
+$curl -i http://example.com
+$curl -v http://example.com
+$curl -X POST -d "username=admin&password=1234" http://example.com/login
+$curl --cookie "PHPSESSID=xyz" http://example.com
+```
+
+Optiota ja selitystä: 
+- `-i`	Näyttää HTTP-headerit ja sisällön
+- `-v`	Verbose-tila: näyttää yhteyden muodostuksen ja headerit
+- `-X`	Määrittää HTTP-metodin (GET, POST, PUT jne.)
+- `-d`	Lähettää dataa POST-pyynnössä
+- `--cookie`	Asettaa evästeen manuaalisesti
+
+---
+
+## 🔍 2. URL-parametrien testaus
+
+Monet haavoittuvuudet paljastuvat, kun kokeillaan erilaisia parametreja URL:ssa. 🧪 Testattavia parametreja jotka menevät url perään:
+
+```
+?debug=1
+?admin=1
+?reveal=true
+?source=1
+?test=1
+?show=all
+?view=raw
+?cmd=ls
+```
+
+🔎 Näiden tarkoitus tarkoitus:
+- Aktivoi debug-tila tai kehittäjän jättämä testikoodi
+- Ohittaa käyttöoikeusvalvonnan
+- Paljastaa lähdekoodin
+- Käynnistää komentoja (jos haavoittuvuus sallii)
+
+---
+
+### 🚨 3. Poikkeustilanteiden hyödyntäminen
+
+Joissain sovelluksissa virhetilanteet paljastavat arkaluontoista tietoa.
+
+Esimerkkejä:
+. Virheviestit, jotka paljastavat tiedostopolkuja tai SQL-kyselyitä
+- Uudelleenohjaukset, jotka eivät lopeta koodin suorittamista (`header("Location: ...")`)
+- Epäjohdonmukaiset sessionhallinnat
+
+Testauksena esim. `curl -i "http://example.com/?reveal=1"`
+
+Mikäli jos palvelin vastaa mutta myös salasansa voi olla haavoittuva
+
+---
+
+### 💉 4. Injektiot ja manipulointi
+Parametrit voivat olla alttiita injektioille:
+
+🔥 Mahdollisia hyökkäyksiä
+SQL-injektio: ?id=1' OR '1'='1
+
+Command injection: ?cmd=ls; cat /etc/passwd
+
+XSS: ?search=<script>alert(1)</script>
+
+Path traversal: ?file=../../etc/passwd
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
