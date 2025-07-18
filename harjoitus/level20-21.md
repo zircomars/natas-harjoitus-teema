@@ -338,18 +338,58 @@ curl: (3) URL rejected: Malformed input to a URL function
 
 Tämä burp suite harjoitus joka muistuu sama kuin aikaisempi taso eli *natas20* level, mutta tarvittaan se burp suit sivusto ja toistetaan se "send to repeater" välilehteen. Tällä kertaa käytettään se **css style sivustoa**, koska siellä on lomakekenttä, vaikka se on tarkoitettu syöttää vain muotoilua värinvaihto, tekstin kenttä onko keskellä-vasen-oikealla ja fonttin kokoon.
 
+Tästä kun klikkaa **update** niin tulee pientä toistoa tonne **burp suite** ohjelmaan ja tässä tapahtuu **POST** koska lähettää jotakin muutosta
 ![alt text](./kuvat-level16-20/natas21-8-0.png)
+
+Tässä otin jo aikaisemman **send to repeater** niin tähän tulee pientä muutosta.
 
 ![alt text](./kuvat-level16-20/natas21-8-1.png)
 
-Jotenkin osasta ohjeesta, muuttaa tuosta kentästä ja lähettää **&admin=1** - niin saa uuden PHPSESSID tunnuksensa, sitten korvaa sinne natas21 etusivuun ja päivittää sivuston niin natas22 salasana pitäisi tulla.
-
+Jotenkin osasta ohjeesta, muuttaa tuosta kentästä ja lähettää **&admin=1** - niin saa uuden *PHPSESSID* tunnuksensa, sitten korvaa sinne natas21 etusivuun ja päivittää sivuston niin natas22 salasana pitäisi tulla.
 
 ![alt text](./kuvat-level16-20/natas21-8-2.png)
 
 ![alt text](./kuvat-level16-20/natas21-8-3.png)
 
 Periaatteessa pitäisi mennä sivuston natas21-experimenter-sivulle ja tehdä lomakemuokkaus (admin=1). Niin sieltä tulee joku PHPSESSID-arvo ja sitä pitää liittää natas21 pääsivulle ja sitten päivittää uuden sivuston niin pitäisi saada admin oikeus..
+
+Tässä url perään ja siellä view-source koodissa mainittu paljon **debug** sanaa , ohjeessa ja aikaiseman tason mukaankin url perään tulee tämä muoto `/index.php?debug`.
+
+![alt text](./kuvat-level16-20/natas21-8-4.png)
+
+Jotenkin suoritettu *send to repeater* - niin päivitin sivuston ur niin näin tuli pieni muutos ainakin.
+
+![alt text](./kuvat-level16-20/natas21-8-5.png)
+
+
+
+![alt text](./kuvat-level16-20/natas21-8-6.png)
+
+
+![alt text](./kuvat-level16-20/natas21-8-7.png)
+
+![alt text](./kuvat-level16-20/natas21-8-8.png)
+
+![alt text](./kuvat-level16-20/natas21-8-9.png)
+
+![alt text](./kuvat-level16-20/natas21-8-10.png)
+
+![alt text](./kuvat-level16-20/natas21-8-11.png)
+
+![alt text](./kuvat-level16-20/natas21-8-12.png)
+
+Nyt aloin avaa uudestaan, et aloin vähä kokeilla muutta tuota väriä et siksi laitoin sinisen ja tuli tänne ja perus toista **send to repeater**. Sine alle vaan perään laittaa `&admin=1` - ei kannata laittaa väliin ja voi olla vaikutusta jos laittaa väri tyypin jälkeen. 
+
+Sitten send ja päivitä sivusto `?debug` - ja kopsaa toi eväste koodi johonkin talteen varmuuden vuoksi. Ja natas21 pääsivustossa päivitä ja kannattaa pitää oletuksena se etusivu, ja yllätyksenä se alkoi toimia ja ihme?
+
+
+![alt text](./kuvat-level16-20/natas21-9.png)
+
+![alt text](./kuvat-level16-20/natas21-10.png)
+
+
+
+
 
 
 
