@@ -179,22 +179,20 @@ Mikäli jos palvelin vastaa mutta myös salasansa voi olla haavoittuva
 Parametrit voivat olla alttiita injektioille:
 
 🔥 Mahdollisia hyökkäyksiä
-SQL-injektio: ?id=1' OR '1'='1
+- SQL-injektio: `?id=1' OR '1'='1`
+- Command injection: `?cmd=ls; cat /etc/passwd`
+- XSS: `?search=<script>alert(1)</script>`
+- Path traversal: `?file=../../etc/passwd`
 
-Command injection: ?cmd=ls; cat /etc/passwd
+Esim. curl komennolla: `curl -i "http://example.com/?cmd=ls"`
 
-XSS: ?search=<script>alert(1)</script>
+Monessa CTF-haasteiden tarkoituksella sisältää takaportteja ja oikeissa sovelluksissa debug-parametrtejä ja vihreellisestä uudelleenohjauksia voivat olla vahingossa jääneitä.
 
-Path traversal: ?file=../../etc/passwd
+---
 
+# Curl-tarkistuslista: Lunttilappu alkuvaiheen tutkimuksiin
 
-
-
-
-
-
-
-
+Kun lähdettäisiin tekee testaamaan verkkopalvelua CTF-tilanteessa tai pentestiä, `curl` - komento on yksi tärkeimmistä työkaluista tehdä olennaisia tarkistuksia - varsinkin silloin, kun **ei tiedetä käyttäjätunnusta ja/tai salasanoja**. Tästä pätee esim. näkee kirjauttumisen sivuston.
 
 
 
