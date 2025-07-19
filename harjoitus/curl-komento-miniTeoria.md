@@ -194,10 +194,67 @@ Monessa CTF-haasteiden tarkoituksella sisältää takaportteja ja oikeissa sovel
 
 Kun lähdettäisiin tekee testaamaan verkkopalvelua CTF-tilanteessa tai pentestiä, `curl` - komento on yksi tärkeimmistä työkaluista tehdä olennaisia tarkistuksia - varsinkin silloin, kun **ei tiedetä käyttäjätunnusta ja/tai salasanoja**. Tästä pätee esim. näkee kirjauttumisen sivuston.
 
+## ✅ 1. Tarkista perusvastaus
+
+Perus vastaus: `curl -i http://target-site.com/`
+- näkee status-koodin, headerit ja mahdollisesti evästeet
+- Tarkista: `Set-Cookie`, `Server`, `Location`, piilotetut vihjeet
+
+
+## 🔍 2. Tarkista olemassa olevat reitit ja parametrit
+
+```
+curl -i http://target-site.com/?debug=1
+curl -i http://target-site.com/admin
+curl -i http://target-site.com/index.php?page=secret
+```
+
+- kokeilla yleisiä debug- tai kehittäjäparametreja
+- Testaa parametrien vaikutusta: `?view=raw`, `?source=1`, `?test=1`, `?cmd=ls`
+
+
+## 🔐 3. Testaa HTTP basic auth (jos arvailet että sellainen on käytössä)
+
+Jos on tiedossa käyttäjätunnus ja salasansa, josta tarkistaa kohteen url sivuston polun mukaan: `curl -i http://username:password@target-site.com/`
+
+Tai, tämä on sama komento, mutta rakennettu silleen siinä on alussa syötä <käyttäjätunus:salasana> ja perässä polku kohde eli se osoite sivustosta: `curl -i -u username:password http://target-site.com/`
+
+- Tätä kananttaa kokeilla tyhjiä arvoilla, ja yleisellä tunnuksella ja salasanalla <admin:admin> tai <test:test> ja jne. (Kysy chatgpt ja muilta tekoälyltä apua)
+- Seuraa vastauksia: tuleeko `401 Unauthorized` vai pääsekö sisään, yleensä jos on yleisellä ja helppo käyttäjätunnus ja salsana se tarkoittaisi tietojen vuoto ja pitäisi muuttaa se salasansa välittömästi.
 
 
 
+## 🍪 4. Tarkkaile ja käytä evästeitä
 
+Perus eväste (cookies)
+
+- `curl -i http://target-site.com/`
+
+Jos saa `Set-cookie: PHPSESSID= abc123` niin kokeillaan: `curl -i --cookie "PHPSESSID=abc123" http://target-site.com/dashboard`
+
+- Tämä voi testata onko sessio voimassa ja voi myös kokeilla "admin-evästeitä:" `is_admin=true` , `role=admin`ja jne.
+
+
+## 🔧 5. Lähetä POST-dataa
+
+`curl -i -X POST -d "username=test&password=test" http://target-site.com/login` 
+
+- Tämä tarkistaa mitä tapahtu kun syöttää kelvollisen/kelvottoman tunnuksensa ja vertailua vastauksia (statuskoodi, redirectit ja virheilmoituksiinsa)
+
+
+## 🧠 6. Kokeile redirect-käyttäytymistä
+
+Yleinen kokeilu: `curl -i http://target-site.com/?login=1`
+
+- Mikäli jos tulee `Location: /login` , onko redirect ennen kuin sisältö ehtii piiloutua
+
+- kokeilua seuraamista: `curl -i --max-redirs 0 http://target-site.com/?login=1`
+
+  
+Tässä 1-6 vaiheeseen voi tehdä `curl` -komentojen tarkistusta ja ovat yleensä ensimmäinen steppi
+- ne eivät vadi selainta tai autentikointia
+- antavat raakaa dataa siitä, mitä palvelin palauttaa
+- paljastavat mahdollisia haavoittuvuuksia tai piilossa olevia portteja. 
 
 
 
