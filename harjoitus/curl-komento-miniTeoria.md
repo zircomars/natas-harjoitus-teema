@@ -255,7 +255,38 @@ Tässä 1-6 vaiheeseen voi tehdä `curl` -komentojen tarkistusta ja ovat yleens�
 - ne eivät vadi selainta tai autentikointia
 - antavat raakaa dataa siitä, mitä palvelin palauttaa
 - paljastavat mahdollisia haavoittuvuuksia tai piilossa olevia portteja. 
+- tässä pätee myös käytetyt komennot, että normaalisti tulee toistoja ja on normaalia.
 
+---
 
+# 📦 Hyödyllisimmät `curl`-parametrit
+
+| Parametri            | Kuvaus                                                    | Esimerkki |
+|----------------------|------------------------------------------------------------|-----------|
+| `-i`                 | Näyttää HTTP-headerit ja rungon                            | `curl -i http://example.com` |
+| `-v`                 | Verbose-tila: näyttää myös yhteyden muodostumisen          | `curl -v http://example.com` |
+| `-X`                 | Määrittää HTTP-metodin                                     | `curl -X POST http://example.com` |
+| `-d`                 | Lähettää dataa pyynnön body-osassa                         | `-d "username=admin"` |
+| `-H`                 | Lisää HTTP-headerin                                        | `-H "Referer: http://target.com"` |
+| `-u`                 | HTTP Basic Auth                                            | `-u admin:1234` |
+| `--cookie`           | Asettaa evästeen käsin                                     | `--cookie "PHPSESSID=xyz"` |
+| `--cookie-jar`       | Tallentaa evästeet tiedostoon                              | `--cookie-jar cookies.txt` |
+| `--data-urlencode`   | URL-enkoodaa annetun datan automaattisesti                 | `--data-urlencode "input=<script>"` |
+| `--max-redirs`       | Rajaa seurattavien uudelleenohjausten määrän              | `--max-redirs 0` |
+| `-L`                 | Seuraa automaattisesti HTTP-redirectit                     | `curl -L http://example.com` |
+| `-o`                 | Tallentaa HTTP-vastauksen tiedostoon                       | `-o response.html` |
+| `-s`                 | "Silent mode" ilman virheilmoituksia ja latauspalkkeja     | `-s` |
+
+---
+
+## 🔗 Parametrien yhdistely: monipuolinen testi yhdellä rivillä
+
+```
+curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "username=admin&password=1234" \
+     --cookie "PHPSESSID=xyz123" \
+     -L http://target-site.com/login
+
+```
 
 
