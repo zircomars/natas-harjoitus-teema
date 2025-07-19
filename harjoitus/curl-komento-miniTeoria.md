@@ -289,4 +289,17 @@ curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
 
 ```
 
+## 🔧 Valmiit testauskomennot
 
+```
+# Tarkista reaktiot parametreihin
+curl -i "http://target-site.com/?reveal=1"
+
+# Älä seuraa redirecttiä
+curl -i --max-redirs 0 "http://target-site.com/?debug=1"
+
+# POST ilman redirectin seuraamista
+curl -X POST -d "username=test&password=1234" \
+     --max-redirs 0 \
+     http://target-site.com/login
+```
