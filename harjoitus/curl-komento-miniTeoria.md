@@ -303,3 +303,48 @@ curl -X POST -d "username=test&password=1234" \
      --max-redirs 0 \
      http://target-site.com/login
 ```
+
+---
+
+# Muuta testaamista
+
+Muuta testaamista kannattaa harjoitella — ei pelkästään käyttäjätunnusten ja salasanojen kokeilua. Monissa tehtävissä pääsee käsittelemään HTTP-protokollan dataa, sen rakennetta ja palvelimen vastauksia. Näihin liittyy keskeisesti **API-yhteyksien testaaminen, tiedon lataaminen ja verkon diagnosointi**, jotka ovat tärkeitä osa-alueita **CTF-tehtävissä, pentest-harjoituksissa ja web-sovellusten haavoittuvuustesteissä** – ei pelkästään Natas-sarjassa.
+
+## 🌐 1. API-yhteyden testaaminen
+Tarkoitus: Testata, miten palvelin reagoi eri HTTP-pyyntöihin (GET, POST, PUT, DELETE).
+
+Esimerkkejä:
+
+- 🔑 Testaa kirjautumista: POST /api/login → syötä oikeat/väärät tunnukset
+- 📦 Testaa tiedon hakua: GET /api/products → tarkista JSON-vastaus
+- 🧪 Testaa virheenkäsittelyä: lähetä puutteellisia tai virheellisiä parametreja
+
+
+## 📥 2. Tietojen lataaminen ja analysointi
+Tarkoitus: Selvittää, mitä tietoa palvelin tarjoaa ja miten se reagoi pyyntöihin.
+
+Esimerkkejä:
+
+- 🔍 curl -i http://example.com/api/data → tarkista HTTP-otsikot ja sisältö
+- 🧾 Tarkastele JSON- tai XML-rakenteita → etsi avaimia kuten admin, token, flag
+- 🧠 Käytä jq tai grep tietojen suodattamiseen
+
+## 🛠️ 3. Verkon diagnosointi ja yhteyksien tarkistus
+
+Tarkoitus: Selvittää, miten palvelin tai verkko toimii — onko pullonkauloja, reititysongelmia tai piilotettuja palveluita.
+
+Esimerkkejä:
+
+- ping ja traceroute → testaa yhteyden nopeus ja reitti
+- nmap → etsi avoimia portteja ja palveluita
+- netstat tai ss → tarkista aktiiviset yhteydet
+- Wireshark → analysoi liikennettä syvällisesti
+
+
+## 🧪 4. Haavoittuvuustestit ja CTF-tyyppiset tehtävät
+
+Esimerkkejä:
+- 🕳️ SQL Injection API:ssa: POST /api/search → syötä "' OR 1=1 --"
+- 🔐 Token-manipulointi: vaihda JWT:n sisältö ja testaa hyväksytäänkö
+- 🧬 Rate limiting: lähetä satoja pyyntöjä → tuleeko 429 Too Many Requests?
+
