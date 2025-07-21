@@ -263,6 +263,8 @@ Password: dIUQcI3uSus1JEOSSWRAEXBG8KbR8tRs
 
 Tuossa jo aikaisempikin n. 20 level alkaen tarkistamatta etusivun HTML koodia, ja hypättiin välittömästi asiansa ja jos on view-source koodi sivusto.
 
+![alt text](./kuvat-level22-28/natas22-0.png)
+
 Tässä tällä kertaa syötetään kenttään koodi lomakkeeseen niin varmasti antaa natas24 salasansa. Seuraavassa **index-source.html** . Lomakekentään siis syötä koodi koko (pituus) 20 sanaa, ja sitten tekee sen if-else funktionsa jos täsmentyy niin antaa natas24 vastauksensa ja jos ei sitten ei täsmää. Eli jos syöttää salasan formaattiin "iloveyou" tai "passwd" tai joka on alle 10 sanaa - niin se on väärin. Todellinen vastaus voi olla pitää syöttää kenttään yli 10 ja alle 20 sanan väliltä.
 
 ```
@@ -285,6 +287,8 @@ Password:
     // morla / 10111
 ?>  
 ```
+
+![alt text](./kuvat-level22-28/natas23-1.png)
 
 
 
@@ -508,6 +512,8 @@ Password:
 </body>
 </html>
 ```
+
+![alt text](./kuvat-level22-28/natas23-2.png)
 
 
 ## pieni teoria
