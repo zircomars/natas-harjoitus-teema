@@ -663,7 +663,8 @@ Toiminnallaan pitäisi syöttää ja antaa pientä muutosta: "http://natas24.nat
 
 ![alt text](./kuvat-level22-28/natas24-4.png)
 
-
+The credentials for the next level are:
+Username: natas25 Password: ckELKUWZUfpOv6uxS6M7lXBpBssJZ4Ws
 
 
 
