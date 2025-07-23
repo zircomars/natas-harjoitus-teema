@@ -553,4 +553,120 @@ Tämä taulukko havainnollistaa, miten PHP käsittelee `$_REQUEST["passwd"] > 10
 | `love11iloyou`     | ❌                    | ✅                   | `11`                   | ✅             |
 
 
+---
+
+# Natas 24 - START HERE;
+
+The credentials for the next level are:
+Username: natas24 Password: MeuqmfJ8DDKuTr5pcvzFKSwlxedZYEWd
+
+Tämä voi olla sama kuin aikaisepi taso eli natas 23 - level, mutta ainakin huomattua siinä **view-source.html** koodissa on pientä muutosta verrattuna aikaisempaa tasoon.
+
+![alt text](./kuvat-level22-28/natas24-0.png)
+
+![alt text](./kuvat-level22-28/natas24-1.png)
+
+
+```
+<h1>natas24</h1>
+<div id="content">
+
+Password:
+<form name="input" method="get">
+    <input type="text" name="passwd" size=20>
+    <input type="submit" value="Login">
+</form>
+
+<?php
+    if(array_key_exists("passwd",$_REQUEST)){
+        if(!strcmp($_REQUEST["passwd"],"<censored>")){
+            echo "<br>The credentials for the next level are:<br>";
+            echo "<pre>Username: natas25 Password: <censored></pre>";
+        }
+        else{
+            echo "<br>Wrong!<br>";
+        }
+    }
+    // morla / 10111
+?>  
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+```
+
+Ainakin tämä osuus `if(!strcmp($_REQUEST["passwd"], "<censored>"))` - tarkoitta:
+- PHP vertaa syötettyä arvoa, et tarkasti johonkin kovakoodattuun arvoon (tähän sensoroituun) salasanasa.
+- `strcmp()` tekee tarkan  merkkijonon vertialunsa ja `!strcmp()` on totta avin, jos molemmat merkkijojnot ovat täsmälleen samat.
+
+Tämän `strmcp()` funktiossa tapahtuu vertailee merkkijononsa aakkosjärjestyksessä (ASCII-arvojen mukaan):
+
+
+Tämä `morla / 10111` - ei liity mitenäkään tähän ja se on normi joku käyttäjäprofiili tai kotihakemisto tai muu taustainen tunnistus.
+
+- Palauttaa < 0, jos string1 on "pienempi" kuin string2 
+- Palauttaa > 0, jos string1 on "suurempi" kuin string2
+- Palauttaa 0, jos ne ovat täsmälleen samat
+
+Samahan tässä vihjettä ei annettu, sekä ei ole varmasti alkavana numerona + "iloveyou" ja jne, että voi olla menee sinne tietokantaan tai muualle, että pitäisikö testata sillä robots.txt? 
+
+
+## Kali inux robots.txt ja tarkistus
+
+Ajattelisin kokeilla esim. kali linux *oman* robots.txt et sillä laittaa sen polun eli */etc/robots.txt* ja siitä natas24 url etusivunsa. Oma pieni hahmottamisen komento `$curl /etc/robots.txt http://natas24.natas.labs.overthewire.org --user natas24:MeuqmfJ8DDKuTr5pcvzFKSwlxedZYEWd` - muuten hyvä idea ja tämä ei ehkä toimisi. Aikaisempien levelissä oli `/robots.txt` tarjolla url peränsä, mutta tätä ei ole tarjolla uudestaan koska tarkistettuna sitä ei ole olemassa.
+
+NÄMÄ EI TOIMI:
+```
+curl http://natas24.natas.labs.overthewire.org/robots.txt --user natas24:MeuqmfJ8DDKuTr5pcvzFKSwlxedZYEWd
+curl http://natas24.natas.labs.overthewire.org/secret/ --user natas24:MeuqmfJ8DDKuTr5pcvzFKSwlxedZYEWd
+```
+
+curl on tarkoitettu lähettämään pyyntöjä etänä oleville verkkopalvelimille, ja se ei voi liittää oman koneen tiedostoa (esim. /etc/robots.txt) toisen palvelimen osoitteeseen. Robots.txt voi olla verkkosivuston oma tiedoston polun alla, jota palvelin itse tarjoaa — eikä se tule käyttjältä. Yleensä robots.txt ei välttmättä ole verkkosivustojen palvelimen allakaan yleensä turvallisuuden kannalta ja sama pätee **/s3cr3ts.txt**
+
+
+Kokeiltu aikaisempia tarkistuksia esim. yksi niistä on se url perässä on se polku kuten `?lang=../../../../etc/passwd` ja pien kertauksena toi tiedoston polku esim. `/var/www/natas/natas24/` tai sitä vastaavaa, josta voi lukea salaisuudensa.
+
+
+**Seuraava testausta:**
+Tässä tapahtuu strcmp-testaus komentorivi, jossa antaa tuloksena negatiivisen luvun just tämän ensimmäinen testin.
+
+📌 Mitä `php -r` tekee?
+- php: suorittaa PHP:n komentotulkinnan
+- `-r`: kertoo, että komento annetaan suoraan ilman tiedostoa
+- `'echo strcmp("a", "password");'`: ajaa echo-lauseen ja näyttää tuloksen
+
+```
+┌──(kali㉿kali)-[~]
+└─$ php -r 'echo strcmp("a", "password");'
+-15                                                                                                                                                  
+┌──(kali㉿kali)-[~]
+└─$ php -r '$x = strcmp("a", "password"); echo ($x === 0 ? "Equal" : ($x < 0 ? "a < password" : "a > password"));'
+a < password                                                                                                                                      
+```
+
+Tämäkin on normi testaus, et siihen kenttään tai urliin:
+
+![alt text](./kuvat-level22-28/natas24-2.png)
+
+
+
+Tässä harjoituksen levelissä siis peini lisäetsintä aiheesta “strcmp-funktion ohittaminen” johdatti minut CSAW-nimiseen CTF-tehtävään. Siinä pelaajat onnistuivat **ohittamaan vertailun kokonaan** saattamalla `$password`-muuttujan arvoksi NULL, joka PHP:ssä vastaa arvoa `0`. He tekivät tämän asettamalla $password:n merkkijonon sijasta taulukoksi (`array`). Ja Natas24:n lähdekoodissa ei ole mitään tarkistusta, joka estäisi meitä tekemästä niin.
+
+Periaatteessa syötämällä `?passwd[]=arvo` URL:iin, `$_REQUEST["passwd"]` muuttuu taulukoksi → ja ohitat salasanatarkistuksen
+
+
+## Ratkaisu
+
+Eli edellisen lauseen mukaan tosiaan kokonaisen URL perään pitäisi sijoittaa pientä muutosta eli syötämällä `?passwd[]=arvo`. Jos alkuun syöttää esim. URl perään `?passwd=test` eli "http://natas24.natas.labs.overthewire.org?passwrd=test" - niin tietenkin se toimii, mutta se ei ole virallisen tämän tason *salasanan* vastaus. 
+
+Toiminnallaan pitäisi syöttää ja antaa pientä muutosta: "http://natas24.natas.labs.overthewire.org/?passwd[]=test" 
+
+![alt text](./kuvat-level22-28/natas24-3.png)
+
+![alt text](./kuvat-level22-28/natas24-4.png)
+
+
+
+
+
+
+
 
