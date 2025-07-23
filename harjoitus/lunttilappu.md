@@ -10,7 +10,10 @@ Eli perus harjoittuksien kannalta kertyy ja taso menee vaikeammaksi ja vaikeamma
 
 ## curl komentoja
 
-käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutta jotekin se objekti/nimi/muuttuja on erissä järjestyksessä mutta idea on sama;
+käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutta jotekin se objekti/nimi/muuttuja on erissä järjestyksessä mutta idea on sama;'
+
+- Tämä voisi olla pohja ja nopealla, ettei turhia pitkiä curl komentoja: <br>
+`curl http://natas25.natas.labs.overthewire.org/ --user natas25:ckELKUWZUfpOv6uxS6M7lXBpBssJZ4Ws`
 
 - Ensimmäisen linkkissä on halutaan mennä seuraavaan leveliin, ja jälkimmäisessä on nykyinen level ja se level salasansa jonka saattiin selville ja siksi tässä lukee (a)natas4-level;  <br>
 `$curl -Headers "Referer: http://natas5.natas.labs.overthewire.org/" http://natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ@natas4.natas.labs.overthewire.org`
