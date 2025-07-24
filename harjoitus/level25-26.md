@@ -307,12 +307,15 @@ Otin tämän siis just sillä hetkisen istunnon natas25 levelin eväste PHPSESSI
 
 - http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_7cbgukbicl92os5d1a9icj81l5.log
 
+Sama pätee jos se PHPSESSID eväste arvo muuttuu niin kannattaa muuttaa sitä ja päivittää sivustonsa, mutta seuraavassa kappaleessa tapahtuu **Burp suite** ohjelma Kali linux ohjelman alla. 
 
+- PHPSESSID value: m82if8u2gmmdqdirqfhmol20ao
 
+- http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_m82if8u2gmmdqdirqfhmol20ao.log
 
+---
 
-
-
+## Burp Suite - START HERE;
 
 
 
