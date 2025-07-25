@@ -5,6 +5,8 @@ Username: natas25 Password: ckELKUWZUfpOv6uxS6M7lXBpBssJZ4Ws
 
 Ensimmäisen kirjauduttua joku lorem ipsum quote runoilu sivusto, ja siinä voi valita kielensä et menee joko oletuksena (eng) tai vaihtaa to saksan kieleksi. 
 
+![alt text](./kuvat-level22-28/natas25-0.png)
+
 
 **view-source.html** koodissa on ainakin muutama funktio, josta koskien tämä pieni runoilu teksit säkeistöstä että sallii vaihtakielensä ja oletuksena se on englanniksi.
 
@@ -24,6 +26,9 @@ function logRequest($message){
         fclose($fd);
     }
 ```
+
+![alt text](./kuvat-level22-28/natas25-1.png)
+
 
 Tämä Natas25 taso liittyy vahvasti haavoittuvuuteen nimeltä local file inclusion (LFI) ja mahdolliseen session-id -manipulointiin. Session-id kenttään tulee toi kirjautuneen evästeen PHPSESSID value. Sekä tässä lokituksessa ($log) termistössä on mainintana date (päiväys ja kellonaikakin), että normi lokituksen dataa.
 
@@ -110,6 +115,10 @@ curl "http://natas25.natas.labs.overthewire.org/?lang=.../logs/natas25_<abd_valu
 ```
 
 `http://natas25.natas.labs.overthewire.org/?lang=.../logs/natas25_abcd1234.log`
+
+
+Tässä testailin normaalisti se polku, että muutama piste piste `../` sitten etc - joka antoi oletuksena tämä etusivun Quote runoilu tekstinsä.
+![alt text](./kuvat-level22-28/natas25-2.png)
 
 
 Jos istuntosi on aktiivinen ja eväste mukana, saat saman tuloksen kuin curlilla
@@ -283,10 +292,19 @@ the credentials required.</p>
 
 ---
 
-## UI selain kautta
+## UI selain kautta - START HERE;
 
 - http://natas25.natas.labs.overthewire.org/?lang=....//....//
 - http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//etc/passwd
+
+Alkuun kokeilin lyhyemmällä, että mitä se antoi, mutta kyllä alkoi pelittääkin ja jopa päästään selvittää se viimeiseen maaliin astikin.
+![alt text](./kuvat-level22-28/natas25-3.png)
+
+![alt text](./kuvat-level22-28/natas25-4.png)
+
+
+
+
 
 
 Seuraavaksi otettaan tämä funktio osuus kuitenkin huomioina ja se polku osuus ja sitä haluttaan lisätä siihen url perään ja pätee toi evästeen PHPSESSID <value> ja kirjautuneen value id. - Toi on se vihje eli sijoitettaan se 
@@ -314,6 +332,9 @@ Sama pätee jos se PHPSESSID eväste arvo muuttuu niin kannattaa muuttaa sitä j
 - http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_m82if8u2gmmdqdirqfhmol20ao.log
 
 ---
+
+
+
 
 ## Burp Suite - START HERE;
 
