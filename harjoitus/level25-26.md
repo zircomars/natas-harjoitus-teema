@@ -347,12 +347,18 @@ Tässä laitoin perään vähä lisää, mutta otin vihjeen siitä ylhäällä o
 
 Perus haettu netistä lisätietoa ja vinkkiä miten saa tämän natas26 salasansa selvitettyä, mutta menttin tämän kautta ja on mahdollista mennä muulla keinolla ja netistä löytyy vihjeitä.
 
+Tässä takana toi "request" sivusto jossa kävin oli tämä : `http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_m82if8u2gmmdqdirqfhmol20ao.log` - ja riittää avaa burp suite oman selaimen ja tekee selain päivityksensä, ja älä unohda kirjautua. 
+
+Seuraavaksi oikea klikkaus ja tarvitaan tämä "send to repeater" - koska lähetettään HTTP pyyntöä.
 ![alt text](./kuvat-level22-28/natas25-8.png)
 
+Sitten se repeater pyyntö tulee tänne.
+![alt text](./kuvat-level22-28/natas25-9.png)
 
 
+Tässä (alempi kuva) - lisäsin request koodi rivinsä yhteen kuin: `<?php echo shell_exec("cat /etc/natas_webpass/natas26"); ?>` ja riittää kumoo **User-Agent:** olevat tekstit ja lisää tämä siihen perään.
 
-
+![alt text](./kuvat-level22-28/natas25-10.png)
 
 
 
