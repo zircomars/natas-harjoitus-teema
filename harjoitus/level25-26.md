@@ -302,8 +302,11 @@ Alkuun kokeilin lyhyemmällä, että mitä se antoi, mutta kyllä alkoi pelittä
 
 ![alt text](./kuvat-level22-28/natas25-4.png)
 
+Tässä ainakin päästiin polkuun `/etc/passwd`, jossa on erilaisia käyttäjiä ja just nämä natas tasoiden tyyppiä ja sen hakemistojen tiedostoa.
 
+![alt text](./kuvat-level22-28/natas25-5.png)
 
+![alt text](./kuvat-level22-28/natas25-6.png)
 
 
 
@@ -331,14 +334,18 @@ Sama pätee jos se PHPSESSID eväste arvo muuttuu niin kannattaa muuttaa sitä j
 
 - http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_m82if8u2gmmdqdirqfhmol20ao.log
 
+Tässä laitoin perään vähä lisää, mutta otin vihjeen siitä ylhäällä olevan funktion `fd=open` osuuden polun vinkkiä ja voiko vielä avautua seuraava tason salasana, mutta ei mutta hyvä yrittää ja testatakin. Tosiaan tässä URL tapahtuu: `http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_m82if8u2gmmdqdirqfhmol20ao.log`: 
+- Tässä URL perässä lukee polku `/var/www/natas/natas25/`
+- log - lokitukset
+- natas_<cookies-value-arvo>.log
+![alt text](./kuvat-level22-28/natas25-7.png)
+
 ---
-
-
 
 
 ## Burp Suite - START HERE;
 
-
+Perus haettu netistä lisätietoa ja vinkkiä miten saa tämän natas26 salasansa selvitettyä, mutta menttin tämän kautta ja on mahdollista mennä muulla keinolla ja netistä löytyy vihjeitä.
 
 
 
