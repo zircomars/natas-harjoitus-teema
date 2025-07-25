@@ -347,6 +347,7 @@ Tässä laitoin perään vähä lisää, mutta otin vihjeen siitä ylhäällä o
 
 Perus haettu netistä lisätietoa ja vinkkiä miten saa tämän natas26 salasansa selvitettyä, mutta menttin tämän kautta ja on mahdollista mennä muulla keinolla ja netistä löytyy vihjeitä.
 
+![alt text](./kuvat-level22-28/natas25-8.png)
 
 
 
