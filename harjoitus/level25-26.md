@@ -445,13 +445,210 @@ Testasin jotakin satunnaista, että ainakin antoi tällaisen warning ilmoituksen
 ![alt text](./kuvat-level22-28/natas26-3.png)
 
 
+## Pientä pohdintaa ja koodin tarkistamisesta - START HERE
+
+Tässä siis ideana X1, X2 ja Y1 , Y2 lähettää pari viivjoen piirtämistä. Jokainen uusi pari lisätään edelisiin viivoihin. 
+
+Kokeilin aluks 3 , 5 , 7 ja 11 - josta ainakin tuli pieni viiva , sitten toisen kerran testasin 50, 70, 80 ja 100 ,josta ainakin piirsi toisen viivan - ja voi olla joka kerta piirtää omansa uuden viivan erikseen.
+
+![alt text](./kuvat-level22-28/natas26-4.png)
+
+![alt text](./kuvat-level22-28/natas26-5.png)
+
+Tässä ainakin session start siis istunnon alkamisessa on if-else koskien tuota virallisesta natas26 harjoituksen evästettä. Käyttäjän piirtotiedot tallennetaan evästeeseen ja haetaan sieltä seuraavilla sivulatauksilla. Käyttämällä session_id() kuva tallennetaan jokaiselle käyttäjälle erikseen → tosi fiksu tapa tehdä henkilökohtaisia piirroksia.
+
+Evästeeseen tallennetaan useita piirto-objekteja, joista kukin on yksi viiva kahden pisteen välillä. Tämä mahdollistaa monivaiheisen piirtämisen. Tallentaa käyttäjän syöttämät koordinaatit evästeeseen uudeksi piirto-objektiksi.
+
+tiivistettynä: Jos käyttäjällä on "drawing"-eväste tai antaa 4 koordinaattiarvoa URL:iin, koodi piirtää kuvan, näyttää sen ja tallentaa datan tiedostoon, joka perustuu istunnon tunnukseen.
+
+```
+<?php
+    session_start();
+
+    if (array_key_exists("drawing", $_COOKIE) ||
+        (   array_key_exists("x1", $_GET) && array_key_exists("y1", $_GET) &&
+            array_key_exists("x2", $_GET) && array_key_exists("y2", $_GET))){
+        $imgfile="img/natas26_" . session_id() .".png";
+        drawImage($imgfile);
+        showImage($imgfile);
+        storeData();
+    }
+
+?>
+```
 
 
+Seuraavaksi nyt alemmassa tapahtuu `drawImage()` ja `showImage()` nin tämä on simppelisti tarkistaa ykinkertaisesti tiedostonnimen olemassaolon. drawImage - tarkoittaa luo laatikonsa ja kutsuu sitten `drawFromUserData` funktiota enenn PNG-kuvan luomista tiedostosta.
 
 
+```
+    function showImage($filename){
+        if(file_exists($filename))
+            echo "<img src=\"$filename\">";
+    }
+
+    function drawImage($filename){
+        $img=imagecreatetruecolor(400,300);
+        drawFromUserdata($img);
+        imagepng($img,$filename);
+        imagedestroy($img);
+    }
+
+```
 
 
+`drawFromUserData` - funktio osuus.
 
+Jos x1, y1, x2, ja y2 -avaimet löytyvät POST- tai GET-pyynnöstä, koodi piirtää viivan niiden välillä ja tallentaa sen session pohjalta nimettyyn kuvaan.
+
+Jos käyttäjän evästeessä (cookie) on avain drawing, koodi purkaa sen (unserialize) ja käyttää evästeessä olevia koordinaatteja (x1, y1, x2, y2) viivan piirtämiseen.
+
+Molemmat tavat johtavat siihen, että koodi rakentaa kuvan polun session ID:n mukaan, sitten kutsuu drawImage(), showImage() ja storeData().
+
+💡 Tämä tarkoittaa, että väärin muotoiltu tai manipuloitu "drawing"-eväste voi johtaa unserialize-haavoittuvuuteen, jos sisältö ei ole odotettua. Siksi evästeen sisältö kannattaa tutkia tarkasti.
+
+
+```
+    function drawFromUserdata($img){
+        if( array_key_exists("x1", $_GET) && array_key_exists("y1", $_GET) &&
+            array_key_exists("x2", $_GET) && array_key_exists("y2", $_GET)){
+
+            $color=imagecolorallocate($img,0xff,0x12,0x1c);
+            imageline($img,$_GET["x1"], $_GET["y1"],
+                            $_GET["x2"], $_GET["y2"], $color);
+        }
+
+        if (array_key_exists("drawing", $_COOKIE)){
+            $drawing=unserialize(base64_decode($_COOKIE["drawing"]));
+            if($drawing)
+                foreach($drawing as $object)
+                    if( array_key_exists("x1", $object) &&
+                        array_key_exists("y1", $object) &&
+                        array_key_exists("x2", $object) &&
+                        array_key_exists("y2", $object)){
+
+                        $color=imagecolorallocate($img,0xff,0x12,0x1c);
+                        imageline($img,$object["x1"],$object["y1"],
+                                $object["x2"] ,$object["y2"] ,$color);
+
+                    }
+        }
+    }
+```
+
+
+seuraavaksi `storeData()` funktio osuus, jossa tämä funktio on se kuinka `POST` data tekee sen `$_COOKIE` vaihtelevaksi muuttujaksi.
+
+Kun taulukon avaimet x1, y1, x2, ja y2 ovat saatavilla (esimerkiksi POST-data), niistä luodaan uusi olio ($new_object), joka kuvaa yhtä viivaa.
+
+Jos käyttäjän evästeessä on jo olemassa drawing-arvo, se puretaan (unserialize) ja tallennetaan muuttujaan $drawing. Tämä sisältää aiemmat viivat.
+
+Purettua $drawing-taulukkoa päivitetään lisäämällä uusi $new_object siihen — eli yhdistetään vanhoja ja uusia viivoja yhteen.
+
+Näin voidaan rakentaa moniosainen viiva tai useamman segmentin kokonaisuus, joka tallentuu $drawing-muuttujaan.
+
+🧠 Tämä mahdollistaa sen, että käyttäjä voi piirtää useita viivoja, ja eväste säilyttää koko sarjan viivoja yksittäisen muuttujan kautta.
+
+```
+    function storeData(){
+        $new_object=array();
+
+        if(array_key_exists("x1", $_GET) && array_key_exists("y1", $_GET) &&
+            array_key_exists("x2", $_GET) && array_key_exists("y2", $_GET)){
+            $new_object["x1"]=$_GET["x1"];
+            $new_object["y1"]=$_GET["y1"];
+            $new_object["x2"]=$_GET["x2"];
+            $new_object["y2"]=$_GET["y2"];
+        }
+
+        if (array_key_exists("drawing", $_COOKIE)){
+            $drawing=unserialize(base64_decode($_COOKIE["drawing"]));
+        }
+        else{
+            // create new array
+            $drawing=array();
+        }
+
+        $drawing[]=$new_object;
+        setcookie("drawing",base64_encode(serialize($drawing)));
+    }
+```
+
+
+Viimeisenä luokkitus **The Logger Class**.
+
+Tämä Logger-luokka on rakennettu kirjoittamaan lokitiedosto `/tmp`-hakemistoon, käyttäen tiedostonimeä, joka perustuu parametrina annettuun `$file`-arvoon.
+
+Olio toimii myös destruktorin kautta – tämä on juuri se, mitä hyödynnetään serialisointihaavoittuvuudessa.
+
+💥 Haavoittuvuus: Koska luokka sisältää __destruct-menetelmän ja tallentaa tiedostonimen parametrina ilman kunnollista validointia, se voi olla altis PHP object deserialization -hyökkäykselle. Jos käyttäjä pystyy unserialize()-toiminnolla syöttämään räätälöidyn Logger-olion, se voi johtaa ei-toivottuun tiedoston kirjoitukseen tai jopa tiedoston korvaamiseen.
+
+**Luokan toiminta:**
+
+- `__construct()`: avaa lokitiedoston ja kirjoittaa "#--session started--#" 
+- `log($msg)`: lisää rivin tiedostoon
+- `__destruct()`: kirjoittaa "#--session end--#" kun olio tuhotaan
+
+
+```
+    class Logger{
+        private $logFile;
+        private $initMsg;
+        private $exitMsg;
+
+        function __construct($file){
+            // initialise variables
+            $this->initMsg="#--session started--#\n";
+            $this->exitMsg="#--session end--#\n";
+            $this->logFile = "/tmp/natas26_" . $file . ".log";
+
+            // write initial message
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$this->initMsg);
+            fclose($fd);
+        }
+
+        function log($msg){
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$msg."\n");
+            fclose($fd);
+        }
+
+        function __destruct(){
+            // write exit message
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$this->exitMsg);
+            fclose($fd);
+        }
+    }
+```
+
+## Haavoittuvuus 
+
+Tässä natas26 levelissä on **PHP object deserialization vulnerability** eli PHP -olion purkuun liittyvä haavoittuvuus.
+
+
+- object deserialization: haavoittuvuuden osa - ei tarkistusta evässteen `unserialize()`- kohdassa ja hyödynnettävä osa: `Logger` luokan destruktori.
+- Arbitrary file write: haavoittuvuuden osa - kirjoittaa tiedostoon käyttäjä ohjaamana ja hyödynnettävä osa: `$logFile`- polku.
+
+
+Eli sivusto käyttää PHP:n unserialize()-toimintoa purkaakseen käyttäjän evästeestä tulevan datan – ja se tekee sen **ilman mitään tarkistusta**. Käyttäjä saa siis antaa suoraan olion, ja kun se puretaan, PHP voi suorittaa olion sisällä olevia "taikametodeja", kuten `__destruct()`.
+
+
+Ja nyt se juttu: sivustolla on valmiiksi käytössä luokka nimeltä Logger, jossa on tämä `__destruct()`-metodi, joka kirjoittaa tiedoston palvelimelle. Käyttäjä pystyy ohjaamaan:
+
+- minne tiedosto tallennetaan
+- mitä tiedoston sisältöön kirjoitetaan (esim. PHP-koodia)
+
+Eli haavoittuvuus syntyy siitä, että käyttäjä voi: ➡️ lähettää omaa koodia evästeen kautta ➡️ saada sen purettua oliona palvelimella ➡️ ja pakottaa palvelimen kirjoittamaan oman tiedoston, joka voidaan suorittaa myöhemmin
+
+Kun tähän liitetään esimerkiksi PHP-koodi, joka hakee salasanan seuraavalle tasolle, niin… 💥 pääset eteenpäin. Sama pätee tässä istunnossa, kun eväste kirjauttumisessa tietty aika (sekunti/minuutti) josta se käyttäjätunnus;salasana potkii käyttäjänsä ulos ja joutuu kirjautuu uudestaan sisään - niin tästä se kuvio image on yhä tallella.
+
+---
+
+## Kali linux - START HERE
+
+password: cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE
 
 
 
