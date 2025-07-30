@@ -398,12 +398,51 @@ Tämä on se vastaus ja alemmassa kuvassa on sama dejavu toisto:
 ---
 
 
+# natas 26 - START HERE;
 
+password: cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE
 
+X1 , Y1, X2 ja Y2 lomakekenttä tyyppinen ja sitten DRAW? 
 
+![alt text](./kuvat-level22-28/natas26-0.png)
 
+![alt text](./kuvat-level22-28/natas26-1.png)
 
+Funktio lukee ja tallentaa x1, y1, x2, y2 arvot yhteen objektiin, mutta ei tee suoraa täsmennystä niiden välillä.
 
+```
+    function storeData(){
+        $new_object=array();
+
+        if(array_key_exists("x1", $_GET) && array_key_exists("y1", $_GET) &&
+            array_key_exists("x2", $_GET) && array_key_exists("y2", $_GET)){
+            $new_object["x1"]=$_GET["x1"];
+            $new_object["y1"]=$_GET["y1"];
+            $new_object["x2"]=$_GET["x2"];
+            $new_object["y2"]=$_GET["y2"];
+        }
+
+        if (array_key_exists("drawing", $_COOKIE)){
+            $drawing=unserialize(base64_decode($_COOKIE["drawing"]));
+        }
+        else{
+            // create new array
+            $drawing=array();
+        }
+
+        $drawing[]=$new_object;
+        setcookie("drawing",base64_encode(serialize($drawing)));
+    }
+?>
+```
+
+Testasin jotakin satunnaista, että ainakin antoi tällaisen warning ilmoituksensa
+
+**Warning: imageline() expects parameter 2 to be int, string given in /var/www/natas/natas26/index.php on line 80** - ja tämä voi olla koskien tiedoston polkun hakemistoa eli */var/www/natas/natas26/index.php*
+
+![alt text](./kuvat-level22-28/natas26-2.png)
+
+![alt text](./kuvat-level22-28/natas26-3.png)
 
 
 
