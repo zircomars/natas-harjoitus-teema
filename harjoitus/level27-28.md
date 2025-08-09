@@ -399,8 +399,24 @@ natas28                                                         x
 
 Muutama testauksen jälkeen jouduin tarkistaa Youtube:stä miten ne on testattu, ja vertailtu muiden bloggien julkaisua, mutta sitten alkoi toimia ja se on ihme kyllä. Aikaisempien toisten ohjeita saattoi olla yli vuoden-pari-muutaman vuoden vanhoja.
 
+Tässä viimeiset kuvat ovat just ne onnistumiset. Tätä jotenkin loin ekaksi (test:test) tunnuksen sitten kirjautuu ekana sillä sisään ja onnistui, ja luodaan uusi tunnus (natas28 jolla on useita välilyöntiä) ja perään x
+
+Tässä se pitää olla --> natas28 (57 välilyöntiä) ja peräsin perään x kirjaimen että tiedän mihin asti se päättyy:
+```
+┌──(kali㉿kali)-[~]
+└─$ echo -n "natas28" && printf ' %.0s' {1..57} && echo -n "x"
+natas28                                                         x 
+```
+
+Eli natas28 (muutama kymmensiä välilyöntiä) ja x - sekä salasana vaikappa "test" - luoneen jälkeen just tästä selaimesta peruuttaa taakse päin niin se tunnus pysyy ennallaan ja kumoaa perässä ton **x kirjain**
+
+
 ![alt text](./kuvat-level22-28/natas27-9.png)
+
+syöttää just se "test" salasansa niin sitten pääsee ja saada selvitettyä natas28 level salasansa.
+
 ![alt text](./kuvat-level22-28/natas27-10.png)
+
 ![alt text](./kuvat-level22-28/natas27-11.png)
 
 
