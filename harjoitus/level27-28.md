@@ -419,9 +419,122 @@ syöttää just se "test" salasansa niin sitten pääsee ja saada selvitettyä n
 
 ![alt text](./kuvat-level22-28/natas27-11.png)
 
+--- 
+<hr>
+
+# natas 28 - START HERE;
+
+Welcome natas28 !
+Here is your data:
+Array ( [username] => natas28 [password] => 1JNwQM1Oi6J6j1k49Xyw7ZN6pXMQInVj )
+
+
+kirjoitin haku kenttään jotaikn satunnaista tekstiä ja sitten "search" nappia - jonka antoi tällaisen url (`http://natas28.natas.labs.overthewire.org/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPJyuJN4JsfEV0tjnwsT7stHKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`) - mahtaako tämä merkitä jotakin ja samahan sivusto muuttui ja tuli tälleinen otsikko (Whack Computer Joke Database).
+
+
+jos haku kenttään ei syötä mitään niin suora "search" nappia niin antaa vihjeitä ja tämän vitsi tietokannan mikälie
+
+
+jos syötän kenttään "joke" ja klikkasin "search" napin niin tuli tällainen:
+
+Whack Computer Joke Database
+I've got a really good UDP joke to tell you, but I don't know if you'll get it
+
+
+Tosiaan hakukenttään jos syöttää virallista sanaa tai pari-muutama välilyöntiä se kertoo jonkun lyhyen vitsi - ja voi olla vain tietty sanat 
+
+
+Muutamissa pisti tämä osuus ainakin.. -->"The first string says, "I think I'll have a beer quag fulk boorg jdk`^Xbasdh dsa 23^@!8"
+
+
+Samahan haettusta search kentän jälkeen se antoi erillaisen URL - mutta pikaisella silmällä jotakin näyttää samalla ja kokonaisen URL parametri eivät ole identtinen. Tarkistettuna "query"= jälkeen tämä osuus näyttää samalla, mutta muuten loppu osa ei ole.. **Eroava osa on keskellä**, mikä viittaa siihen, että kyseessä voi olla esimerkiksi salatun datan eri lohkot
+
+`http://natas28.natas.labs.overthewire.org/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPLeIxYTeJ%2F0dro1G9VaeLyzKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+
+`http://natas28.natas.labs.overthewire.org/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPIQgA1C82eT1228lUHOW3X2KSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+
+Tässä pari-muutamassa URL linkin kohdalla `search.php/` jälkeen jossa on kyselyä (query) jossa tulostaa jotakin tuntematonta tekstiä, ne on base64-enkoodattua stringiä
+
+
+## Pieni teoria ja pohdinta
+
+Tämä teoria ja ratkaisu osuus siis mitä tässä tapahtuu harjoituksen natas 28 levelissä on vähä muiden bloggien mukainen ohje, mutta kuulemma on yksi vaikeimmista tasoista.
+
+
+Sivuston mukaan tekee kikkailun tekemän haun, se rakentaa siitä palvelimen puolella merkkijonon (jossa on vakio-alkuprefixi + käyttäjän syöte + mahdollinen suffiksi (muokkaa sanan merkitystä)), salaa sen **AES:llä ECB-tilassa**, **base64-koodaa** ja laittaa tuloksen **URL-parametriin**. Siksi alku pysyy samana (vakio‑prefixi → samat ensimmäiset lohkot), mutta keskiosa ja loppu muuttuvat, kun oma syötteesi ja pehmusteet vaihtuvat. ECB:ssä identtinen selkotekstilohko tuottaa aina identtisen salat ekstilohkon, ja se paljastaa rakennetta sekä mahdollistaa “cut‑and‑paste”‑kikkailun.
+
+
+Sis mitä **ECB (Electronic Codebook) tarkoittaa**, miksi se on turvaton ja miten se liittyy Natas28-tasoon.
+
+**🔐 Mikä on ECB-salaus?**
+ECB (Electronic Codebook) on yksinkertaisin tapa käyttää lohkosalausta kuten AES:ää. Se toimii näin:
+
+- Teksti jaetaan lohkoihin (yleensä 16 tavua = 128 bittiä).
+- Jokainen lohko salataan erikseen samalla salausavaimella.
+- Jos kaksi lohkoa ovat identtisiä, niiden salattu muoto on myös identtinen.
 
 
 
+Just aikiasempi kappaleen mukaann 3 tai jopa muutamia testauksissa ja tarkistuksena, se antoi näitä arvoja, ja query (kyselystä) eteenpäin.
+
+Tässä (alhaalla) muutama esim. jossa vakio-alku osa, keskellä on lomakekenttä syötteeni mitä syötetty käyttöliittymäsä ja perässä mahdollinen vakiosuffiksi tai pehmuste (padding). Tuosta "`%2BJ2TdR0Qp8dcjP`" suurinpirtein tässä alkaa leikkaa se keski-osa, joka muuttuu vähittelen.
+
+- `/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPJyuJN4JsfEV0tjnwsT7stHKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+- `/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPLeIxYTeJ%2F0dro1G9VaeLyzKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+
+- `/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPIQgA1C82eT1228lUHOW3X2KSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+
+- `search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPK%2FZEJpSw8lYr3%2BNDY3VpFZKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`
+
+
+**🔍 Mitä tapahtuu, kun URL muuttuu “hieman”?**
+Kyseessä on AES-ECB-salauksella koodattu kyselymerkkijono, joka voi sisältää:
+
+- Vakio-alkuosan (esim. "query:" tai jotain backend-määrityksiä)
+- Oma syötteesi (lomakekenttä)
+- Mahdollinen vakiosuffiksi tai pehmuste (padding)
+
+ECB-salaus ei sekoita lohkoja keskenään, vaan jokainen 16 tavun lohko salataan erikseen. Kun syötteesi menee keskelle lohkosarjaa, muuttuvat vain ne lohkot, jotka sisältävät syötteen, ei alku.
+
+
+**Miksi URL-parametrin alku pysyy samana, mutta keskiosa ja loppu muuttuvat?**
+
+- Vakio‑prefixi: Sovellus liittää syötteesi eteen kiinteän tekstin (esim. kyselypohjan). Tämä muodostaa ensimmäiset lohkot, jotka pysyvät samana → sama alku base64‑merkkijonossa.
+
+- Syöte muuttaa seuraavia lohkoja: Kun muutat omaa tekstiäsi, nimenomaan ne lohkot, joissa syöte sijaitsee, vaihtuvat → keskiosa muuttuu.
+
+- Pehmuste (PKCS#7) vaikuttaa loppuun: Pituuden muutos vaikuttaa viimeiseen lohkoon ja pehmusteeseen → loppu näyttää “täysin eri” jokaisella pituudella. Jos sotket tavumääriä, näet joskus “padding error” ‑tyyppisiä virheitä.
+
+
+### vihjeenä ratkaisuun
+
+**🧪 Miten testaus toimii CTF-logiikassa?**
+Tee syötteitä, joissa on toistuvaa merkkijonoa (esim. AAAAAAAAAAAAAAAA x2). Jos näet URL:ssa toistuvan 24-merkkisen base64-pätkän → varmistus ECB:stä.
+
+Lisää yksi merkki kerrallaan syötteeseen ja tarkkaile, milloin base64-pituus hyppää 24 merkkiä → se paljastaa uuden lohkon alun.
+
+Kun saat “syötteen lohkon” kohdalle, voit kopioida sen base64:stä ja liittää toiseen kohtaan — testaa, mitä palvelin vastaa.
+
+
+**💡 Lomakekenttä uudelleenkäyttö: mitä palvelin tekee?**
+Vaikka URL-parametri muuttuu, palvelin todennäköisesti purkaa sen salatuksi kyselyksi ja käyttää sitä SQL- tai hakuoperaation syötteenä. Jos salattu syöte menee oikein lohkorajalle → koko "search string" saattaa sisältää esim. admin tai vastaavaa.
+
+
+## testausta ja oma versio
+
+
+
+
+
+### linkistä lisäteoriaa ja apua
+
+https://learnhacking.io/overthewire-natas-level-28-walkthrough/
+
+https://the-dark-lord.medium.com/natas-wargames-16-30-fbde4edd41d4
+
+https://axcheron.github.io/writeups/otw/natas/#natas-28-solution
+
+https://anyafachri.medium.com/ebc-block-splicing-attack-for-successful-sql-injection-natas28-overthewire-write-up-6e83eb1815ac
 
 
 
