@@ -428,17 +428,23 @@ Welcome natas28 !
 Here is your data:
 Array ( [username] => natas28 [password] => 1JNwQM1Oi6J6j1k49Xyw7ZN6pXMQInVj )
 
+![alt text](./kuvat-level22-28/natas28-0.png)
 
 kirjoitin haku kenttään jotaikn satunnaista tekstiä ja sitten "search" nappia - jonka antoi tällaisen url (`http://natas28.natas.labs.overthewire.org/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPJyuJN4JsfEV0tjnwsT7stHKSh%2FPMVHnhLmbzHIY7GAR1bVcy3Ix3D2Q5cVi8F6bmY%3D`) - mahtaako tämä merkitä jotakin ja samahan sivusto muuttui ja tuli tälleinen otsikko (Whack Computer Joke Database).
 
+![alt text](./kuvat-level22-28/natas28-1.png)
+
 
 jos haku kenttään ei syötä mitään niin suora "search" nappia niin antaa vihjeitä ja tämän vitsi tietokannan mikälie
-
 
 jos syötän kenttään "joke" ja klikkasin "search" napin niin tuli tällainen:
 
 Whack Computer Joke Database
 I've got a really good UDP joke to tell you, but I don't know if you'll get it
+
+![alt text](./kuvat-level22-28/natas28-2.png)
+
+![alt text](./kuvat-level22-28/natas28-3.png)
 
 
 Tosiaan hakukenttään jos syöttää virallista sanaa tai pari-muutama välilyöntiä se kertoo jonkun lyhyen vitsi - ja voi olla vain tietty sanat 
@@ -473,8 +479,9 @@ ECB (Electronic Codebook) on yksinkertaisin tapa käyttää lohkosalausta kuten 
 - Jokainen lohko salataan erikseen samalla salausavaimella.
 - Jos kaksi lohkoa ovat identtisiä, niiden salattu muoto on myös identtinen.
 
+Lyhyesti: **ECB** on tapa käyttää **lohkosalausta** (esim. AES) niin, että viesti jaetaan 16 tavun lohkoihin ja jokainen lohko salataan erikseen samalla avaimella. Se on tavallaan “muunnin”, mutta huono sellainen, koska identtiset lohkot tuottavat identtisen salatun lohkon. Siksi datan kuviot ja toistot paljastuvat, mikä heikentää turvallisuutta. Turvallisemmat tilat (kuten CBC tai GCM) sekoittavat lohkot ja piilottavat kuviot. Tämän takia ECB:tä ei suositella muuhun kuin hyvin rajattuihin, ei-rakenteisiin käyttötapauksiin.
 
-![alt text](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#/media/File:BlockCipherModesofOperation.svg)
+![alt text]([https://media.geeksforgeeks.org/wp-content/uploads/20240423201215/Untitled.png](https://miro.medium.com/v2/resize:fit:720/format:webp/0*a81ZEq4SAt5JxFQk.png))
 
 Just aikiasempi kappaleen mukaann 3 tai jopa muutamia testauksissa ja tarkistuksena, se antoi näitä arvoja, ja query (kyselystä) eteenpäin.
 
