@@ -474,6 +474,7 @@ ECB (Electronic Codebook) on yksinkertaisin tapa käyttää lohkosalausta kuten 
 - Jos kaksi lohkoa ovat identtisiä, niiden salattu muoto on myös identtinen.
 
 
+![alt text](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#/media/File:BlockCipherModesofOperation.svg)
 
 Just aikiasempi kappaleen mukaann 3 tai jopa muutamia testauksissa ja tarkistuksena, se antoi näitä arvoja, ja query (kyselystä) eteenpäin.
 
