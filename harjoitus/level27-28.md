@@ -462,6 +462,22 @@ Samahan haettusta search kentän jälkeen se antoi erillaisen URL - mutta pikais
 Tässä pari-muutamassa URL linkin kohdalla `search.php/` jälkeen jossa on kyselyä (query) jossa tulostaa jotakin tuntematonta tekstiä, ne on base64-enkoodattua stringiä
 
 
+Tämä on vain esim. lohkojen vaikutusta eli ton URL parametrin osuudessaan. 
+
+- Ensimmäisessä tapahtuu `search=` jotakin oletuksena
+- Seuraavaksi, käyttäjän syötettän esim. lomakkeeseen tai tietty hakukenttä
+- viimeisenä (suffix) - joka on selkeytä terminologiaa
+
+```
+[Prefix: "search="] + [Syöte: "AAAAAAAAAAAAAAAA"] + [Suffix: "&sort=asc"]
+
+→ Lohkot:
+[search=AAAAAAA...] → lohko 1
+[AAAAAAAAAAAAAAAA] → lohko 2
+[&sort=asc.......] → lohko 3
+```
+
+
 ## Pieni teoria ja pohdinta
 
 Tämä teoria ja ratkaisu osuus siis mitä tässä tapahtuu harjoituksen natas 28 levelissä on vähä muiden bloggien mukainen ohje, mutta kuulemma on yksi vaikeimmista tasoista.
