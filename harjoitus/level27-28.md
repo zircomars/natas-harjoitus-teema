@@ -571,6 +571,10 @@ Zero padding found instead of PKCS#7 padding
 - Natas28 käyttää AES-ECB-salausta ja PKCS#7-paddingia. Kun syötät query=hello, se salataan, mutta jos yrität manipuloida base64-parametria ilman oikeaa paddingia, purku epäonnistuu.
 - Tämä on todella tärkeä vihje: purku odotti PKCS#7-paddingia, mutta sai nollapaddingia.
 
+![alt text](./kuvat-level22-28/natas28-4.png)
+
+![alt text](./kuvat-level22-28/natas28-5.png)
+
 
 ## Python skripti - START HERE;
 
@@ -1163,6 +1167,10 @@ Python skripti osuus lohkoanlyysi ja tarkka testausta jatkuu.
 
 Tässä on nyt selkeästi koottu jatkettu versio skriptistä, joka sisältää sekä alkuperäisen lohkoanalyysin että erilliset testisyötteet "a"*11 + "!" ja "a"*12. Tämä auttaa sinua kohdistamaan syötteen tarkasti lohkon alkuun ja tarkkailemaan lohkomuutoksia.
 
+
+![alt text](./kuvat-level22-28/natas28-6.png)
+
+
 **mitä tässä tuloksessa oikein tapahtui? ja mitä tämä ylempi skripti teki siis?**
 
 Skripti lähettää POST-pyynnön palvelimelle, jossa on SQL-kyselyyn liittyvä salaus. Se mittaa salatun vastauksen pituuden ja purkaa salauksen base64 → hex. Se tulostaa salauksen lohkoittain (32 heksamerkkiä = 16 tavua).Tarkoitus on ymmärtää, miten syötteen pituus vaikuttaa salattuun muotoon.
@@ -1658,6 +1666,9 @@ ce82a9553b65b81280fb6d3bf2900f47
 
 ```
 
+![alt text](./kuvat-level22-28/natas28-7.png)
+
+
 **JATKUU**
 Nyt lisää skriptin osuutta, josta otetaan käyttöön toi SQL injketio salasanojen hakemista tietokannasta.
 
@@ -1860,6 +1871,8 @@ a77e8ed1aabe0b5d05c4ffe6ac1423ab
 ========================================
 ```
 
+![alt text](./kuvat-level22-28/natas28-8.png)
+
 
 **PIENTÄ käsittely ja checkkausta, ja miksi tämä osuus?**
 
@@ -2019,6 +2032,8 @@ G%2BglEae6W/1XjA7vRm21nNyEco/c%2BJ2TdR0Qp8dcjPJLVspxazc2axjzwPU1Aoxr
 http://natas28.natas.labs.overthewire.org/index.php?query=G%2BglEae6W/1XjA7vRm21nNyEco/c%2BJ2TdR0Qp8dcjPJLVspxazc2axjzwPU1Aoxr
 ```
 
+![alt text](./kuvat-level22-28/natas28-11.png)
+
 
 Tässä alkoi vähitelen tulla ongelmia, että en ymmärrä miten se viimeismmän tuloksensa siis tästä URL parametristä muunnettu URL encode ja siitä liittä `query=` peräänsä, ettei anna vastausta?
 
@@ -2168,6 +2183,9 @@ li {
 </html>
 ```
 
+![alt text](./kuvat-level22-28/natas28-12.png)
+
+
 ## muita tekstaukset
 
 ```
@@ -2201,6 +2219,15 @@ li {
 <b>Notice</b>:  Trying to access array offset on value of type bool in <b>/var/www/natas/natas28/search.php</b> on line <b>59</b><br />
 Zero padding found instead of PKCS#7 padding  
 ```
+
+normi testauksena testasin normi sql-injektion merkin ' - niin toistui ja kertoi valmiit vitsinsä:
+
+![alt text](./kuvat-level22-28/natas28-9.png)
+
+![alt text](./kuvat-level22-28/natas28-10.png)
+
+
+
 
 ## toinen python koodi
 
