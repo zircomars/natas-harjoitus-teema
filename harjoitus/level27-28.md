@@ -2337,6 +2337,29 @@ Tässä haasteessa oli tarkoitus murtaa salattu URL-parametri, joka sisältää 
 
 Tässä haasteessa opin, miten CBC-salaus toimii lohkoittain ja miten salattua URL-parametria voi manipuloida ilman salausavainta. Rakensin uuden kyselyn korvaamalla lohkoja, ja näin sain SQL-injektion toimimaan. Vaikka en aluksi ymmärtänyt kaikkea, opin käytännössä miten lohkot vaikuttavat toisiinsa ja miten salattua dataa voi hyödyntää hyökkäyksessä. Tämä oli hyvä esimerkki siitä, miten salaus ja web-haavoittuvuudet voivat yhdistyä.
 
+**kuitenkin**
+
+Koskien sitä skriptiä kun se runnaa ja rakentaa sen **input of length** jotakin bittiä ja tulostaakseen sitä merkki määrää. Ongelmana ei ihan täsmenny **cyberchef** sivuston mukaan - mutta hyvä työkalu sekin on.
+
+Tästä tarkistettu kuitenkin useampi kerta sitä luku:
+
+```
+1be82511a7ba5bfd578c0eef466db59c
+dc84728fdcf89d93751d10a7c75c8cf2
+3917a542aa9c15d450a53927be3860e5
+574d86bbdcff747464514968f43c9240
+1f26b6ae470f5fc111eb274c0c213e95
+c0db24b5274ba212d1b06e990c8db29f
+48799a07b1d29b5982015c9355c2e00e
+aded9bdbaca6a73b71b35a010d2c4c57
+```
+
+- operaatiota: `from hex` -> `to base64` -> `URL encode`.
+
+output:
+- `G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPI5F6VCqpwV1FClOSe%2BOGDlV02Gu9z%2FdHRkUUlo9DySQB8mtq5HD1%2FBEesnTAwhPpXA2yS1J0uiEtGwbpkMjbKfSHmaB7HSm1mCAVyTVcLgDq3tm9uspqc7cbNaAQ0sTFc%3D`
+
+Joko yhteen tai erikseen kuitenki se cyberchef sivusto ei tykkää siitä ja sama oiskin tuloksena en tiedä vielä ymmärrä miksi ei anna just mitä **python skripti antaakaan**. ECB-salaus ei sekoita lohkoja — se salaa jokaisen erikseen. Mutta **base64 koodaa koko yhdistelmän yhtenä datana**.
 
 ### linkistä lisäteoriaa ja apua
 
