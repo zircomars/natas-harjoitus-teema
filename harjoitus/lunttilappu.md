@@ -32,6 +32,23 @@ käytettään -Headeri referenssiä , ja tässä muutama ovat melko samoja, mutt
 `curl -X POST -d "needle=;ls -l;&submit=submit" -H "Referer: http://natas9.natas.labs.overthewire.org/" -u "natas9:ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t" http://natas9.natas.labs.overthewire.org`
 
 
+## nikto komento
+
+**Nikto** on tehokas ja syvällisempi työkalu web-palvelinten haavoittuvuuksien skannaukseen. Se käy läpi suuren määrän tunnettuja ongelmia, kuten:
+- Vanhentuneet ohjelmistoversiot
+- Virheelliset konfiguraatiot
+- Testi- ja varmuuskopiotiedostot
+- Paljastavat HTTP-headerit
+
+<br> 
+
+- perusmuoto: `$nikto -h <target | IP-add>`
+- skannatta HTTP-palvelinta: `$nikto -h http://example.com -ssl`
+- skannaa tiettyä porttia esim. 8080: `$nikto -h http://example.com -p 8080`
+
+
+Nikto ei etsi piilotettuja hakemistoja tai tee fuzzingia – siihen kannattaa käyttää esim. ffuf. Nikto toimii parhaiten, kun haluat nopeasti tietää, onko palvelimessa **tunnettuja haavoittuvuuksia tai virheellisiä asetuksia.**
+
 
 ## evästeen hakeminen ja tarkistus
 
