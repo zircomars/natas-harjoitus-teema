@@ -2337,6 +2337,9 @@ Tässä haasteessa oli tarkoitus murtaa salattu URL-parametri, joka sisältää 
 
 Tässä haasteessa opin, miten CBC-salaus toimii lohkoittain ja miten salattua URL-parametria voi manipuloida ilman salausavainta. Rakensin uuden kyselyn korvaamalla lohkoja, ja näin sain SQL-injektion toimimaan. Vaikka en aluksi ymmärtänyt kaikkea, opin käytännössä miten lohkot vaikuttavat toisiinsa ja miten salattua dataa voi hyödyntää hyökkäyksessä. Tämä oli hyvä esimerkki siitä, miten salaus ja web-haavoittuvuudet voivat yhdistyä.
 
+![alt text](./kuvat-level22-28/natas28-13.png)
+
+
 **kuitenkin**
 
 Koskien sitä skriptiä kun se runnaa ja rakentaa sen **input of length** jotakin bittiä ja tulostaakseen sitä merkki määrää. Ongelmana ei ihan täsmenny **cyberchef** sivuston mukaan - mutta hyvä työkalu sekin on.
