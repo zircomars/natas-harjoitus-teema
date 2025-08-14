@@ -4,15 +4,21 @@ natas29 : 31F4j3Qi2PnuhIZQokxXk1L3QT9Cppns
 
 http://natas29.natas.labs.overthewire.org
 
-
-
 Perus avatessa tyhjä sivusto, mutta on sellainen valikko ja ihme teksti kuin: `c4n Y0 h4z s4uc3?` - *can you ... jotakin sauce?*
+
+![alt text](./kuvat-level29-34/natas29-0.png)
+
+![alt text](./kuvat-level29-34/natas29-1.png)
 
 Valikosta löytyy muutama vaihtoehtoa ja tulostuksena tulee sellainen ascii art näköinen kuvio ja jokaiselta alta löytyy joku pitkä koodi pätkä / Linux näköinen terminaali rakennettu pohjana, että voi olla mukana erilaisia kommentteja. 
 
 Jokaisen avatun tai vaihtaa ASCII arts mikälie niin vaihtuu URL parametri ja tämä yksi esim.
 
 - `http://natas29.natas.labs.overthewire.org/index.pl?file=perl+underground+4`
+
+![alt text](./kuvat-level29-34/natas29-2.png)
+
+![alt text](./kuvat-level29-34/natas29-3.png)
 
 Mahtaako olla jotakin *komentojen injektio* tasoa tällä hetkellä? Sekä tässä tasossa ei ole mainitu tuota **view-source.html** koodia eli html php koodia yhtään.
 
@@ -40,6 +46,7 @@ Esimerkit:
 - elite hackers - 3|173 H4(k3r
 - password - P@55\/\/0|2Ð
 
+
 ## pientä teoria ja harjoituksen idea
 
 
@@ -55,18 +62,20 @@ http://natas29.natas.labs.overthewire.org/index.pl?file=perl+underground+5
 
 Tässä Perl vähä yrittä laittaa `file=` jotakin linux terminaalia ja sitä yleistä komentoa ja testat toimiiko. Eikä tässä kauheasti johtolankaakaan ole tarjolla, mutta yksi mitä on testattu on tiedoston polku eli lisätty perään: `../../../../../../../../etc/passwd` - ja tulostakaan ei annettu.
 
+![alt text](./kuvat-level29-34/natas29-4.png)
+
 
 Putkimerkki `|` on Unix/Linux shellissä erikoismerkki, joka putkittaa komennon tulosteen seuraavalle komennolle. Kuitenkin jonkinlainen merkki/erikoismerkki tai muiden komentojen liittämistä suoritettavaa komentoa.
-
 
 Laitoin tällaisen URL parametriin perään kuin `|ls%00` -> `http://natas29.natas.labs.overthewire.org/index.pl?file=|ls%00`
 
 Tuloksena siellä tuli näin selaimeen: *index.pl perl underground 2.txt perl underground 3.txt perl underground 4.txt perl underground 5.txt perl underground.txt* 
 
-
 Tämä `|ls%00` - tarkoittaa Null-byte eli `%00` tai `\x00` (ASCII-arvo 0) on klassinen temppu monissa injektiohyökkäyksissä, erityisesti vanhemmissa järjestelmissä tai ohjelmointikielissä kuten C/C++ tai PHP:n vanhoissa versioissa. Tämä voi johtaa siihen, että loput syötteestä jätetään huomiotta, mikä voi ohittaa suodatuksia tai rajoituksia.
 
 - Jos syöttäisin tämän komennon curl komentoon niin pitää rakentaa se URL encode prosessi, jotta se ymmärtää.
+
+![alt text](./kuvat-level29-34/natas29-5.png)
 
 
 **Eteenpäin**
@@ -77,17 +86,21 @@ Kokeillaan: `http://natas29.natas.labs.overthewire.org/index.pl?file=|lsl` - tä
 
 **pwd** vuoro - `http://natas29.natas.labs.overthewire.org/index.pl?file=|pwd%00` ja toimii.
 
-Nyt pitäisi saada toi Linux polku sijoitettua tähän URL parametri perään, jotta se ymmärtää sen ja löytääkseen seuraavan levelin salasanansa.
+![alt text](./kuvat-level29-34/natas29-6.png)
 
+
+Nyt pitäisi saada toi Linux polku sijoitettua tähän URL parametri perään, jotta se ymmärtää sen ja löytääkseen seuraavan levelin salasanansa.
 
 **whoami** komento - `http://natas29.natas.labs.overthewire.org/index.pl?file=|%20whoami%00` - tämä toimi
 
+![alt text](./kuvat-level29-34/natas29-8.png)
 
 
 **cat** komento - `http://natas29.natas.labs.overthewire.org/index.pl?file=|cat%20/etc/natas_webpass/natas30%00`
 
 Tuloksena: "meeeeeep!" - jaa mitä ihmettä. Se, että saat **"meep!"-viestin**, tarkoittaa että **palvelin havaitsee injektion ja estää sen jollain tavalla**. Tämä viittaa siihen, että `index.pl`-skriptissä on suodatuslogiikka, joka estää tiettyjä komentoja tai merkkejä — kuten `cat`, `|`, tai tiedostopolkuja.
 
+![alt text](./kuvat-level29-34/natas29-7.png)
 
 
 Seuraavaksi otettaan **base64** käyttöön ja pientä temppu suodatuksen kiertämiseksi. 
@@ -99,6 +112,10 @@ Kokeilin sijoittaa tällaisen sanansa URL parametrin perään: `| cat index.pl |
 
 
 Voi olla jotakin base64-encode pitkää lorem ipsum tekstiä (lyhyest kopsattuna: IyEvdXNyL2Jpbi9wZXJsCnVzZSBDR0kgcXcoOnN0YW5kYXJkKTsKCnByaW50IDw8RU5EOwpDb250 ) - ja sivuston mukaan oikea klikkaus estetty - et jouduttaan käyttää CTRL + C
+
+![alt text](./kuvat-level29-34/natas29-9.png)
+
+![alt text](./kuvat-level29-34/natas29-10.png)
 
 Laitettu cyberchef sivuston alle ja katsotaan mitä se tulostaa ja cyberchef mukaan **From base 64** ja output tulostuu html koodi - ja voi olla tämä on jotakin **index.pl** kontekstiä.
 
@@ -205,6 +222,9 @@ if(param('file')){
 }
 ```
 
+![alt text](./kuvat-level29-34/natas29-11.png)
+
+
 Tässä on muutamia vaihtoehtoja kiellettyjen merkkijonojen ohittamiseen. Löytämäni vaihtoehto sai inspiraationsa tästä CTF-kuvauksesta. Se käyttää jokerimerkkejä hakemiston tai tiedostonimen löytämiseen. Toi polku `/natas` voi olla ratkaisu polku.
 
 
@@ -222,6 +242,7 @@ Yhdessä testissä: `http://natas29.natas.labs.overthewire.org/index.pl?file=|ca
 Otin **natas** - sanasta, että merkitsee/korvaa erikoismerkejä tai muulla tahansa mielikuvituksella just jokerimerkkiäyhdistelmällä niin näin saa se tuloksensa. Tässä harjoituksessa pitäis käyttää tätä: `etc/natas_webpass/natas30` - ja tästä muuttaa se perl underground ja käyttäen erikoismerkiä ja siksi vastaus on: `|cat%20/etc/n?tas_webpass/n?tas30%20%00`
 
 
+![alt text](./kuvat-level29-34/natas29-12.png)
 
 
 ## Kali linux testausta 
