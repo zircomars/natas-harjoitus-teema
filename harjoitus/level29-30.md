@@ -227,6 +227,7 @@ if(param('file')){
 
 Tässä on muutamia vaihtoehtoja kiellettyjen merkkijonojen ohittamiseen. Löytämäni vaihtoehto sai inspiraationsa tästä CTF-kuvauksesta. Se käyttää jokerimerkkejä hakemiston tai tiedostonimen löytämiseen. Toi polku `/natas` voi olla ratkaisu polku.
 
+## ratkaisua osa
 
 **Seuraavaksi, kohti ratkaisua:**
 Tässä tasossa puhuttu kokoajan Perl underground juttua - niin kyseessä on "natas" ja mitä tapahtuu muutettaan toi sana vähäsen. Suodatettaan ja muutettaan sitä yhdeksi erikoismerkiksi just esim. kysymysmerkki ? 
