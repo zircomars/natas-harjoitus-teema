@@ -248,6 +248,14 @@ Otin **natas** - sanasta, että merkitsee/korvaa erikoismerkejä tai muulla taha
 | `cat /etc/natas_webpass/natas30`        | ❌ Ei      | Suodatus estää suoraan sanan “natas”                     |
 | `cat /etc/n?tas_webpass/n?tas30`        | ✅ Kyllä   | `?` toimii jokerimerkkinä ja kiertää suodatuksen         |
 
+Samahan vastauksen kohdalla on **URL-enkoodattuja merkejä** - el ine on muunnettu muoton, joka toimii HTTP osoitteessa. Kun selain tai jos käytettäisiin *curl* komentoa lähettäkseen palvelimelle , ne **dekoodataan automaattisesti** ennen käsittelyä. Vaikka tässä tasossa kokoajan antoi vihjeenä **Perl CGI skriptin** tapaa käsitellä URL parametrejä - erityisesti siitä miten se tulkitsee `file=` osan ja välittää sen suoraan **shelliin** ilman kunnollista suodatusta.
+
+Muutama enkoodatut merkit:
+- `\` - `%2F`
+- `?` - `%3F`
+- natas30 - `n%3Ftas30`
+
+
 Tässä harjoituksessa pitäis käyttää tätä: `etc/natas_webpass/natas30` - ja tästä muuttaa se perl underground ja käyttäen erikoismerkiä ja siksi vastaus on: `|cat%20/etc/n?tas_webpass/n?tas30%20%00`
 
 
