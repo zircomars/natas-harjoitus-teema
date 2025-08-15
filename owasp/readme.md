@@ -1,7 +1,7 @@
 # OWASP ja natas
 
 ## Natas
-Natas-harjoitus on verkkosivustojen haavoittuvuuksien testaamiseen tarkoitettu harjoitusympäristö, joka toimii selaimen kautta. Nataksella on n. 34 tasoa harjoitusta, jokaisessa on **HTTP Basic Authenticationilla**. Jokaisessa sivustossa on sama URL alkuinen osa, mutta se loppu osa on vain eri: `http://natas{LEVEL}.natas.labs.overthewire.org` .
+Natas-harjoitus on verkkosivustojen haavoittuvuuksien testaamiseen tarkoitettu harjoitusympäristö, joka toimii selaimen kautta. Nataksella on n. 34 tasoa harjoitusta, jokaisessa on **HTTP Basic Authenticationilla**. Jokaisessa sivustossa on sama URL loppu osa, mutta se alku osa on vain eri - koska siinä on se tason numero: `http://natas{LEVEL}.natas.labs.overthewire.org` . Sekä sen käyttäjätunnus on aina sama, mutta nimetyn tason mukaan esim. Level 20 (natas20) ja salasana itsensä on vain eri.
 
 Natas ympäristössä on monia **OWASP Top 10** kategorioiden harjoittelua, mutta ei kuitenkaan katta jokaista kohtaa täydellisesti, mutta jo pelkästään tasoissa esiintyy haasteitta osuvien useissiin listoihin ytimeen.
 
