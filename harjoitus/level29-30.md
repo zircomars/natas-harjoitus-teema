@@ -409,3 +409,33 @@ https://anyafachri.medium.com/command-injection-via-file-inclusion-vulnerability
 https://ivanitlearning.wordpress.com/2020/02/02/overthewire-natas2729/
 
 ---
+
+# Natas 30 - START HERE;
+
+natas30 - WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH
+
+![alt text](./kuvat-level29-34/natas30-0.png)
+
+Tässä (view-source.html) välilehdessä vähä kertoo siitä miten se koodi on rakennettu, mutta pieni yllätyksenä se on vähä erilainen näköinen verrattuna aikaisempiin tasoihin. Tämä liittyy **Perl** koodaukseen, kun lähettää pyynnön POST methodinsa - mitä tämä tarkoittaa sitä käyttäjänimen ja salasanan tarkistusta - eli tarkistaa sen täsmennyksen jos on tietokannassa. Kysely muodostuu `$dbh->quote(param())` formaatilla. Jos tulostus täsmentyy näyttää seuraavan tason salasansa, jos ei täsmennys käyttis ja salasana niin normaalisti kertoo on epäonnistunut muodossa eli `fail :(`
+
+![alt text](./kuvat-level29-34/natas30-1.png)
+
+![alt text](./kuvat-level29-34/natas30-2.png)
+
+Tässä kokeilin kopsaa jotakin sivuston kentästä, mutta kertoi **oikea hiiren klikkaus** on estetty.
+![alt text](./kuvat-level29-34/natas30-3.png)
+
+Tässä testasin iha normi tunnuksen arvauksella, mikä tuli mieleen (admin:admin) - ja saattiin just se epäonnistunut tulos.
+![alt text](./kuvat-level29-34/natas30-4.png)
+
+
+
+
+
+
+
+
+
+
+
+
