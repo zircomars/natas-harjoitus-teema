@@ -644,4 +644,60 @@ Tämä osuus (view-source.html), jossa antamalla toisen arvon 4 käytämällä t
 - Ominaisuus on tarkoitettu tilanteisiin, joissa tyyppi pitää antaa ohjelmallisesti, mutta se voi olla turvaton, jos syöte tulee käyttäjältä
 
 
+## mini yhteenveto
+
+**Selkeällä suomenkielellä koskien natas30 harjoitusta**, vaikka koskien tässä on sitä **SQL injektiota**.
+
+Kyse on siitä, miten ohjelma käsittelee arvoja, jotka menevät SQL-kyselyyn. Ja erityisesti siitä, **millä tavalla arvo "lainataan"** eli ympäröidään lainausmerkeillä.
+
+
+💥 Mikä ongelma syntyy?
+Ohjelmassa on funktio nimeltä `quote()` , joka lisää lainausmerkit automaattisesti. Mutta jos sille annetaan toinen parametri, joka kertoo että arvo on numero (esim. `4 = SQL_INTEGER`), niin se **ei lisää lainausmerkkejä**.
+
+Tämä alempi on se koodi, jonka suoritettaan python kali linux, jonka suoritettiin.
+
+- `$dbh->quote("'lol' OR 1", 4);`
+  -  Tässä (`'lol' OR 1`) - on **haitallinen arvo**, joka yrittää ohittaa salasanantarkistuksen.
+  - 4 numero kertoo, että arvo on numero
+  - ohjelma ei lainaa arvoa -> se menee suoraan SQL-kyselyyn.
+  - Tämä palauttaa kaikki käyttäjät, kosksa `OR 1` - osa on aina tosi.
+
+
+🧠 Miksi näin?
+ - Jos arvo tulee **käyttäjältä** (esim. lomakeesta), ja tyyppi annetaan väärin, se voi johtaa **turvattomaan tilanteeseen.**
+
+
+🛡️ Miten tämä liittyy SQL_INTEGER?
+
+- SQL_INTEGER on tietotyyppi, joka tarkoittaa kokonaislukua SQL:ssä. Kun ohjelma näkee sen, se olettaa että arvo on numero, eikä tarvitse lainausmerkkejä.
+- Mutta jos arvo ei oikeasti ole numero, vaan sisältää haitallista tekstiä, niin silloin syntyy ongelma.
+
+- Jos ohjelma (Perl skriptiä) luulee, että arvo on numero (esim. `SQL_INTEGER`), se ei lainaa sitä – ja jos arvo sisältää SQL-injektion, se voi mennä suoraan kyselyyn ja aiheuttaa tietoturva-aukon. Natas30:ssä on just sitä **Perl-skriptiä** koodattu, joka käsittelee lomakkeen kentistä tulevia arvoja — eli esimerkiksi käyttäjän syöttämää käyttäjätunnusta ja salasanaa.
+
+```
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ cat pythonkoodi30.py  
+import requests
+from requests.auth import HTTPBasicAuth
+
+basicAuth=HTTPBasicAuth('natas30', 'WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH')
+
+u="http://natas30.natas.labs.overthewire.org/index.pl"
+
+params={"username": "natas28", "password": ["'lol' or 1", 4]}
+response = requests.post(u, data=params, auth=basicAuth, verify=False)
+
+print(response.text)
+```
+
+🔄 Tietovirta: Miten käyttäjän syöte kulkee ohjelman läpi:
+
+- Tässä ketjussa jokainen vaihe voi joko suojata tai altistaa järjestelmän SQL-injektiolle.
+
+`Käyttäjän syöte → Perl-skripti → quote()-funktio → SQL-kysely → Tietokanta`
+
+- quote() + väärä tyyppi = ei lainausmerkkejä = vaara
+- SQL_INTEGER (arvo 4) kertoo ohjelmalle: "Tämä on numero" → ei lainata
+- Mutta jos arvo ei oikeasti ole numero, vaan sisältää tekstin + injektion, syntyy aukko
+
 
