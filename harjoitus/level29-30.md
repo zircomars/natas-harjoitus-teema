@@ -701,3 +701,4 @@ print(response.text)
 - Mutta jos arvo ei oikeasti ole numero, vaan sisältää tekstin + injektion, syntyy aukko
 
 
+Koskien level 30 mistä saa apua ja vähä niin tältä ja englanniksi kirjoitettu bloggi aihe: https://learnhacking.io/overthewire-natas-level-30-walkthrough/
