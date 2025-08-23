@@ -1,4 +1,4 @@
-# natas 29 - START HERE;
+<img width="699" height="621" alt="image" src="https://github.com/user-attachments/assets/cdcd5393-556c-40f6-af15-e4afb767dd6b" /># natas 29 - START HERE;
 
 natas29 : 31F4j3Qi2PnuhIZQokxXk1L3QT9Cppns
 
@@ -429,13 +429,33 @@ Tässä testasin iha normi tunnuksen arvauksella, mikä tuli mieleen (admin:admi
 ![alt text](./kuvat-level29-34/natas30-4.png)
 
 
+`$dbh`- tarkoittaa **dabase handle** eli tietokantayhteyden käsittelijäobjekti. <br>
+Alussa lukee käytettään `use DBI` - joka on Perl moduuli, josta käytetään tietokantayheyttä (Databse Interface)
+
+Tämä on toisten löytäm tieto koskien "Perl SQL injektiota" , jossa se yhtenä kappale/osa vastauksena. Tämä siis linki/kuva vastaus käsittelee asia melko tarkasti ja lyhyesti sanottuna se on koskien: 
+- Tämä Perl-ohjelma on altis SQL-injektiolle, erityisesti kun käytetään MySQL-tietokantaa DBI-ajurin kautta. Haavoittuvuus liittyy tapaan, jolla ohjelma käsittelee HTTP-parametreja ja käyttää `$dbh->quote()`-metodia.
+- Perl ohjelman SQL injektio syntyy siitä:
+  - `param()` - voi palauttaa taulukon, vaikka odotetaan yksittäistä arvoa
+  - `quote` - ei lainaa arvoa, jos sille annetaan `SQL_INTEGER` -tyyppi
 
 
+aleman kuvan linkistä lisätietoa: https://security.stackexchange.com/questions/175703/is-this-perl-database-connection-vulnerable-to-sql-injection/175872#175872 
+
+![alt text](./kuvat-level29-34/natas30-5.png)
 
 
+**quote()-funktion käyttö DBI:ssä (Perl)**
 
+Tämä muistiinpano käsittelee `quote()`-funktion käyttöä Perl-ohjelmoinnissa DBI-kirjaston yhteydessä, ja siihen liittyvää mahdollista haavoittuvuutta.
 
+`quote()`-funktio on tarkoitettu suojaamaan SQL-kyselyjä lisäämällä lainausmerkit arvojen ympärille. Tämä auttaa estämään SQL-injektiot, kun käyttäjän syötteitä käytetään kyselyissä.
 
+Jos `quote()`-funktiota kutsutaan **kahdella arvolla** (eli listana), kuten:
 
+```
+$dbh->quote($arvo, $tyyppi);quote(param('username')) . " and password =".$dbh->quote(param('password')); 
+```
+
+ja toinen arvo on esimerkiksi kokonaisluku (`SQL_INTEGER`), funktio ei lainaa arvoa. Tämä voi johtaa siihen, että käyttäjän syöte päätyy SQL-lauseeseen ilman lainausmerkkejä, mikä mahdollistaa SQL-injektion.
 
 
