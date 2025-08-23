@@ -1,4 +1,4 @@
-<img width="699" height="621" alt="image" src="https://github.com/user-attachments/assets/cdcd5393-556c-40f6-af15-e4afb767dd6b" /># natas 29 - START HERE;
+# natas 29 - START HERE;
 
 natas29 : 31F4j3Qi2PnuhIZQokxXk1L3QT9Cppns
 
