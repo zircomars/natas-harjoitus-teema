@@ -661,6 +661,9 @@ Tämä alempi on se koodi, jonka suoritettaan python kali linux, jonka suoritett
   - 4 numero kertoo, että arvo on numero
   - ohjelma ei lainaa arvoa -> se menee suoraan SQL-kyselyyn.
   - Tämä palauttaa kaikki käyttäjät, kosksa `OR 1` - osa on aina tosi.
+    - jos ois alle 4 (esim. 1) niin käsittely merkkijonona -> **lisätään lainausmerkkit** -> injektio ei toimisi
+    - jos ois yli 4 (esim. 6 ja sitä suurempi) --> riippuu tyypistä, mutta jos se on numeerinen tyyppi kuten `SQL_FLOAT` - **ei lainata** -> injektio voisi toimia.
+    - Tämä SQL tietyyppi koskee näitä mm. CHAR, VARCHAR, INTEGER, FLOAT ja DATE 
 
 
 🧠 Miksi näin?
