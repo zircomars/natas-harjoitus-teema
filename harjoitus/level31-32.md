@@ -71,6 +71,12 @@ if ($cgi->upload('file')) {
 **Lyhyesti sanottuna**: tässä tasossa käytetään CGI-pohjaista Perl-skriptiä, joka vastaanottaa HTML-lomakkeella lähetettyjä tiedostoja. Tämä toimii vähän kuin HTML5:n ja PHP:n tiedostojen lähetys, eli lomake lähettää `file`-nimisen kentän palvelimelle. Taustalla käytetty CGI-moduuli käsittelee tämän kentän, mutta siinä on haavoittuvuus: jos käyttäjä huijaa ja lähettää tiedoston nimen sijaan komennon (esim. `|ls`), voi tämä syöte päätyä suoraan Perl-koodiin ja suorittaa komentorivikäskyjä. Kyseessä on siis tiedostonlähetykseen liittyvä injektiohyökkäys (RCE).
 
 
+**Jos parannuksena**, tiedostojen upottamisessa pitää käyttää tiettyä funktiota, joka poistaa mahdollisia polkuja ja estääkseen käyttäjän manipulointia tiedostojen polkua esim. linux termistönä ja komentona: `.../` eli tiedostojen injektiota. Toisekseen **tiedostopäätteet** joko rajoitettu tai sallittu vain turvallisiin tiedostotyyppiin mm. **.pdf** ja **.csv** , että validointia ja sanitointia joka sallii tiedostonnimensä ja lauseketta esim. `$filename =~ /^[a-zA-Z0-9_-]+\.(csv|txt)$/` - Tällä estetään haitallisten tiedostonimien syöttäminen.
+
+**Muita huomioita**: Jos ohjelma tekee yhteyksiä ulkoisiin palveluihin tai suorittaa komentorivikäskyjä (esim. curl), nämä kutsut tulee tehdä kontrolloidusti. Käyttäjän syötteet tulee rajata valkoisella listalla (whitelist), jolloin vain ennalta hyväksytyt komennot tai URL-osoitteet sallitaan, ja vaaralliset komentorivit estetään.
+
+
+
 ## kali linux testausta - START HERE;
 
 ```
