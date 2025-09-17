@@ -936,6 +936,32 @@ tämä on muu pohja testaus, mutta testattu ja ei pelittänyt, että fail ja hyv
 </html>
 ```
 
+---
+
+## Burp suite version
+
+Toinen metodi, mutta tästäkin ohje löytyy muilta sivustoilta, bloggi tarinasta ja jopa videostakin. Tämä on myös hyvä testa ja keinoa varmasti löytyy ettei vain `curl` komento.
+
+![alt text](./kuvat-level29-34/natas32-3.png)
+
+![alt text](./kuvat-level29-34/natas32-4.png)
+
+![alt text](./kuvat-level29-34/natas32-5.png)
+
+![alt text](./kuvat-level29-34/natas32-6.png)
+
+![alt text](./kuvat-level29-34/natas32-7.png)
+
+![alt text](./kuvat-level29-34/natas32-8.png)
+
+![alt text](./kuvat-level29-34/natas32-9.png)
+
+![alt text](./kuvat-level29-34/natas32-10.png)
+
+![alt text](./kuvat-level29-34/natas32-11.png)
+
+---
+
 ## miniyhteenveto - 1
 
 Tässä natas32:ssa on sama idea kuin natas31-tasossa, mutta tässä on vähän paranneltu versio.
