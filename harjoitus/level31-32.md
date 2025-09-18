@@ -942,17 +942,32 @@ tämä on muu pohja testaus, mutta testattu ja ei pelittänyt, että fail ja hyv
 
 Toinen metodi, mutta tästäkin ohje löytyy muilta sivustoilta, bloggi tarinasta ja jopa videostakin. Tämä on myös hyvä testa ja keinoa varmasti löytyy ettei vain `curl` komento.
 
+Tässä alkaen käytettään **Burp suite** työkalu ohjelmaa ja ensimmäisenä avaa vaan työkalunsa. Kirjaudu sivustolle ja upottaa aikaisemman saman excel taulukkon tiedostonsa - koska tässä kuva stepissä suoritettaan sitä. Tässä tarvittaan vain se sivusto, jossa on se loppu osa `./index.pl`
+
 ![alt text](./kuvat-level29-34/natas32-3.png)
+
+Suoritettaan normaalisti ja uusi **Send to repeater** koska kuin suoritettaisin POST pyyntöä.
 
 ![alt text](./kuvat-level29-34/natas32-4.png)
 
+Tuotu **repeater** - ja tässä alettaan suorittaa pientä muokkausta tähän pyyntöön (**request**).
+
 ![alt text](./kuvat-level29-34/natas32-5.png)
+
+
+Tässä tarvittaan sama kuin alempi osa, mutta tähän pitää sijoittaa perään *ARGV* sana ja täsmälleen sama osa `----WebKitFormBoundary...` osuus ja riittää suorittaa copy-pate ja huomoina riviltä 16-19 osa ja tämä **sisällö sijoittelu/osa**.
 
 ![alt text](./kuvat-level29-34/natas32-6.png)
 
+Sitten skrollaa vähä ylös **(request)** samasta sivustolta ja tähän myös tulee pieni lisäys osa.
+
 ![alt text](./kuvat-level29-34/natas32-7.png)
 
+Eli tähän POST pyynnön `./index.pl` osaan perässä sijoitettan se parametri osuus. Tämä on linux komento tyyppi `$ls`, mutta parametrinä käännettynä ja ensimmäinen rivi.
+
 ![alt text](./kuvat-level29-34/natas32-8.png)
+
+Tässä on pieni yhteenveto, jossa punaisella laatikolla merkittynä mitä tarvittaan/mitä muutosta on tehty ja oikealla sininen laatikko, jossa suoritin pyynnön (**send**) ja tämä on se tulos jonka haluttaan saada selville. Tämä on sama idea kuin suorittaisi `curl` komennolla, mutta nyt tämä on **Burp suite** versiolla.
 
 ![alt text](./kuvat-level29-34/natas32-9.png)
 
