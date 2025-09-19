@@ -971,11 +971,9 @@ Tässä on pieni yhteenveto, jossa punaisella laatikolla merkittynä mitä tarvi
 
 ![alt text](./kuvat-level29-34/natas32-9.png)
 
-Nyt tässä otettaan pieni muutos eli vasemalla **(request)** pyynnöstä muutettaan toi POST pieni osuus ja lisätään se polku (ylempi kuva) mukaan `./getpassword%20` - Huomioina perässä lisätty toi prosentti kaksikymenttä koska se on parametri osuus ja se pitää olla mukana, ilman sitä ei saada seuraavaa natas33 salasansa. 
-
-Seuraavaksi **(send)** niin sitten saadaan tämä (oikean sinisen väri) mukaisen tuloksensa ulos.
-
 ![alt text](./kuvat-level29-34/natas32-10.png)
+
+Tämä on ainoa renderöity versio, joka näyttää kuin miltä se näyttäisi se sivustossa ja sama pätee se html koodattu versiokin. Pienenä jos yrittää testasta virallisessa sivustossa eli chrome/edge/safari sieltä kautta muuttaa sitä parametriä - niin tuloksena se ei toimi, koska ilman sitä excel taulukkoa ja POST pyyntöä niin ei pelittä. Tämä on onneksi toinen metodi kuinka suorittaa tämän POST tiedoston injektio tavan.
 
 ![alt text](./kuvat-level29-34/natas32-11.png)
 
@@ -1042,9 +1040,6 @@ https://anyafachri.medium.com/perl-ultimate-vulnerability-in-cgi-opening-pipes-p
 
 
 https://miaxu-src.github.io/natas/2021/09/19/natas32-walkthrough.html
-
-
-
 
 
 
