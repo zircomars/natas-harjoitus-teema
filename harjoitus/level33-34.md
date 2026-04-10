@@ -8,10 +8,15 @@ Natas33 perus tietojen upottaminen ja näyttävän on kyseessä joku **Firmware*
 - yritin upottaa jopa excel taulukon, että antoi pientä vinkkiä ja error ilmoituksensa: */natas33/upload/g8q7ck7a506hbt8j0pvn2oqe7m Firmware upgrad initialised.* 
 - jos upotan suurempaa dataa
 
+![alt text](./kuvat-level29-34/natas33-0.png)
+
 
 ## view-source ja teoriat
 
 Tästä view-source html koodattu tästä vähä lisätietoa.
+
+![alt text](./kuvat-level29-34/natas33-1.png)
+
 
 
 Tämä on koodattu PHP-koodikielellä alkuun käytett class (luokka) muotoa ja allekirjoitus mikälie onkaan voiko olla jotakin satunnaista tekstiä. 
@@ -105,6 +110,11 @@ Tiivistettynä ja helppo ymmärtää hyökkäys menetelmänsä:
 - Phar deserialization attack perustuu siihen, että PHP lukee ja suorittaa metadatassa olevan PHP-olion. Ei esim. Python-objektia tai JSON-dataa tai mitään muuta.
 - Phar voi sisältää mitä tahansa tiedostoja, mutta haitallinen metadata täytyy olla PHP-olion serialisoitu muoto, koska hyökkäys perustuu PHP:n `unserialize()`-toimintoon.
 
+![alt text](./kuvat-level29-34/natas33-2.png)
+
+![alt text](./kuvat-level29-34/natas33-3.png)
+
+
 ## kali linux - start here
 
 natas33 - 2v9nDlbSF7jvawaCncr5Z9kSzkmBeoCJ
@@ -186,6 +196,7 @@ natas33 - 2v9nDlbSF7jvawaCncr5Z9kSzkmBeoCJ
 ## solution ratkaisu vaihtoehtoja
 
 Eli ratkaisuna on luoda PHP kaltainen tiedosto, mikä tästä on tehty kuin aikaisempi, muttak uitenkin toisenlainen PHP serialisoinnin poisto-/serialisoinnin poistohyökkäys), meidän on luotava PHP-objekti, jota käytetään hyökkäyksessä. Näitä ratkaisuja on tosi paljon, mutta kokeillaan ja testatan vaihtoehtoja, että näitä ei ole oikeata tai väärää ratkaisua kunhan päästään ja saadaan seuraave natas34 tason salasana.
+
 
 ### python metodi
 
@@ -316,7 +327,6 @@ Tämä tässä nyt "  private $signature='8a54d751b7e2bbbb2643d355d49e81be';" ei
 
 ## testit jatkuu
 
-
 tästä ainakin upotettu tiedosto tuohon sivustonsa, että saattiinko oikea vastausta ja testattu (EI OLE) - matka jatkuu. Eli tosiaan upotettu php templates tiedosto, mutta se ei toiminut ja sama pätee python koodi ,ettei tulosta antanutkaan.
 ```
 The update has been uploaded to: /natas33/upload/497a7spfs5a8vkq8ivujkrr6be
@@ -324,6 +334,11 @@ Firmware upgrad initialised.
 Failur! MD5sum mismatch!
 Upload Firmware Update:
 ```
+
+![alt text](./kuvat-level29-34/natas33-4.png)
+
+![alt text](./kuvat-level29-34/natas33-5.png)
+
 
 Tässä koodi pätkässä kuitenkin pitää saada tai tuo jotakin tiedostojen upottamista polkuunsa, että hakee tämän tiedoston nimikkeen.. 
 
@@ -347,6 +362,8 @@ mutta jos `md5_file()` täsmentyy tuohon tiedoston `$signature` objektii mikäli
                         echo "Failur! MD5sum mismatch!<br>";
                     }
 ```
+
+![alt text](./kuvat-level29-34/natas33-6.png)
 
 
 yritin uudestaan ajaa tämä python koodi, että ainakin näyttävän toi PHPSESSID on vain eri eli (`dppl5h4d7tctrnim84cb5cip4k`), mutta taas luettua php koodi pätkä että signature tämä koodi (8a54d751b7e2bbbb2643d355d49e81be) verrattuna aikaisempaan on sama.
@@ -413,9 +430,15 @@ $phar->stopBuffering();
 Tämä on burpsuite on päivittynyt tosi paljon, jos vertailee aikaisempia toisten ratkaisempia burp suite ohjeiden mukaan voi olla saa ratkaistettua mutta vie paljon aikaa ja ongelmanratkaisuun.. (kokeillaan toinen kerta), mutta tästä lisätty kuvia ja siinä alla on oma AI jopa.
 
 
+![alt text](./kuvat-level29-34/natas33-7.png)
 
+![alt text](./kuvat-level29-34/natas33-8.png)
 
+![alt text](./kuvat-level29-34/natas33-9.png)
 
+![alt text](./kuvat-level29-34/natas33-10.png)
+
+![alt text](./kuvat-level29-34/natas33-11.png)
 
 
 
