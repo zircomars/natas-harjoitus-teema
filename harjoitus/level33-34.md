@@ -429,7 +429,6 @@ $phar->stopBuffering();
 
 Tämä on burpsuite on päivittynyt tosi paljon, jos vertailee aikaisempia toisten ratkaisempia burp suite ohjeiden mukaan voi olla saa ratkaistettua mutta vie paljon aikaa ja ongelmanratkaisuun.. (kokeillaan toinen kerta), mutta tästä lisätty kuvia ja siinä alla on oma AI jopa.
 
-
 ![alt text](./kuvat-level29-34/natas33-7.png)
 
 ![alt text](./kuvat-level29-34/natas33-8.png)
@@ -440,14 +439,65 @@ Tämä on burpsuite on päivittynyt tosi paljon, jos vertailee aikaisempia toist
 
 ![alt text](./kuvat-level29-34/natas33-11.png)
 
+### Ratkaisu - start here
+
+Eli otettin Burp suite ohjelmansa käyttöön uusiksi, että luettiin uusiksi. Tosiaan Burp suite:sta seurataan avaan **Proxy** >> **HTTP history** , että tämän Burp Suite oman sivusto, jonka ideana on seurata niitä toimenpidettä ja saadan se HTTP parametrit, että lähettään pyyntö toiminta. 
+
+Kokeillaan lisätä aikaisempi esim. tehty runnattu `.php` tiedosto. 
+
+![alt text](./kuvat-level29-34/natas33-12.png)
+
+Tässä nähdään se , siis ennen kun otettaan "send to repeater" niin nähdään toi istunnon PHPSESSID - joka alkaa `ug09` jotakin.
+
+![alt text](./kuvat-level29-34/natas33-13.png)
+
+Tässä upotin uudestaan jonkun tiedoston siis aikaisemmista tehty toi just `test.phar` 
+
+![alt text](./kuvat-level29-34/natas33-14.png)
+
+**SEURAAVA**
+Seuraavaksi kokeillaan tehdä pientä muutosta tähän PHPSESSID:lle, että muutettu tiedosto nimike mikälie , mutta kokoajan toistaa virhettä - tämä ei ole se ratkaisu.. mutta lähellä ollaan koska viimeisessä parametrissä jotakin <?php> koodia liittyviä yrittää tehdä jotakin, koska meiltä puuttuu jotakin objektia/parametriä?
+![alt text](./kuvat-level29-34/natas33-15.png)
+
+Tässä välissä yritin korvata `test.phar` sanan siihen ja runnaus, mutta ei toiminut vastaus
+
+![alt text](./kuvat-level29-34/natas33-16.png)
 
 
+**Eli mikä on oikea ratkaisu?**:
+
+- Nyt suoritettaan Phar-tiedoston hyökkäys _(unserialization attack)_. Tämä on kolmas ja viimeinen steppi, koska alkuun upotettiin .php tiedosto, että saattiin test.phar tiedosto ja tämä on sama temppu kuin tekisi linux terminaalin kautta.
+
+- Nyt on käynnistettävä `md5_file()` vielä kerran, tällä kertaa osoitteella `phar://natas.phar/test.txt` - ja mitä tämä tarkoittaa:
+  - `phar://` - PHP:n oma stream‑wrapper, joka käsittelee PHAR‑arkistoja kuin ne olisivat hakemistoja.
+Tärkeä juttu: kun PHP koskee `phar://`‑polkuun, se saattaa _automaattisesti deserialisoida_ Phar‑tiedoston metadatan. Jos metadataan on upotettu serialized‑objekti, tämä voi johtaa koodin suorittamiseen (klassinen Phar‑deserialisaatiohyökkäys).
+  - `natas.phar` - Itse arkisto. Käytännössä kuin zip/tar, mutta PHP:lle suunniteltu.
+Kali esimerkissä käytettiin `test.phar` , mutta nimellä ei ole väliä – kunhan se on Phar.
+  - `/test.txt` - on tiedosto arkiston sisällä.
+
+**miten tämä liittyy `md5_file()` kutsunsa, koska `index-source.html`:ssä siis natas sivustolla.
+- koska avaa Phar arkistonsa, että lukee metadatan, **deserialisoi sen automaattisesti** ja jos metadata sisältää hyökkäysobjektinsa eli täsmentää sen `$signature='adeafbadbabec0dedabada55ba55d00d'`
+  
+```
+chdir("/natas33/upload/");
+                    if(md5_file($this->filename) == $this->signature){
+                        echo "Congratulations! Running firmware update: $this->filename <br>";
+                        passthru("php " . $this->filename);
+                    }
+```
+
+Eli ratkaisu sijoitettaan tuohn, sitten "send" ja näin saadaan vastauksensa eli **natas34** salasanasa. Ja jälkimäinen kuva on rendetöitynä, että lisätty varmuuden vuoksi jos muutan `test.phar` nimikkeenä.
+
+![alt text](./kuvat-level29-34/natas33-17.png)
+
+![alt text](./kuvat-level29-34/natas33-18.png)
+
+![alt text](./kuvat-level29-34/natas33-20.png)
 
 
+natas34 testauksensa, eli toimii ja tämä oli viimeinen taso eli ratkaistettu **34** asti.
 
-
-
-
+![alt text](./kuvat-level29-34/natas33-19.png)
 
 
 
