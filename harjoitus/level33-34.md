@@ -475,7 +475,7 @@ Tärkeä juttu: kun PHP koskee `phar://`‑polkuun, se saattaa _automaattisesti 
 Kali esimerkissä käytettiin `test.phar` , mutta nimellä ei ole väliä – kunhan se on Phar.
   - `/test.txt` - on tiedosto arkiston sisällä.
 
-**miten tämä liittyy `md5_file()` kutsunsa, koska `index-source.html`:ssä siis natas sivustolla.
+**miten tämä liittyy `md5_file()` kutsunsa**, koska `index-source.html`:ssä siis natas sivustolla.
 - koska avaa Phar arkistonsa, että lukee metadatan, **deserialisoi sen automaattisesti** ja jos metadata sisältää hyökkäysobjektinsa eli täsmentää sen `$signature='adeafbadbabec0dedabada55ba55d00d'`
   
 ```
@@ -514,4 +514,39 @@ https://lioxliu.wordpress.com/2021/01/09/overthewire-natas-level-33/
 https://medium.com/@arnavaidya/overthewire-wargames-natas-level-32-33-walkthrough-15696c5d60b2
 
 
-## pieni yhteenveto ja 
+## Pieni yhteenveto ja mahdollinen jatkotoimenpide
+
+Tässä natas33‑tasossa tapahtui:
+
+- `phar://` – on PHP:n stream wrapper.
+- Phar‑metadata deserialisoituu automaattisesti.
+- `md5_file()` koskee polkua → laukaisee deserialisaation.
+- Tämä mahdollistaa hyökkäyksen, koska sovellus ei odota, että tiedostonimi voi olla protokolla eikä pelkkä tiedosto.
+
+`md5_file()` + PHP stream wrapperit (kuten `phar://`) – ei yleensä näy vahingossa tuotantokoodissa, mutta se on klassinen esimerkki siitä, miten *pieni ja viaton funktio* voi muuttua hyökkäyspinnaksi, jos sitä käytetään väärässä kohdassa.  
+`md5_file()` on funktio, joka ottaa parametriksi polun, avaa tiedoston, laskee sen sisällöstä MD5‑tarkistussumman ja palauttaa sen merkkijonona.
+
+Jos sovellus tekee jotakin tämän kaltaista: `md5_file($_GET["file"]);` - niin käyttäjä voi antaa poluksi esimerkiksi:
+
+- `phar://evil.phar/x`
+- `php://filter/...`
+- `zip://...`
+
+Tämä ei ole harvinaista vanhoissa PHP‑projekteissa, koska `md5_file()` näyttää “turvalliselta” – se vain laskee tarkistussumman. Mutta PHP avaa polun ennen laskentaa → ja juuri silloin stream wrapperit voivat laukaista sivuvaikutuksia.
+
+---
+### Mahdollinen jatkotoimenpide
+
+Jos tällainen prosessi löytyy (tai jos itse koodaa jotain vastaavaa), niin on hyvä ymmärtää, että tällaiset tilanteet ovat harvinaisia mutta mahdollisia. Tärkeintä on ymmärtää *miksi* tämä toimii ja mitä siitä voi seurata. On vaikea sanoa tuleeko tämä vastaan käytännössä, mutta periaate on hyvä sisäistää.
+
+Ohjelmoijille
+- Älä käytä käyttäjän antamaa polkua suoraan tiedostofunktioissa.
+- Estä stream wrapperit, jos niitä ei tarvita.
+- Phar‑tuki on hyödyllinen, mutta vaarallinen, jos sitä ei ymmärrä.
+
+Eettiselle hakkerille
+- Etsi funktiot, jotka koskevat tiedostoja.
+- Testaa stream wrapperit.
+- Etsi luokkia, joissa on magic‑metodeja.
+- Phar‑hyökkäys on usein “hiljainen” ja toimii ilman `unserialize()`‑kutsua.
+
