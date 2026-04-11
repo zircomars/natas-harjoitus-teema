@@ -499,5 +499,19 @@ natas34 testauksensa, eli toimii ja tämä oli viimeinen taso eli ratkaistettu *
 
 ![alt text](./kuvat-level29-34/natas33-19.png)
 
+## linkejä ja apua ja teorioita
+
+https://learnhacking.io/overthewire-natas-level-33-walkthrough/
+
+https://thomaspreece.com/2020/08/21/overthewire-natas/
+https://axcheron.github.io/writeups/otw/natas/#natas-33-solution
+
+https://blog.certcube.com/overthewire-natas/
+https://blog.sudarshandevkota.com.np/overthewire-natas-walkthrough
+
+https://lioxliu.wordpress.com/2021/01/09/overthewire-natas-level-33/
+
+https://medium.com/@arnavaidya/overthewire-wargames-natas-level-32-33-walkthrough-15696c5d60b2
 
 
+## pieni yhteenveto ja 
